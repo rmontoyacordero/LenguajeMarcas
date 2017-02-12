@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    #divBorder{
+        border:3px double blue;
+        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+       
+    }
+     header{
+        margin: 0%;
+        width: 100%;
+        height: 6%;
+        background: blue;
+        color: white;
+        text-align: center;
+        font-size: 2.3em;
+        font-weight: bold;
+        padding: 20px;
+        background-color: rgba(156, 156, 156, 0.6);
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    }
+    #divInicio{
+        width: 50%;
+        height: 10%;
+        margin-top:5%;
+        margin: auto;
+        text-align: center;
+    }
+    input{
+        margin-left: 15px;
+    }
+    #divJuego{
+        margin: 5%;
+        min-height: 200px;
+        
+    }
+    #divDesplegable{
+            cursor: auto;
+            display: none;
+            background-color: white;
+            color:black;
+            text-align: center;
+            padding:10px;
+            position: absolute;
+            z-index: 1;
+            margin-top: 3%;
+            left: 52%;
+            margin-left: -100px;
+            width: 200px;
+            max-height: 200px;
+            border:2px solid blue;
+            border-radius: 5px;
+    }
+    #divResultado{
+        width: 50%;
+        height: 10%;
+        margin-top:5%;
+        margin: auto;
+        text-align: center;
+        display: none;
+    }
+    .divLetra{
+        border: 2px solid blue;
+        border-radius: 3px;
+        height: 150px;
+        display: inline-block;
+        text-align: center;
+    }
+    text{
+        transform: "matrix(8.53857, 0, 0, 4.91744, -1423.56, -915.624)";
+        text-anchor: "middle";
+        font-family: "serif";
+        font-size: "24";
+        stroke-width: "0";
+        stroke: "#000000";
+        fill: "#000000";
+
+    }  
+    svg{
+        width:"640";
+        height: "480";
+    }    
+</style>
+<body>
+    <div id="divBorder">
+        <header>Prueba de memoria</header>
+            <div id="divInicio">
+            <form name="Memoria">
+                <label for="patron">Introduce Patron</label>
+                    <input type="text" id="txtPatron" oninput="seleccionarPalabra()"/>
+                    <div id="divDesplegable"></div>
+                    <input type="button" id="butJugar" value="Jugar" onclick="generar()"/>
+                              
+            </form>
+            </div>
+    <div id="divJuego"></div>
+    <div id="divResultado">
+        <form id="divFinal">
+            <form name="Resultados">
+                <label for="fin">Introduce la palabra</label>
+                <input type="text" id="textResultado"/>
+                <input type="button" id="butResolver" value="Resolver" onclick="solucionar()"/>
+                <input type="button" id="butReiniciar" value="Reiniciar" onclick="reiniciar()"/>
+    </div>
+
+    </div>
+</body>
+<script>
+var palabra=[];
+var palabrasMostradas =[];
+var resulPalabra;
+var total;
+
+    window.onload=function(){
+
+        let ancho = screen.availWidth;
+        let alto = screen.availHeight;
+        console.log(ancho)
+        console.log(alto)
+        window.document.getElementById('divBorder').style.width=(ancho-6)+"px";
+        window.document.getElementById('divBorder').style.height=(alto-6)+"px";
+      //  window.document.getElementById('divBorder').style.margin="5px;"
+        let xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', '../xml/PALABRAS.xml', false)
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+            
+    }
+    function seleccionarPalabra(){
+            let control = window.document.getElementById('txtPatron').value;
+            if(control!=""){
+                let nodos = {};
+                let patron = window.document.getElementById('txtPatron').value;
+                palabra=[];
+               console.log(patron)
+                nodos = xmlDoc.evaluate("//ROW[@PALABRA[starts-with(.,'"+patron+"')]]", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                let thisNode = nodos.iterateNext();
+                console.log(thisNode)
+                while (thisNode) {
+                    palabra.push(thisNode.getAttribute('PALABRA'));
+                    thisNode = nodos.iterateNext();
+                }
+                console.log(palabra)
+                contarPalabra();
+                mostrar();
+                }
+            
+        }
+         
+        
+    
+    function contarPalabra(){
+        let tamaño =palabra.length;
+        
+        if(tamaño>15){
+            let control = (parseInt)(tamaño/15);
+            let controltamaño =tamaño-(control*15);
+            for(let i=0;i<15;i++){
+                if(i<14){
+                    palabrasMostradas[i]=palabra[parseInt(Math.random()*(control-1)+(control*i))];
+                }else{
+                    palabrasMostradas[i]=palabra[parseInt(Math.random()*(control-1+controltamaño)+(control*i))]
+                }
+                   }
+        
+        }else{
+            palabrasMostradas=palabras;
+        }
+        
+    }
+    function mostrar(){
+        let html ="";
+        html='<div>';
+        for(k in palabrasMostradas){
+            html+='<div class="divRow">';
+            html+='<div class="divCell" id="'+palabrasMostradas[k]+'" onclick="mostrarPalabra(this.id )">'+palabrasMostradas[k]+'</div>';
+            html+='</div>';
+        }
+        html+='</div>';
+        window.document.getElementById('divDesplegable').style.overflowY="scroll";
+        window.document.getElementById('divDesplegable').style.display="inline-block";
+        window.document.getElementById('divDesplegable').innerHTML=html;
+    }
+    function mostrarPalabra(id){
+        resulPalabra = id;
+        window.document.getElementById('divDesplegable').style.display="none";
+        window.document.getElementById('txtPatron').value=id; 
+       
+    }
+    function generar(){
+        window.document.getElementById('butJugar').disable=false;
+        window.document.getElementById('txtPatron').value="";
+         total =parseInt(resulPalabra.length);
+         var html="";
+        for(let i =0;i<total;i++){
+            html+='<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">';
+            html+='<g><title>Layer 1</title>';
+            html+='<text transform="matrix(8.53857, 0, 0, 4.91744, -1423.56, -915.624)" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_3" y="228" x="196" stroke-width="0" stroke="#000000" fill="#000000">'+resulPalabra.charAt(i)+'</text></g></svg>';
+            div.setAttribute("class","divLetra");
+            div.setAttribute("id",i);
+            div.style.width=(90/total)+"%";
+                                            
+            window.document.getElementById('divJuego').appendChild(div);
+        }
+        setTimeout(probandoCositas,3000);
+        
+    }
+    function solucionar(){
+        let resultado =window.document.getElementById('textResultado').value;
+        if(resulPalabra==resultado){
+            window.document.getElementById('divJuego').innerHTML="HAS GANADO";
+        }else{
+             window.document.getElementById('divJuego').innerHTML="HAS PERDIDO"
+        }
+        window.document.getElementById('divResultado').display="none";
+    }
+    function probandoCositas(){
+        
+        for(let i=0;i<total;i++){
+            var letra = window.document.getElementById(i);
+            padre = letra.parentNode;
+            padre.removeChild(letra);
+        }
+        
+        window.document.getElementById('divResultado').style.display="inline-block";
+    }
+    function reiniciar(){
+        window.document.getElementById('textResultado').value="";
+        window.document.getElementById('divJuego').innerHTML="";
+        window.document.getElementById('divResultado').style.display="none";
+        palabra=[];
+        palabrasMostradas=[];
+
+    }
+</script>
+</html>
