@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>sugeridor</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        #headerBody {
+            margin: 0%;
+            width: 40%;
+            height: 6%;
+            font-size: 50px;
+            margin: auto;
+            color: #337ab7;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 2%;
+        }
+        
+        #divSugeridor,
+        #divTextoMostrado {
+            margin: auto;
+            text-align: center;
+            margin-bottom: 75px;
+        }
+        
+        #divDesplegable {
+            cursor: auto;
+            background-color: white;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            margin-top: 3%;
+            left: 52%;
+            margin-left: -100px;
+            width: 200px;
+            max-height: 200px;
+            border: 2px solid rgba(70, 169, 42, 0.6);
+            ;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="headerBody">Sugeridor de Palabras</header>
+    <div id="divSugeridor">
+        <form name="sugeridor">
+            <label for="laPalabra">Palabra</label>
+            <input type="text" id="idPalabra" oninput="generar()" />
+            <input type="button" id="butBuscar" value="Buscar" onclick="prueba()" />
+        </form>
+    </div>
+    <div id="divTextoMostrado"></div>
+</body>
+<script>
+    var palabras = [];
+    var timeout = null;
+    var soundex, metaphone;
+
+    function generar() {
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+            generarPalabras();
+        }, 400);
+    }
+
+
+    function prueba() {
+        var palabra = document.getElementById('idPalabra').value;
+        var http = new XMLHttpRequest();
+        http.open('GET', 'sonido.php?palabra=' + palabra, true);
+        http.onreadystatechange = function () {
+            console.log("hola")
+            if (http.readyState == 4 && http.status == 200) {
+                var respuesta = JSON.parse(http.responseText);
+                if (respuesta.status == 'ok') {
+                    soundex = respuesta.s;
+                    metaphone = respuesta.m;
+                    console.log(soundex)
+                    sugerirPalabra();
+                } else {
+                    /*document.getElementById("s").innerHTML = '';
+                    document.getElementById("m").innerHTML = '';*/
+                }
+            }
+        }
+
+        http.send(null);
+
+    }
+    /* }*/
+
+    function generarPalabras() {
+        let xmlhttp = new XMLHttpRequest();
+        let patron = window.document.getElementById('idPalabra').value;
+        xmlhttp.open('GET', '../xml/palabrasSM.xml', false)
+        xmlhttp.send();
+        xmlDoc = xmlhttp.responseXML;
+        nodos = {};
+        palabras = [];
+        nodos = xmlDoc.evaluate("/palabras/palabra[@p='" + patron + "']", xmlDoc, null, XPathResult.ANY_TYPE, null);
+        let thisNode = nodos.iterateNext();
+        while (thisNode) {
+            palabras.push(thisNode.getAttribute('p'));
+            thisNode = nodos.iterateNext();
+        }
+        mostrar();
+    }
+
+    function mostrar() {
+        let html = "";
+        for (let i = 0; i < palabras.length; i++) {
+            html += '<div>' + palabras[i] + '</div>';
+        }
+        window.document.getElementById('divTextoMostrado').innerHTML = html;
+    }
+
+    function sugerirPalabra() {
+        let xmlhttp = new XMLHttpRequest();
+        let patron = window.document.getElementById('idPalabra').value;
+        xmlhttp.open('GET', '../xml/palabrasSM.xml', false)
+        xmlhttp.send();
+        xmlDoc = xmlhttp.responseXML;
+        nodos = {};
+        palabras = [];
+        nodos = xmlDoc.evaluate("/palabras/palabra[@s='" + soundex + "' or @m='"+metaphone+"']", xmlDoc, null, XPathResult.ANY_TYPE, null);
+        let thisNode = nodos.iterateNext();
+        let i=0;
+        while (thisNode || i<15) {
+            palabras.push(thisNode.getAttribute('p'));
+            thisNode = nodos.iterateNext();
+            i++;
+        }
+        mostrar();
+    }
+    function clear(){
+        
+    }
+</script>
+
+</html>

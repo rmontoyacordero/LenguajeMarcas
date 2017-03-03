@@ -1,0 +1,146 @@
+
+
+<html>
+
+<head>
+    <title>demoHideBox</title>
+    <meta charset="UTF-8">
+    <style>
+    body{
+         background:url('http://www.mastiposde.com/wp-content/uploads/Madera-de-pino.jpg'); background-repeat: no-repeat;
+           
+    }
+        
+        
+        #titulo {
+            position: relative;
+            margin-left: 35%;
+            margin-top: 4%;
+            font-size: 25px;
+            font-weight: bolder;
+            margin-bottom: 20px;
+        }
+       
+        
+        .descripcion {
+            display: inline-block;
+            width: 70px;
+            min-height: 20px;
+            border: 1px solid black;
+        }
+        
+        .divContainer {
+            position: absolute;
+            margin-left: 2px;
+            display: inline-block;
+            min-width: 200px;
+            cursor: pointer;
+        }
+        .divText {
+            cursor: auto;
+            display: none;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            padding:10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            width: 400px;
+            max-height: 100px;
+        }
+        
+        .divButton {
+            display: none;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            float: right;
+            margin-top: -20px;
+            margin-right: -20px;
+            
+        }
+        
+        .divButton .butClose {
+            background: url("cerrar.png");
+            background-size: cover;
+            cursor: pointer;
+            border: none;
+            width: 24px;
+            height: 24px;
+        }
+        
+        .imgIntoDiv {
+            position: relative;
+            float: right;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="contenedor">
+            <div id=titulo>Lorem Ipsum</div>
+                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec risus sit amet libero aliquam iaculis sed sed dolor. 
+                         Vivamus at elit mi. Aliquam Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.<div class="divContainer">
+                            <div class="divText">
+                                <div class="divButton"><button class="butClose" id="butDelete3" onclick="hideInfo(this.id)"></button></div>
+                                <img class="imgIntoDiv"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqBvJVjFGb2aT8qOjbblUktlKF7KNOrjxhyFl004gKo_ZIFZGpOCKkWQ" />
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam consectetur quasi modi, earum nostrum nihil rerum accusantium
+                                ex sed, corporis mollitia culpa aperiam temporibus quaerat eaque esse natus, architecto quia.
+                            </div>
+                            <mark id="mark1" class="mark" onclick="ShowDiv(this.id)">efficitur</mark>
+                        </div>
+                          efficitur leo nec lacus consequat, sed euismod ipsum porttitor. Mauris efficitur leo quis eleifend fringilla. 
+                         Vestibulum justo eros, pretium sed egestas eu, tristique ut ex. Donec eu massa blandit, blandit lorem sit amet, facilisis massa. 
+                         Sed accumsan condimentum mollis. Nam laoreet, risus id ultricies lobortis, erat.
+                    </div>
+                        <br>
+                    </div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In venenatis ultricies eros, in luctus mauris auctor et.
+                     Donec nec nisi rhoncus.Class aptent taciti sociosqu ad litora torquent per conubia nostra.Phasellus dapibus ex arcu, ac molestie metus consequat a
+                     <div class="divContainer">
+                            <div class="divText">
+                                <div class="divButton"><button class="butClose" id="butDelete2" onclick="hideInfo(this.id)"></button></div>
+                                <img class="imgIntoDiv" src="https://image.freepik.com/iconos-gratis/signo-dibujado-a-mano-infinita_318-51876.jpg" /> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                                dicta perspiciatis, natus commodi laborum vel libero alias est porro ex tempore repudiandae
+                                eligendi quos illo sunt placeat eaque! Quia, alias.
+                            </div>
+                            <mark id="mark2" class="mark" onclick="ShowDiv(this.id)"> amet</mark>
+                            </div> , cursus nisi vel, dictum dui. Nullam erat arcu, maximus sed condimentum a, luctus sit amet lorem.Sed rhoncus sem vitae risus sollicitudin, faucibus tincidunt neque eleifend. Fusce eget augue.
+                    </div><br>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec risus sit amet libero aliquam iaculis sed sed dolor. 
+                         Vivamus at elit mi. Aliquam<div class="divContainer">
+                            <div class="divText">
+                                <div class="divButton"><button class="butClose" id="butDelete3" onclick="hideInfo(this.id)"></button></div>
+                                <img class="imgIntoDiv" src="https://image.freepik.com/iconos-gratis/pi-simbolo-constante-matematica_318-58870.jpg" />
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam consectetur quasi modi, earum nostrum nihil rerum accusantium
+                                ex sed, corporis mollitia culpa aperiam temporibus quaerat eaque esse natus, architecto quia.
+                            </div>
+                            <mark id="mark3" class="mark" onclick="ShowDiv(this.id)"> consectetur</mark>
+                        </div>
+                          efficitur leo nec lacus consequat, sed euismod ipsum porttitor. Mauris efficitur leo quis eleifend fringilla. 
+                         Vestibulum justo eros, pretium sed egestas eu, tristique ut ex. Donec eu massa blandit, blandit lorem sit amet, facilisis massa. 
+                         Sed accumsan condimentum mollis. Nam laoreet, risus id ultricies lobortis, erat.
+                    </div>
+              </div>
+</body>
+<script>
+    function ShowDiv(id) {
+        let e = window.document.getElementById(id);
+        let divText = e.previousElementSibling; // previusElementSibling coge el primer nodo que tiene detras el nodo en el que estamos
+        divText.style.display = "inline-block";
+        divText.firstElementChild.style.display = "inline-block"; // firstElementChild coge el primer hijo ( hacia la derecha en el DOM ) del nodo en el que estemos.
+    }
+    function hideInfo(id) {
+        let e = window.document.getElementById(id);
+        let divButton = e.parentNode;
+        divButton.style.display = "none";
+        divButton.parentNode.style.display = "none";
+    }
+</script>
+
+</html>

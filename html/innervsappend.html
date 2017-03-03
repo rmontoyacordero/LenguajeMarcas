@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>InnervsAppend</title>
     <style>
     #divBorder{
-        border:3px double blue;
-        font-family: Verdana, Geneva, Tahoma, sans-serif; 
+        
        
     }
      header{
+        border:3px double blue;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
         margin: 0%;
-        width: 100%;
+        width: 97%;
         height: 6%;
         background: blue;
         color: white;
@@ -24,6 +25,9 @@
     }
     input[type=button]{
         float: right;
+    }
+    input[type=text]{
+        text-align: center;
     }
     #divLeft{
         width: 50%;
@@ -59,10 +63,18 @@
     }
     #divTiempoLeft,#divTiempoRight{
         width: 60%;
-        height: 100px;
+        height: 50px;
         margin: auto;
         text-align: center;
+        margin-top:5%;
+
         
+    }
+    label{
+        margin-left: 10px;
+    }
+    #divControles{
+        margin-top: 20px;
     }
     </style>
 </head>
@@ -93,6 +105,7 @@
 </body>
 <script>
     function comprobarVelocidadInner(){
+        clear();
         let numeroDivs=parseInt(window.document.getElementById('numDivs').value);
         let tamañoDivs=parseInt(window.document.getElementById('altDivs').value);
         let control = document.getElementById('colDivs');
@@ -116,7 +129,7 @@
         window.document.getElementById('divRellenarLeft').innerHTML=html;
         let tiempoInnerFinal =parseFloat(Date.now());
         let intervalInner = tiempoInnerFinal-tiempoInnerInicial;
-         window.document.getElementById('divTiempoLeft').innerHTML=intervalInner;
+        window.document.getElementById('divTiempoLeft').innerHTML="Tiempo innerHTML "+intervalInner+" ms";
        
         comprobarAppend();
     }
@@ -146,7 +159,7 @@
         }
         var tiempoAppendFinal = parseFloat(Date.now());
         var intervalAppend=tiempoAppendFinal-tiempoAppendInicial;
-         window.document.getElementById('divTiempoRight').innerHTML=intervalAppend;
+         window.document.getElementById('divTiempoRight').innerHTML="Tiempo Append "+intervalAppend +" ms";
         
     }
     function getRandomColor() {
@@ -156,6 +169,11 @@
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+function clear(){
+    var html="";
+    window.document.getElementById('divRellenarLeft').innerHTML=html;
+    window.document.getElementById('divRellenarRight').innerHTML=html;
 }
 </script>
 </html>

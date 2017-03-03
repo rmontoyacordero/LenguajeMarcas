@@ -1,0 +1,910 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	#cabecera{
+		height: 8%;
+		width: 100%;
+		background: blue;
+		position: absolute;
+		border: 2px solid black;
+        text-align: center;
+        display:none;}
+	#calcular,#transformar{
+		width: 16px;
+		height: 16px;
+		background:green;
+		border: 2px solid black;}
+	h2{
+		margin:auto;
+		color: white;}
+	#opciones{
+		margin-left: 5%;
+		width: 30%;
+		height: 40%;
+		border-top: 2px solid black;
+		margin-top: 10%;
+		float:left;
+        display:none;}
+	#resultados{
+		margin-left: 5%;
+		width: 30%;
+		height: 40%;
+		border-top: 2px solid black;
+		margin-top: 10%;
+		float:right;
+		display:none;}
+	#resultados2{
+		margin-left: 5%;
+		width: 30%;
+		height: 40%;
+		border-top: 2px solid black;
+		margin-top: 10%;
+        
+		float:right;
+		display: none;}
+    body{
+        background-color: lightskyblue;
+    }
+    #intro{
+        margin:auto;
+        position:relative;
+        margin-top:15%;
+        background-color: white;
+        display:inline;
+        width: 40%;
+        height: 30%;
+        text-align: center;
+        
+    }
+    h3{
+        text-align: center;
+    }
+ 
+</style>
+<body>
+    <div id="intro"><h1>Calculadora-Transformador</h1></div>
+	<div id="cabecera">
+		<p><h2>Calculadora-Transformacion de numeros</h2></p>
+	<div>
+	<div id="opciones">
+		<h3>CALCULADORA-TRANSFORMACIONES</h3><br>
+		<input type="radio" id="calcular" value="calculadora" name="seleccion" onclick="calculadoramostrar()" checked="checked">Calculadora</></br>
+		<input type="radio" id="transformar" value="transformacion" name="seleccion" onclick="transformacionmostrar()">Tranformaciones Numericas</></div>
+	<div id="resultados">
+			<h3>CALCULADORA</h3><br>
+    		Selecciona el tipo de numero para operar<br>
+    			<form name="SeleccionNumero">
+    				<input type="radio" id="binario" value="binario" name="SN" checked="checked">Binario</><br>
+    				<input type="radio"  id="decimal" value="decimal" name="SN">Decimal</><br>
+    			</form>
+    		Introduce el primer numero<br>
+    				<input type="text"id="primero"/><br>
+    		Introduce el segundo numero<br>
+    				<input type="text" id="segundo"/><br>
+    				<button id="suma" onclick="sumar()">+</button><button id="resta" onclick="restar()">-</button><button id="producto" onclick="multiplicar()">*</button><button id="division" onclick="dividir()">/</button><br>
+            Introduce nºaprox division<br>
+                    <input type="text" id="aprox"><br>
+            Resultado<br>
+    				<input type="text"id="tercero"/><br>
+	</div>
+	<div id="resultados2">
+        <div id="prueba">
+			<h3>TRANSFORMACION</h3><br>
+    		Introduce el numero que deseas transformar<br>
+    		Binario<input type="text" id="numerobinario"/><br>
+               Decimal<input type="text" id="numerodecimal"/><br>
+			   Bits<input type="text" id="numerobitsdecimal"/><br>
+			   <button id="calcularbinario" onclick="Binario()">Calcular * Binario</button><button id="calculardecimal" onclick="Decimal()">Calcular * Decimal</button><br>
+    		Octal<input type="text" id="numerooctal"/><br>
+    		Hexadecimal<input type="text" id="numerohexadecimal"/><br>
+    		BCD<input type="text" id="numeroBCD"/><br>
+    		SignoMagnitud<input type="text" id="numeroSignoMagnitud"/><br>
+    		C1<input type="text" id="numeroC1"/><br>
+    		C2<input type="text" id="numeroC2"/><br>
+        </div>
+	</div>
+</body>
+<script type="text/javascript">
+var error="No se puede calcular";
+window.onload=function(){
+    setTimeout("mostrar()",4000)
+}
+function mostrar(){
+         window.document.querySelector('#resultados').style.display = "inline";
+    	
+        window.document.querySelector('#opciones').style.display = "inline";
+    	window.document.querySelector('#cabecera').style.display = "inline";
+        window.document.querySelector('#intro').style.display = "none";
+}
+	function calculadoramostrar(){
+    	window.document.querySelector('#resultados').style.display = "inline";
+    	window.document.querySelector('#resultados2').style.display = "none";}
+	function transformacionmostrar(){
+    	window.document.querySelector('#resultados').style.display = "none";
+    	window.document.querySelector('#resultados2').style.display = "inline";}
+    function Decimal(){
+		let decimal = document.getElementById("numerodecimal").value;
+		
+        let bits = document.getElementById("numerobitsdecimal").value;
+        if(comprobar_numero(decimal) && comprobar_numero(bits) && comprobar_signo(bits)){
+           calcularbinario(decimal,bits);
+		   let binario = document.getElementById("numerobinario").value;
+		   octal_hexadecimal(binario);
+		   calcularBCD(decimal);
+		   SignoMagnitud(decimal);
+		   calcularC2();
+        }else{
+            document.getElementById("numerobinario").value = error;       }     }
+	function Binario(){
+		let binario = document.getElementById("numerobinario").value;
+        let bits = document.getElementById("numerobitsdecimal").value;
+        
+        if(comprobar_numero(binario) && comprobar_numero(bits) && comprobar_signo(bits) && control_binario(binario)){
+            if(binario.charAt(0)=="-" && parseInt(binario)==0){
+               
+                let html="-0";
+            document.getElementById("numerodecimal").value =  html;
+           octal_hexadecimal(binario);
+			calcularBCD(decimal);
+			SignoMagnitud(decimal);
+			calcularC2()
+            }else{
+                
+            calculardecimal(binario,bits);
+			let decimal = document.getElementById("numerodecimal").value;
+			octal_hexadecimal(binario);
+			calcularBCD(decimal);
+			SignoMagnitud(decimal);
+			calcularC2();
+            }
+     
+        }else{
+            document.getElementById("numerodecimal").value = error;       } }
+	function comprobar_numero(numero){
+		let controlnumero = true;
+		if(isNaN(numero)){
+				controlnumero=false;
+		}return controlnumero;}
+    function comprobar_signo(numero){
+        let controlsigno = true;
+		numero = parseInt(numero);
+		
+        if(numero<0){
+            controlsigno=false;
+        }
+		
+		return controlsigno;}
+    function control_binario(numero){
+        let controlbinario = true;
+		numero = numero.toString();
+		if(numero.charAt(0)=="-"){numero=numero.substring(1,numero.length);}
+		let i=0;
+        while(controlbinario && i<numero.length){
+			let letra = numero.charAt(i);
+			if(letra != "0" && letra!="1" && letra!="."){controlbinario=false;}
+            i++;
+			}
+		 return controlbinario;    }
+    function calcularbinario(decimal,bits){
+        let menor = false;
+        numerobinario ="";
+        if(decimal<0){
+            decimal=Math.abs(decimal);
+            }
+        let pEntera = parseInt(decimal);
+        let binarioEntero = binario_entero(pEntera,bits);
+        let bitsparteDecimal = controlbitsbinario(binarioEntero,bits);
+		let pDecimal = CorteEnteroDecimal(decimal);
+		pDecimal = parseFloat(pDecimal);
+		let binarioDecimal = binario_decimal(pDecimal,bitsparteDecimal);
+		binarioDecimal = parseFloat(binarioDecimal);
+		numerobinario = binarioEntero+binarioDecimal;
+		numerobinario = numerobinario.toString();
+      	if(!comprobar_signo(document.getElementById("numerodecimal").value)||decimal.charAt(0)=='-' && parseInt(decimal)==0){
+            numerobinario="-"+numerobinario;}
+		document.getElementById("numerobinario").value = numerobinario;       }
+    function CorteEnteroDecimal(num){
+        let pDecimal="";
+		num = num.toString();
+       let posicion = num.indexOf(".");
+	   if(posicion != -1){pDecimal = num.substring(posicion+1,num.length)};
+       pDecimal = "0." + parseInt(pDecimal);
+       pDecimal=parseFloat(pDecimal);
+       return pDecimal;
+      }
+    function binario_entero(pEntera,bits){
+           let numbinarioEntero="";
+		   pEntera =pEntera.toString();
+           for(let i=Math.pow(2,bits-1);i>=1;i/=2){
+         	   if(pEntera>=i){
+               	numbinarioEntero+="1";
+              	pEntera = pEntera -i;}else { numbinarioEntero +="0"}}
+                  numbinarioEntero = parseInt(numbinarioEntero);
+                 return numbinarioEntero;
+       }
+    function controlbitsbinario(numero,bits){
+		   let bitsDecimal = bits - (numero.toString()).length;
+           return bitsDecimal;
+       }
+    function binario_decimal(numDecimal,bits){
+           let numbinarioDecimal="0.";
+           for(let i=1;i<=(bits);i++){
+						if(numDecimal>=Math.pow(2,-i)){
+    					numbinarioDecimal+="1";
+    					numDecimal=numDecimal-i;}else{numbinarioDecimal+="0";}}
+                       return numbinarioDecimal;
+       }
+	function calcularBCD(decimal){
+		let i = 0;
+		BCD="";
+		decimal = Math.abs(decimal);
+		decimal = decimal.toString();
+		if(decimal.indexOf(".")==-1){
+		while(i<decimal.length){
+			let letra = parseInt(decimal.charAt(i));
+			multiplicador = 8;
+			i++;			
+			if((letra.toString())!="."){
+				for(let j=0;j<4;j++){
+					if(letra>=multiplicador){
+						BCD+="1";
+						letra=letra-multiplicador;
+					}else{BCD+="0";	}
+					multiplicador=multiplicador/2;}
+			}else{ BCD+="."}}
+            let decimal_aux = document.getElementById("numerodecimal").value;
+		if(!comprobar_signo(decimal_aux)|| decimal_aux.charAt(0)=='-' && parseInt(decimal_aux)==0){BCD="-"+BCD;}
+		}else{BCD = error;}
+		document.getElementById("numeroBCD").value = BCD;} 
+		
+	function SignoMagnitud(decimal){
+		let binario = document.getElementById("numerobinario").value;
+        if(comprobar_numero(binario) && control_binario(binario)){
+			calcularSignoMagnitud_C1(binario,decimal);
+        }else{
+           
+		document.getElementById("numeroSignoMagnitud").value = error;
+        
+       
+    }	
+    }
+	function calcularSignoMagnitud_C1(binario,decimal){
+		let SignoMagnitud="";
+		let C1="";
+		
+		binario = rellenarBinario(binario);
+		binario=binario.toString();
+		let control =comprobar_signo(document.getElementById("numerodecimal").value);
+		let letra = binario.charAt(0);
+       
+        let decimal_aux = document.getElementById("numerodecimal").value;
+         if(decimal_aux.charAt(0)=="-" && parseInt(decimal_aux)==0){
+             let bits = document.getElementById("numerobitsdecimal").value;
+             bits=parseInt(bits);
+             binario="1";
+             let numero_aux="1";
+             
+             for(let i=0;i<bits-1;i++){
+                 binario=binario+"1";
+                 numero_aux=numero_aux+"1";
+            }
+             SignoMagnitud=numero_aux;
+			C1=binario;
+            
+           
+             }
+		else if(control && binario.indexOf(".")==-1){SignoMagnitud=binario;C1=binario;}
+       
+		else if(!control && binario.indexOf(".")==-1 && parseInt(decimal_aux)!=0){
+			
+			if(letra=="1"){SignoMagnitud=error;C1=error;}
+            
+            else{SignoMagnitud="1"+binario.substring(1,binario.length);
+			C1=calcularC1(binario);}
+		}else{SignoMagnitud=error;C1=error;}
+		document.getElementById("numeroSignoMagnitud").value = SignoMagnitud;
+		document.getElementById("numeroC1").value = C1;}
+	function rellenarBinario(numero){
+		let bits = document.getElementById("numerobitsdecimal").value;
+		numero =Math.abs(numero);
+		numero = numero.toString();
+		let numerobitsrestantes = parseInt(bits)-numero.length;
+		for(let i=0;i<numerobitsrestantes;i++){
+			numero="0"+numero;
+		}
+		return numero;}
+	function calcularC1(numero){
+		let C1="";
+		numero=numero.toString();
+		for(let i=0;i<numero.length;i++){
+			let letra = numero.charAt(i);
+			if(letra=="1"){
+					C1+="0";
+			}else{ C1+="1";}
+		}
+		return C1;}
+    function calcularC2(){
+	        let binario = document.getElementById("numeroC1").value;
+	        let C2="";
+            let decimal = document.getElementById("numerodecimal").value;
+            let bits = document.getElementById("numerobitsdecimal").value;
+	    if(binario==error){C2 = error;}
+        else if(decimal>((Math.pow(2,(bits-2)))/2)-1){ 
+            C2=error;
+        }
+        else if(decimal.charAt(0)=="-" && parseInt(decimal)==0){
+            C2="1";
+            for(let i=0;i<bits-1;i++){
+                C2="0"+C2;
+            }
+        }
+	    else{ C2 = sumarbinario(binario,1);
+            
+            C2=C2.toString();
+        let control=parseInt(bits)-C2.length;
+            if(control>0){
+            for(let i=0;i<control;i++){
+                C2="0"+C2;
+        }
+    }}
+	
+	        document.getElementById("numeroC2").value = C2;
+     }
+   
+    function getRadioButtonSelectedValue(ctrl){
+    	for(i=0;i<ctrl.length;i++)
+        if(ctrl[i].checked) return ctrl[i].value;}
+
+	function calculardecimal(binario,bits){
+				   let numdecimal=0;
+                    if(binario==0){numdecimal=0;}else{
+                    CorteEnteroDecimal(binario);
+					let pEntera = binario;
+					let numdecimalDecimal="";
+					
+            		let controlsigno = true;
+					if(parseFloat(binario)<0){controlsigno=false;}pEntera = Math.abs(parseInt(pEntera));
+            		pEntera=pEntera.toString();
+					for(let i=0;i<pEntera.length;i++){
+            	 		let aux=(parseInt(pEntera.charAt((pEntera.length-1-i)))*(Math.pow(2,i)));
+             			numdecimal+=aux;} 
+           			pDecimal = (CorteEnteroDecimal(binario)).toString();
+					  if(pDecimal!=0){
+						   let longitud_aux = pDecimal.substring(2,pDecimal.length);
+					
+           			for(let i=1;i<=longitud_aux.length;i++){
+             			let aux=(parseFloat(pDecimal.charAt((i+1))*(Math.pow(2,-i))));
+             			numdecimalDecimal+=aux;}
+						numdecimal=parseFloat(numdecimal)+parseFloat(numdecimalDecimal);
+					   }
+           			numdecimal=limpiar_ceros(numdecimal);
+					numdecimal=numdecimal.toString();
+                    if(!controlsigno){numdecimal="-"+numdecimal;}}
+            		document.getElementById("numerodecimal").value = numdecimal;
+		}
+
+	function limpiar_ceros(numero){
+						numero=numero.toString();
+						let control = true;
+						let i=0;
+						while(control){
+							if(numero.charAt(i)!=0){control=false;}
+							i++;}
+						numero=numero.substring((i-1),numero.length);
+						return numero;
+						
+					}
+	function limpiar_ceros_derecha(numero){
+			numero=numero.toString();
+			let control=true;
+			let i=numero.length;
+			while(control){
+				if(numero.charAt(i)!=0){control=false;}
+				i--;
+			}
+			numero = numero.substring(0,(i+2));
+			return numero;
+		}
+	function octal_hexadecimal(binario,decimal){
+
+						
+						let pEntera =binario;
+						let controlsigno = true;
+						if(parseFloat(binario)<0){controlsigno=false;}pEntera = Math.abs(parseInt(pEntera));
+            			pEntera=pEntera.toString();
+						
+						pDecimal =(CorteEnteroDecimal(binario)).toString();
+						numOctal=(calcularoctal_hexadecimal(pEntera,pDecimal,3,binario));
+						numHexadecimal=(calcularoctal_hexadecimal(pEntera,pDecimal,4,binario));
+						
+						numOctal=numOctal.toString();
+						numHexadecimal=numHexadecimal.toString();
+                        let decimal_aux = document.getElementById("numerodecimal").value;
+                        
+            			if(!controlsigno || decimal_aux.charAt(0)=='-' && parseInt(decimal_aux)==0){
+							numOctal="-"+numOctal;
+							numHexadecimal="-"+numHexadecimal;
+					
+						}
+								
+						
+						document.getElementById("numerooctal").value = numOctal;
+						document.getElementById("numerohexadecimal").value = numHexadecimal;
+					}
+	function calcularoctal_hexadecimal(pEntera,pDecimal,clave,binario){
+						let numEntero=calcularoctal_hexadecimal_Entero(pEntera,clave);
+						pDecimal=pDecimal.substring(2,pDecimal.length);
+						let numDecimal=calcularoctal_hexadecimal_Decimal(pDecimal,clave);
+						if(binario.indexOf(".")==-1){resultado=numEntero;}
+						else{resultado=numEntero+"."+numDecimal;}
+						
+						return resultado;
+					}
+					
+	function calcularoctal_hexadecimal_Entero(pEntero,clave){
+						let resultado="";
+						let longitud=0;
+						let numaux;
+						if(pEntero.length%clave!=0){longitud=(parseInt(pEntero.length/clave))+1;}
+						else {longitud=(pEntero.length/clave);}
+						
+						for(let i=0;i<longitud;i++){
+							let numaux="";
+							let resulaux=0;
+							if(i==(longitud-1)){numaux=pEntero;}
+							else{ numaux=pEntero.substring((pEntero.length-clave),pEntero.length);}
+							pEntero=pEntero.substring(0,(pEntero.length-clave));
+							let multiplicador=1;
+							let j=numaux.length;
+							while(j>0){
+								let posicion = (parseInt(numaux.charAt(j-1)))*multiplicador;
+								resulaux+=posicion;
+								multiplicador = multiplicador *2;
+								j--;
+							}
+							resulaux=resulaux.toString();
+							resulaux=codigo_hexadecimal(resulaux);
+							resultado =resulaux + resultado;
+							
+						}
+							return resultado;
+						}
+	function calcularoctal_hexadecimal_Decimal(pDecimal,clave){
+						let resultado="";
+						let longitud=0;
+						let numaux;
+						if(pDecimal.length%clave!=0){longitud=(parseInt(pDecimal.length/clave))+1;}
+						else {longitud=(pDecimal.length/clave);}
+						for(let i=0;i<longitud;i++){
+							let numaux="";
+							let resulaux=0;
+							if(i==(longitud-1)){numaux=pDecimal;}
+							else{ numaux=pDecimal.substring(0,clave);}
+							pDecimal=pDecimal.substring((pDecimal.length-clave),pDecimal.length);
+							let multiplicador=1;
+							let j=numaux.length;
+							while(j>0){
+								let posicion = (parseInt(numaux.charAt(j-1)))*multiplicador;
+								resulaux+=posicion;
+								multiplicador = multiplicador *2;
+								j--;
+							}
+							resulaux=resulaux.toString();
+							resulaux=codigo_hexadecimal(resulaux);
+							resultado =resulaux + resultado;
+							
+						}
+							return resultado;
+
+						}
+	function codigo_hexadecimal(numero){
+						switch(numero){
+							case "10": numero="A";
+							break;
+							case "11": numero="B";
+							break;
+							case "12": numero="C";
+							break;
+							case "13": numero="D";
+							break;
+							case "14": numero="E";
+							break;
+							case "15": numero="F";
+							break;
+							default: numero=numero;
+
+						}
+						return numero;					}
+    function sumar(){
+	    let ctrl = document.SeleccionNumero.SN;
+    		getRadioButtonSelectedValue(ctrl);
+  			let seleccion = ctrl[i].value;
+			  let resul="";
+  			 if(seleccion === "decimal"){
+        		let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2)){
+					resul = sumardecimal(num1,num2);
+        }else{
+            resul = error;
+        }
+			  
+			   }else{
+				let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2) && control_binario(num1) && control_binario(num2)){
+                    if(num1<0 && num2<0){
+                        num1=Math.abs(num1);
+                        num2=Math.abs(num2);
+                        resul=sumarbinario(num1,num2);
+                        resul="-"+resul;
+                    }else if(num2<0){
+                        num2=Math.abs(num2);
+                        if(Math.abs(num2)<Math.abs(num1)){ resul = restarbinario(num1,num2);
+                            }else{resul = restarbinario(num2,num1);
+                                resul="-"+resul;}
+                        
+                    }else if(num1<0){
+                          num1=Math.abs(num1);
+                          if(Math.abs(num1)<Math.abs(num2)){resul = restarbinario(num2,num1)
+                              }else{resul = restarbinario(num1,num2);
+                                  resul = "-"+resul;}  
+                    }else{
+                        resul = sumarbinario(num1,num2);
+                    }
+                    
+    
+
+                }else {
+					resul = error;
+				}
+			   }
+			   document.getElementById("tercero").value = resul;}
+    function sumardecimal(numero1,numero2){
+	        let resultado= numero1+numero2;
+	            return resultado;
+        }
+	function sumarbinario(num1,num2){
+        let sumando1 = cambiar_decimales(num1,num2);
+        let sumando2 = cambiar_decimales(num2,num1);
+        let resultado = calcular_suma_binario(sumando1,sumando2);
+        resultado = cambiar_decimales_final(num1,num2,resultado);
+        return resultado;
+    }
+    function calcular_suma_binario(numero1,numero2){
+        let numero1String=numero1.toString();
+		let numero2String=numero2.toString();
+      	let resultado="";
+		let aux=numero2String.length;
+		let letraaux=0;;
+		let resultadoauxiliar=0
+		if(numero1String.length>numero2String.length){aux=numero1String.length;}
+		
+		for(let i = 0;i<aux;i++){
+			let letra1 = numero1String;
+			let letra2 = numero2String;
+			
+			if(i>=letra1.length){letra1="0";}
+			else{letra1 = numero1String.charAt((numero1String.length-i-1));}
+			if(i>=letra2.length){letra2="0";}
+			else{letra2 = numero2String.charAt((numero2String.length -i -1));}
+			letra2 = parseInt(letra2);
+			letra1 = parseInt(letra1);
+			resultadoauxiliar=letra1+letra2+letraaux;
+			letraaux=0;
+			if(resultadoauxiliar>=2){
+				while(resultadoauxiliar>=2){
+						resultadoauxiliar=resultadoauxiliar-2;
+						letraaux++;
+				}
+			}
+			resultado=(resultadoauxiliar.toString())+resultado;
+		}
+		if(letraaux==1){resultado="1"+resultado;}
+				
+		return resultado;
+    }
+    function sacar_decimales(num1,num2){
+        let coma=0;
+        num1=num1.toString();
+        num2 = num2.toString();
+        let coma1 = num1.length - ( num1.indexOf("."))-1;
+        let coma2 = num2.length - ( num2.indexOf("."))-1;
+        if(coma1>=coma2){
+            coma=coma1;
+        }else{
+            coma=coma2;
+        }
+        return coma;
+    }
+    function cambiar_decimales(num1,num2){
+        
+        num1=parseInt(num1*Math.pow(10,sacar_decimales(num1,num2)));
+        return num1;
+        }
+    function cambiar_decimales_final(num1,num2,resultado){
+        resultado=resultado/Math.pow(10,sacar_decimales(num1,num2));
+       
+        return resultado;
+    }
+    function restar(){
+    	let ctrl = document.SeleccionNumero.SN;
+    		getRadioButtonSelectedValue(ctrl);
+  			let seleccion = ctrl[i].value;
+			  let resul="";
+  			 if(seleccion === "decimal"){
+        		let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2)){
+					resul = restardecimal(num1,num2);
+        }else{
+            resul = error;
+        }
+			  
+			   }else{
+				let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2) && control_binario(num1) && control_binario(num2)){
+					if(num1<0 && num2<0){
+                        num1=Math.abs(num1);
+                        num2=Math.abs(num2);
+                           if(Math.abs(num1)<Math.abs(num2)){
+                               resul=restarbinario(num2,num1);
+                           }else{
+                               resul=restarbinario(num1,num2);
+                               resul="-"+resul;
+                           }
+                    }else if(num1>0 && num2>0){
+                        if(num1>num2){resul=restarbinario(num1,num2);
+                            }else{resul=restarbinario(num2,num1);
+                                resul="-"+resul;}
+                    }else if(num1>0 && num2<0){
+                        num2=Math.abs(num2);
+                        resul= sumarbinario(num1,num2);
+                    }else if(num1<0 && num2>0){
+                        num1=Math.abs(num1);
+                        
+                        resul=sumarbinario(num1,num2);
+                        
+                        resul="-"+resul;
+                    }
+
+                }  
+				else {
+					resul = error;
+				}
+			   }
+			   document.getElementById("tercero").value = resul;
+    }
+    function restardecimal(num1,num2){
+		let resultado = num1-num2;
+		return resultado;
+	}
+    function restarbinario(num1,num2){
+        let operador1 = cambiar_decimales(num1,num2);
+        let operador2 = cambiar_decimales(num2,num1);
+        let resultado = calcular_resta_binario(operador1,operador2);
+        resultado = cambiar_decimales_final(num1,num2,resultado);
+        return resultado;
+    }
+    function calcular_resta_binario(numero1,numero2){
+        let numero1String=numero1.toString();
+		let numero2String=numero2.toString();
+		let resultado="";
+		let letraaux=0;;
+		let resultadoauxiliar=0;
+		for(let i = 0;i<numero1String.length;i++){
+			let letra1 = numero1String;
+			let letra2 = numero2String;
+			if(i>=letra2.length){letra2="0";}
+			else{letra2 = numero2String.charAt((numero2String.length -i -1));}
+			letra1= numero1String.charAt((numero1String.length -i -1));
+			letra2 = parseInt(letra2);
+			letra1 = parseInt(letra1);
+			
+			if((letra1-letraaux)<0){letra1=1;letraaux=1;}
+			else{letra1=letra1-letraaux;letraaux=0;}
+			resultadoauxiliar=letra1-letra2;
+			if(resultadoauxiliar<0){letraaux=1;resultadoaux=1;}
+			
+			resultado=(Math.abs(resultadoauxiliar).toString())+resultado;
+		}
+		
+				
+		return resultado;
+    }
+    function multiplicar(){
+		let ctrl = document.SeleccionNumero.SN;
+    		getRadioButtonSelectedValue(ctrl);
+  			let seleccion = ctrl[i].value;
+			  let resul="";
+  			 if(seleccion === "decimal"){
+        		let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2)){
+					resul = multiplicardecimal(num1,num2);
+        }else{
+            resul = error;
+        }
+			  
+			   }else{
+				let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2) && control_binario(num1) && control_binario(num2)){
+					if(num1>0 && num2>0){
+                        resul = multiplicarbinario(num1,num2);
+                    }else if( num1>0 &&  num2<0 || num2>0 && num1<0){
+                        num1 = Math.abs(num1);
+                        num2 = Math.abs(num2);
+                        resul = multiplicarbinario(num1,num2);
+                        resul = "-" + resul;
+                    } else if(num1<0 && num2<0){
+                        num1 = Math.abs(num1);
+                        num2 = Math.abs(num2);
+                        resul = multiplicarbinario(num1,num2);
+                    }
+                    
+				}else {
+					resul = error;
+				}
+			   }
+			   document.getElementById("tercero").value = resul;
+	}
+    function multiplicardecimal(numero1,numero2){
+		let resultado=numero1*numero2;
+		return resultado;
+	}
+    function multiplicarbinario(numero1,numero2){
+		numero1 = numero1.toString();
+		numero2 = numero2.toString();
+	
+		let posicion = control_decimal_multiplicacion(numero1,numero2);
+		numero1 = control_decimales(numero1);
+		numero2 = control_decimales(numero2);
+		let resultado=0;
+		for(let i=0;i<numero2.length;i++){
+			let letra2 = parseInt(numero2.charAt((numero2.length-i-1)));
+			let resulaux="";
+			for(let j=0;j<numero1.length;j++){
+				let aux=0;
+				let letra1 = parseInt(numero1.charAt((numero1.length-j-1)));
+				aux=letra2*letra1;
+				resulaux=(aux.toString())+resulaux;
+				
+				
+			}
+			resulaux=(parseInt(resulaux)*Math.pow(10,i));
+			
+			resultado=sumarbinario(resulaux,resultado);
+			
+			
+		}
+			resultado = parseFloat(resultado);
+			resultado = resultado*Math.pow(10,-(posicion));
+            if(posicion!=0){resultado=limpiar_ceros_derecha(resultado);}
+			
+		return resultado;
+	}
+    function control_decimal_multiplicacion(numero1,numero2){
+			
+			let posicion1= numero1.indexOf(".");
+            if(posicion1==-1){posicion1=0;}else{posicion1=numero1.length-posicion1-1;}
+			
+			let posicion2 = numero2.indexOf(".");
+			if(posicion2==-1){posicion2=0;}else{
+             posicion2=numero2.length-posicion2-1;   
+            }
+			
+			posicion1=posicion1+posicion2;
+			return posicion1;
+		}
+    function control_decimales(numero1){
+       
+			let posicion1 = numero1.indexOf(".");
+            if(posicion1==-1){posicion1=0}else{
+                posicion1=numero1.length-posicion1-1;
+            }
+            
+			numero1=parseFloat(numero1)*Math.pow(10,posicion1);
+          
+			numero1=numero1.toString();
+			return numero1;
+		}
+    function dividir(){
+		let ctrl = document.SeleccionNumero.SN;
+    		getRadioButtonSelectedValue(ctrl);
+  			let seleccion = ctrl[i].value;
+			  let resul="";
+  			 if(seleccion === "decimal"){
+        		let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2) && num2!=0){
+					resul = dividirdecimal(num1,num2);
+        }else{
+            resul = error;
+        }
+			  
+			   }else{
+				let num1 =parseFloat(document.getElementById("primero").value);
+        		let num2 = parseFloat(document.getElementById("segundo").value);
+                let libre = parseInt(document.getElementById("aprox").value);
+				if(comprobar_numero(num1) && comprobar_numero(num2) && control_binario(num1) && control_binario(num2) && num2!=0 && libre!="" && comprobar_numero(libre) && comprobar_signo(libre)){
+					if(num1>0 && num2>0 || num1<0 && num2<0){
+                        
+                        num1 = Math.abs(num1);
+                        num2 = Math.abs(num2);
+                      
+                        resul = dividirbinario(num1,num2,libre);
+                    }else if(num1>0 && num2<0 || num1<0 && num2>0){
+                        
+                        num1 = Math.abs(num1);
+                        num2 = Math.abs(num2);
+                        
+                        resul = dividirbinario(num1,num2,libre);
+                        resul="-"+ resul;
+                    }
+                }else {
+					resul = error;
+				}
+			   }
+			   document.getElementById("tercero").value = resul;
+	}
+	function dividirdecimal(numero1,numero2){
+		let resultado="";
+		 resultado=numero1/numero2;
+		return resultado;
+	}
+	function dividirbinario(numero1,numero2,libre){
+		let auxdivision;
+		let aux;
+	
+		let resultado="";
+		
+		
+        numero1= parseFloat(parseInt(numero1*Math.pow(10,libre)));
+        numero2 = parseFloat(parseInt(numero2*Math.pow(10,libre)));
+        numero2 = numero2.toString();
+		numero1 = numero1.toString();
+        let longitud =(numero2.toString()).length;
+	
+		if(parseInt(numero1.substring(0,longitud))>=parseInt(numero2)){auxdivision =parseInt(numero1.substring(0,longitud));}
+		else{ auxdivision= parseInt(numero1.substring(0,(longitud+1)));}
+		aux= longitud;
+		
+		for(let i=longitud;i<=numero1.length;i++){
+			
+			if((parseInt(numero2))<=auxdivision){
+				resultado+="1";
+				auxdivision= restarbinario(auxdivision,numero2);
+			}else{
+				resultado+="0";
+			}
+			auxdivision = (auxdivision.toString())+numero1.charAt(i+1);
+			auxdivision = parseInt(auxdivision);
+		}
+        
+        resultado=resultado*Math.pow(10,libre);
+		resultado=resultado.toString();
+        
+		resultado = limpiar_ceros_derecha(resultado);
+        
+        if((resultado.charAt(resultado.length-1))=="."){resultado=resultado.substring(0,(resultado.length-1));}
+		return resultado;
+	}
+    
+	
+	function control_decimal_division(numero1,numero2){
+			let posicion1= numero1.indexOf(".");
+			let posicion2 = numero2.indexOf(".");
+			posicion1=numero1.length-posicion1-1;
+			posicion2=numero2.length-posicion2-1;
+			posicion1=posicion1-posicion2;
+			return posicion;
+		}
+</script>
+</html>

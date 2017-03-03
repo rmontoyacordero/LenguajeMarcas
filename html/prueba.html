@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        color: #337ab7;
+        text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    
+    header {
+        margin-top: 40px;
+        font-size: 50px;
+    }
+    
+    #divFormulario {
+        margin-top: 50px;
+        margin-left: 150px;
+        font-size: 24px;
+        float: left;
+    }
+    
+    fieldset {
+        text-align: left;
+        width: 20%;
+    }
+    
+    label {
+        color: black;
+        text-align: center;
+    }
+    
+    input {
+        text-align: center;
+        color: black;
+    }
+    
+    input[type="button"] {
+        margin-top: 15px;
+    }
+    
+    #divDatos {
+        border: 1px solid #337ab7;
+        margin-top: 50px;
+        margin-right: 100px;
+        float: left;
+        text-align: center;
+        width: 60%;
+    }
+    
+    #divDatos div {
+        display: flex;
+        text-align: center;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    /*   #divDatos div:nth-child(2n){
+        background: #337ab7;
+    }*/
+    
+    #divDatos div div {
+        margin: 15px 0px;
+        width: 30%;
+        text-align: center;
+    }
+    
+    .divMostrar {
+        margin-bottom: 5px;
+        font-size: 24px;
+        color: black;
+        float: left;
+    }
+    
+    spam {
+        color: #337ab7;
+    }
+    
+    li {
+        display: inline-block;
+        border: 2px solid black;
+    }
+    
+    ul+div {
+        border: 2px solid black;
+    }
+    
+    .perro {
+        display: none;
+    }
+  
+    /*input[type="radio"] {
+        display: none;
+    }
+    
+    li input[type="radio"] {
+        text-align: center;
+        width: 10%;
+        float: left;
+        border: solid 1px #cecece;
+        padding: 4px 11px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    li input[type="radio"]:checked {
+        background-color: #3485cf;
+    }*/
+</style>
+<script src="cookies.js"></script>
+
+<body>
+    <header>Agenda</header>
+    <div id="divFormulario">
+        <form name="miFormulario">
+            <fieldset>
+                <legend>Datos de Agenda</legend>
+                <form>
+                    <label for="formulario">ID</label><br>
+                    <input type="text" id="ID" name="ID" readonly="readonly" />
+                </form>
+                <form>
+                    <label for="formulario">Nombre</label><br>
+                    <input type="text" id="Nombre" name="Nombre" />
+                </form>
+                <form>
+                    <label for="formulario">Correo</label><br>
+                    <input type="text" id="Correo" name="Correo" />
+                </form>
+                <form>
+                    <label for="formulario">Tlf</label><br>
+                    <input type="text" id="Tlf" name="Tlf" />
+                </form>
+                <input type="button" id="butEnviar" value="Enviar" />
+                <input type="button" id="butModificar" value="Modificar" />
+            </fieldset>
+
+
+        </form>
+    </div>
+    <div id="divInitials"></div>
+    <div id="divDatos">
+
+    </div>
+
+</body>
+<script>
+    var ID;
+    var agenda = {};
+    var prueba = [];
+    var aIniciales = {};
+    var ismael = {};
+    window.onload = () => {
+        if (docCookies.hasItem('agendaID')) {
+            ID = JSON.parse(docCookies.getItem('agendaID'));
+            ID++;
+        }
+        if (localStorage.getItem('agenda') != null) {
+            agenda = JSON.parse(localStorage.getItem("agenda", JSON.stringify(agenda), Infinity));
+            ID = Object.keys(agenda).length;
+            ID++;
+            ordenarNombres();
+            obteneriniciales();
+            show();
+        } else {
+            ID = 1;
+        }
+
+        window.document.getElementById('ID').value = ID;
+    }
+
+    /*
+        window.onload = function(){
+            if(localStorage.getItem('agenda') != null){
+                agenda=JSON.parse(localStorage.getItem("agenda",JSON.stringify(agenda),Infinity));
+                ordenarNombres();
+                obteneriniciales();
+                show();
+            }else{
+                agenda={};
+                ID=1;
+                window.document.getElementById('ID').value=ID;
+            }
+            
+         }*/
+    butEnviar.addEventListener("click", function () {
+        window.document.getElementById('ID').value = ID;
+        agenda[ID] = Object.create(Object.prototype);
+        agenda[ID].nombre = window.document.getElementById('Nombre').value;
+        agenda[ID].correo = window.document.getElementById('Correo').value;
+        agenda[ID].tlf = window.document.getElementById('Tlf').value;
+        localStorage.setItem("agenda", JSON.stringify(agenda), Infinity);
+        docCookies.setItem('agendaID', JSON.stringify(ID), Infinity);
+        ordenarNombres();
+        obteneriniciales();
+        mostrar();
+        show();
+        clear();
+        window.document.getElementById('ID').value = ID;
+
+    });
+    butModificar.addEventListener("click", function () {
+        ID = window.document.getElementById('ID').value;
+        agenda[ID].nombre = window.document.getElementById('Nombre').value;
+        agenda[ID].correo = window.document.getElementById('Correo').value;
+        agenda[ID].tlf = window.document.getElementById('Tlf').value;
+        localStorage.setItem("agenda", JSON.stringify(agenda), Infinity);
+        docCookies.setItem('agendaID', JSON.stringify(ID), Infinity);
+        ordenarNombres();
+        obteneriniciales();
+        mostrar();
+        show();
+        clear();
+        window.document.getElementById('ID').value = ID;
+
+    });
+    function clear() {
+        window.document.getElementById('Correo').value = "";
+        window.document.getElementById('Tlf').value = "";
+        window.document.getElementById('Nombre').value = "";
+
+    }
+    function ordenarNombres() {
+        prueba = [];
+        for (k in agenda) {
+            prueba.push(agenda[k].nombre);
+        }
+        prueba.sort();
+    }
+    function mostrar() {
+        var html = "<div><div>nombre</div><div>correo</div><div>telefono</div></div>";
+        for (h in prueba) {
+            for (k in ismael) {
+                if (ismael[k].nombre === prueba[h]) {
+
+                    html += '<div><div onClick="modificarDatos(this.id)" id="' + k + '">' + ismael[k].nombre + '</div><div>' + ismael[k].correo + '</div><div>' + ismael[k].tlf + '</div></div>';
+                }
+            }
+        }
+
+        window.document.getElementById('divDatos').innerHTML = html;
+    }
+    function show() {
+        var longitud = Object.keys(agenda).length;
+        /*  (longitud < 10) ? mostrar() : crearTabs();*/
+        if (longitud < 10) {
+            ismael = {};
+            ismael = agenda;
+            mostrar();
+        } else {
+            crearTabs();
+            mostrar();
+        }
+        ID = longitud + 1;
+        window.document.getElementById('ID').value = ID;
+    }
+    function obteneriniciales() {
+        for (k in prueba) {
+            var inicial = prueba[k].toUpperCase().charAt();
+            if (!aIniciales[inicial]) {
+                aIniciales[inicial] = 1;
+            }
+        }
+
+
+    }
+    function crearTabs() {
+        html = "";
+        let ramses;
+        html += '<ul>';
+        control = false;
+        for (k in aIniciales) {
+            html += '<li><input onClick="changeInitial(this.value)" type="radio" name="submenu" id=' + k + ' value="' + k + '">' + k + '</li>';
+            if (!control) {
+                ramses = k;
+                control = true;
+            }
+        }
+        html += '</ul>';
+        window.document.getElementById('divInitials').innerHTML = html;
+        window.document.getElementById(ramses).checked = true;
+        random(ramses);
+    }
+    function random(value) {
+        ismael = {};
+        for (k in agenda) {
+            console.log(agenda[k].nombre.charAt(0))
+            if (agenda[k].nombre.charAt(0).toUpperCase() === value) {
+                console.log("hola")
+                ismael[k] = Object.create(Object.prototype);
+                ismael[k].nombre = agenda[k].nombre;
+                ismael[k].correo = agenda[k].correo;
+                ismael[k].tlf = agenda[k].tlf;
+            }
+        }
+    }
+    function encender(elem) {
+        window.document.getElementsByClassName('perro').display = "none";
+        prueba = elem.dataset.tab;
+        window.document.getElementById(prueba).style.display = "inline";
+    }
+    function changeInitial(value) {
+        window.document.getElementById('divDatos').innerHTML = "";
+        random(value);
+        mostrar();
+    }
+    function modificarDatos(id) {
+        window.document.getElementById("ID").value = id;
+        window.document.getElementById("Nombre").value = agenda[id].nombre;
+        window.document.getElementById("Correo").value = agenda[id].correo;
+        window.document.getElementById("Tlf").value = agenda[id].tlf;
+    }
+
+</script>
+
+</html>
