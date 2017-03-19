@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Import>
+	<Row>
+		<Harbor_x0020_Size_x0020_Code>L</Harbor_x0020_Size_x0020_Code>
+		<Harbor_x0020_Size>Large</Harbor_x0020_Size>
+	</Row>
+	<Row>
+		<Harbor_x0020_Size_x0020_Code>M</Harbor_x0020_Size_x0020_Code>
+		<Harbor_x0020_Size>Medium</Harbor_x0020_Size>
+	</Row>
+	<Row>
+		<Harbor_x0020_Size_x0020_Code>S</Harbor_x0020_Size_x0020_Code>
+		<Harbor_x0020_Size>Small</Harbor_x0020_Size>
+	</Row>
+	<Row>
+		<Harbor_x0020_Size_x0020_Code>V</Harbor_x0020_Size_x0020_Code>
+		<Harbor_x0020_Size>Very Small</Harbor_x0020_Size>
+	</Row>
+	<Row>
+		<Harbor_x0020_Size_x0020_Code/>
+		<Harbor_x0020_Size>Unknown</Harbor_x0020_Size>
+	</Row>
+</Import>

@@ -120,7 +120,7 @@
                 <form name="texto">
                     <label for="texto" name="textoRellenar">Numero Palabras</label>
                     <input type="text" id="textoCodificado" oninput="controlarBotones()"><br>
-                 <input type="button" id="butTexto" value="Generar Texto" onclick="generarTexto(this.id)" disabled="true">
+                    <input type="button" id="butTexto" value="Generar Texto" onclick="generarTexto(this.id)" disabled="true">
             </div>
             <div id="divTextoResultado" onmouseover="verTextoReal()" onmouseout="verTextoCodificado()"></div>
             
@@ -143,17 +143,17 @@ var patronVocales =/[aeiouAEIOUáéíóú]/;
             nodos = {};
             nodos= xmlDoc.evaluate("(//ROW[@PALABRA])", xmlDoc, null, XPathResult.ANY_TYPE, null);
             let thisNode = nodos.iterateNext();
-            i=0;
+            //i=0;
                         while (thisNode) {
-                           
-                                palabras[i] = Object.create(Object.prototype);
-                                palabras[i].id=thisNode.getAttribute('ID');
-                                palabras[i].word = thisNode.getAttribute('PALABRA');
-                                palabras[i].uso=false;
-                                i++;
+                                id=thisNode.getAttribute('ID');
+                                palabras[id] = Object.create(Object.prototype);
+                               // palabras[i].id=thisNode.getAttribute('ID');
+                                palabras[id].word = thisNode.getAttribute('PALABRA');
+                                palabras[id].uso=false;
+                               // i++;
                                 thisNode = nodos.iterateNext();
                         }
-            cantidadPalabras=i;
+            cantidadPalabras=Object.keys(palabras).length;
         
      }
     function crearPalabra(id){

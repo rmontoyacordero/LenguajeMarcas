@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Import>
+	<Row>
+		<Shelter_x0020_Afforded_x0020_Code>E</Shelter_x0020_Afforded_x0020_Code>
+		<Shelter_x0020_Afforded_x0020_Description>Excellent</Shelter_x0020_Afforded_x0020_Description>
+	</Row>
+	<Row>
+		<Shelter_x0020_Afforded_x0020_Code>G</Shelter_x0020_Afforded_x0020_Code>
+		<Shelter_x0020_Afforded_x0020_Description>Good</Shelter_x0020_Afforded_x0020_Description>
+	</Row>
+	<Row>
+		<Shelter_x0020_Afforded_x0020_Code>F</Shelter_x0020_Afforded_x0020_Code>
+		<Shelter_x0020_Afforded_x0020_Description>Fair</Shelter_x0020_Afforded_x0020_Description>
+	</Row>
+	<Row>
+		<Shelter_x0020_Afforded_x0020_Code>P</Shelter_x0020_Afforded_x0020_Code>
+		<Shelter_x0020_Afforded_x0020_Description>Poor</Shelter_x0020_Afforded_x0020_Description>
+	</Row>
+	<Row>
+		<Shelter_x0020_Afforded_x0020_Code>N</Shelter_x0020_Afforded_x0020_Code>
+		<Shelter_x0020_Afforded_x0020_Description>None</Shelter_x0020_Afforded_x0020_Description>
+	</Row>
+	<Row>
+		<Shelter_x0020_Afforded_x0020_Code/>
+		<Shelter_x0020_Afforded_x0020_Description>Unknown</Shelter_x0020_Afforded_x0020_Description>
+	</Row>
+</Import>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by TeaM DJiNN (TeaM DJiNN) -->
+<Import>
+	<Row>
+		<Repairs_x0020_Code>A</Repairs_x0020_Code>
+		<Repairs_x0020_Code_x0020_Description>Major</Repairs_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Repairs_x0020_Code>B</Repairs_x0020_Code>
+		<Repairs_x0020_Code_x0020_Description>Moderate</Repairs_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Repairs_x0020_Code>C</Repairs_x0020_Code>
+		<Repairs_x0020_Code_x0020_Description>Limited</Repairs_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Repairs_x0020_Code>D</Repairs_x0020_Code>
+		<Repairs_x0020_Code_x0020_Description>Emergency Only</Repairs_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Repairs_x0020_Code>N</Repairs_x0020_Code>
+		<Repairs_x0020_Code_x0020_Description>None</Repairs_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Repairs_x0020_Code/>
+		<Repairs_x0020_Code_x0020_Description>Unknown</Repairs_x0020_Code_x0020_Description>
+	</Row>
+</Import>

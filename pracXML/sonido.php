@@ -1,1 +1,0 @@
-{"status":"ko","mensaje":"palabra vac\u00eda"}

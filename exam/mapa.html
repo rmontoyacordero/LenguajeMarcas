@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapa</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <style>
+            html, body {
+                height: 100%;
+                margin: 2%;
+               
+                padding: 0;
+            }
+           
+            #headerBody{
+        margin: 0%;
+        width: 40%;
+        height: 6%;
+        font-size: 50px;
+        margin: auto;
+        color: #337ab7;
+        text-align: center;
+        
+        margin-bottom: 5%;
+    }
+            #map {
+                width:68%;
+                height: 80%;
+                float: left;
+                border:3px double black;
+            }
+            #har {
+                width:30%;
+                height: 70%;
+                float: right;
+                
+            }
+            #divDesplegado{
+                width:100%;
+                height: 100%;
+                float: right;
+                
+            }
+            #headerPuertos{
+                text-align: center;
+            }
+           h2{
+                color: #337ab7;
+        text-align: center;
+           }
+           
+            .divDistancia{
+                float:right;
+                width: 35%;
+            }
+            
+
+        </style>
+    </head>
+    <body>
+        <header id="headerBody">Puertos Del Mundo</header>
+        <div id="map"></div><div id="headerPuertos"></div>
+        <div id="har">Distancia<br><input type="text" id="disbusqueda" oninput="validarboton()"><input type="button" id="botondistancia" onclick="cambiarDistancia()" value="Cambiar" disabled="true"/></div>
+        <script>
+            var map, lat, lon, marker, status;
+            var aPuertos={};
+            var aPuertosCercanos={};
+            var aCountryCodes={};
+            var aDepthCode={};
+            var aRepairsCode={};
+            var aWPIRegion={};
+            var aDock={};
+            var aMax={};
+            var aHarbor={};
+            var aShelter={};
+            var distanciaSeleccionar = 500;
+            var propiedades=[];
+            var aPuertosParaMostrar=[];
+            var aDistancia=[];
+            window.onload = function(){
+                    let xmlhttp = new XMLHttpRequest();
+                        xmlhttp.open('GET', 'WpiData.xml', false)
+                        xmlhttp.send();
+                        xmlDoc = xmlhttp.responseXML;
+                    let nodos={};
+                    nodos = xmlDoc.evaluate("//Row", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                    let thisNode = nodos.iterateNext();
+                    while(thisNode){
+                    let pos =thisNode.children[0].textContent;
+                        aPuertos[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode.children.length; i++){
+                            aPuertos[pos][thisNode.children[i].nodeName] = thisNode.children[
+                                i].textContent;
+                            } 
+                            thisNode = nodos.iterateNext();
+                    }
+                    let xmlhttp2 =new XMLHttpRequest();
+                        xmlhttp2.open('GET', 'CountryCodes.xml', false)
+                        xmlhttp2.send();
+                        xmlDoc2 = xmlhttp2.responseXML;
+                    let nodos2={};
+                    nodos2 = xmlDoc2.evaluate("//Row", xmlDoc2, null, XPathResult.ANY_TYPE, null);
+                    let thisNode2 = nodos2.iterateNext();
+                    while(thisNode2){
+                        let pos =thisNode2.children[0].textContent;
+                        aCountryCodes[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode2.children.length; i++){
+                            aCountryCodes[pos][thisNode2.children[i].nodeName] = thisNode2.children[
+                                i].textContent;
+                            }
+                        thisNode2 = nodos2.iterateNext();
+                    }
+                    let xmlhttp3 = new XMLHttpRequest();
+                        xmlhttp3.open('GET','DepthCode.xml',false);
+                        xmlhttp3.send();
+                        xmlDoc3 = xmlhttp3.responseXML;
+                    let nodos3={};
+                    nodos3 = xmlDoc3.evaluate("//Row", xmlDoc3, null, XPathResult.ANY_TYPE, null);
+                    let thisNode3 = nodos3.iterateNext();
+                    while(thisNode3){
+                            let pos =thisNode3.children[0].textContent;
+                        aDepthCode[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode3.children.length; i++){
+                            aDepthCode[pos][thisNode3.children[i].nodeName] = thisNode3.children[
+                                i].textContent;
+                            }
+                        thisNode3 = nodos3.iterateNext();
+                    }
+                    let xmlhttp4 = new XMLHttpRequest();
+                        xmlhttp4.open('GET','WPIRegion.xml',false);
+                        xmlhttp4.send();
+                        xmlDoc4 = xmlhttp4.responseXML;
+                    let nodos4={};
+                    nodos4 = xmlDoc4.evaluate("//Row", xmlDoc4, null, XPathResult.ANY_TYPE, null);
+                    let thisNode4 = nodos4.iterateNext();
+                    while(thisNode4){
+                            let pos =thisNode4.children[0].textContent;
+                        aWPIRegion[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode4.children.length; i++){
+                            aWPIRegion[pos][thisNode4.children[i].nodeName] = thisNode4.children[
+                                i].textContent;
+                            }
+                        thisNode4 = nodos4.iterateNext();
+                    }
+
+                    let xmlhttp5 = new XMLHttpRequest();
+                        xmlhttp5.open('GET','DryDockMarineRailwayCode.xml',false);
+                        xmlhttp5.send();
+                        xmlDoc5 = xmlhttp4.responseXML;
+                    let nodos5={};
+                    nodos5 = xmlDoc5.evaluate("//Row", xmlDoc5, null, XPathResult.ANY_TYPE, null);
+                    let thisNode5 = nodos5.iterateNext();
+                    while(thisNode5){
+                            let pos =thisNode5.children[0].textContent;
+                        aDock[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode5.children.length; i++){
+                            aDock[pos][thisNode5.children[i].nodeName] = thisNode5.children[
+                                i].textContent;
+                            }
+                        thisNode5 = nodos5.iterateNext();
+                    }
+
+
+                    
+
+                    let xmlhttp6 = new XMLHttpRequest();
+                        xmlhttp6.open('GET', 'RepairsCode.xml', false)
+                        xmlhttp6.send();
+                        xmlDoc6 = xmlhttp.responseXML;
+                    let nodos6={};
+                    nodos6 = xmlDoc6.evaluate("//Row", xmlDoc6, null, XPathResult.ANY_TYPE, null);
+                    let thisNode6 = nodos6.iterateNext();
+                    while(thisNode6){
+                        let pos =thisNode6.children[0].textContent;
+                        aRepairsCode[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode6.children.length; i++){
+                            aRepairsCode[pos][thisNode6.children[i].nodeName] = thisNode6.children[
+                                i].textContent;
+                            }
+                        thisNode6 = nodos6.iterateNext();
+                    }
+                        
+
+                    let xmlhttp7 = new XMLHttpRequest();
+                        xmlhttp7.open('GET','HarborSize.xml',false);
+                        xmlhttp7.send();
+                        xmlDoc7 = xmlhttp7.responseXML;
+                    let nodos7={};
+                    nodos7 = xmlDoc7.evaluate("//Row", xmlDoc7, null, XPathResult.ANY_TYPE, null);
+                    let thisNode7 = nodos7.iterateNext();
+                    while(thisNode7){
+                            let pos =thisNode7.children[0].textContent;
+                        aHarbor[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode7.children.length; i++){
+                            aHarbor[pos][thisNode7.children[i].nodeName] = thisNode7.children[
+                                i].textContent;
+                            }
+                        thisNode7 = nodos7.iterateNext();
+                    } 
+                    
+                    let xmlhttp8 = new XMLHttpRequest();
+                        xmlhttp8.open('GET','MaximumSizeVessel.xml',false);
+                        xmlhttp8.send();
+                        xmlDoc8 = xmlhttp8.responseXML;
+                    let nodos8={};
+                    nodos8 = xmlDoc8.evaluate("//Row", xmlDoc8, null, XPathResult.ANY_TYPE, null);
+                    let thisNode8 = nodos8.iterateNext();
+                    while(thisNode8){
+                            let pos =thisNode8.children[0].textContent;
+                        aMax[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode8.children.length; i++){
+                            aMax[pos][thisNode8.children[i].nodeName] = thisNode8.children[
+                                i].textContent;
+                            }
+                        thisNode8 = nodos8.iterateNext();
+                    }
+
+                    let xmlhttp9 = new XMLHttpRequest();
+                        xmlhttp9.open('GET','ShelterAfforded.xml',false);
+                        xmlhttp9.send();
+                        xmlDoc9 = xmlhttp9.responseXML;
+                    let nodos9={};
+                    nodos9 = xmlDoc9.evaluate("//Row", xmlDoc9, null, XPathResult.ANY_TYPE, null);
+                    let thisNode9 = nodos9.iterateNext();
+                    while(thisNode9){
+                            let pos =thisNode9.children[0].textContent;
+                        aShelter[pos] = Object.create(Object.prototype);
+                        for (let i = 0; i < thisNode9.children.length; i++){
+                            aShelter[pos][thisNode9.children[i].nodeName] = thisNode9.children[
+                                i].textContent;
+                            }
+                        thisNode9 = nodos9.iterateNext();
+                    }
+                    
+             }
+            function initMap() {
+                var geocoder = new google.maps.Geocoder;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 36.057, lng: -3.559},
+                    zoom: 8
+                });
+                google.maps.event.addListener(map, 'click', function (event) {
+                    lat = event.latLng.lat();
+                    lon = event.latLng.lng();
+                    var myLatlng = new google.maps.LatLng(lat, lon);
+                   // document.getElementById("pos").innerHTML = lat + "," + lon;
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+                   
+                    marker = new google.maps.Marker({
+                        position: myLatlng,
+                        title: "Posición actual"
+                    });
+                    geocoder.geocode({'location': myLatlng}, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            
+                        } else {
+                            marker.setMap(map);
+                            puertosCercanos();
+                          
+
+                        }
+                    });
+                });} 
+            function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+                    var R = 6371; // Radius of the earth in km
+                    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+                    var dLon = deg2rad(lon2-lon1); 
+                    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                    var d = R * c; // Distance in km
+                    return d;
+               }
+            function puertosCercanos(){
+                aPuertosCercanos={};
+                let tamaño=Object.keys(aPuertos).length;
+
+                for(k in aPuertos){
+                    latpuerto=transformacionGradosLatitud(aPuertos[k].Latitude_degrees,aPuertos[k].Latitude_minutes,aPuertos[k].Latitude_hemisphere);
+                    lonpuerto=transformacionGradosLongitud(aPuertos[k].Longitude_degrees,aPuertos[k].Longitude_minutes,aPuertos[k].Longitude_hemisphere);
+                    distancia=getDistanceFromLatLonInKm(lat,lon,parseFloat(latpuerto),parseFloat(lonpuerto));
+                    if(distancia<distanciaSeleccionar){
+                        aPuertosCercanos[k]=Object.create(Object.prototype);
+                        aPuertosCercanos[k]=aPuertos[k];
+                        aPuertosParaMostrar.push(aPuertos[k].Main_port_name);
+                        aPuertosCercanos[k].Distancia=parseInt(distancia);
+                        aDistancia.push(distancia);
+                    
+                    }
+                }
+                
+                pintarPuertos();
+                mostrarContenido();
+              }
+            function transformarLat(latgrado,latminutos){
+                latpunto=parseFloat(latgrado)+(parseFloat(latminutos)/60);
+                return latpunto;
+               }
+            function transformarLon(longrado,lonminutos){
+                   lonpunto=parseFloat(longrado)+(parseFloat(lonminutos)/60);    
+                return lonpunto;
+               }
+            function deg2rad(deg) {
+                        return deg * (Math.PI/180)
+                }
+            function pintarPuertos(){
+                    let tamaño =Object.keys(aPuertosCercanos).length;
+                     for(k in aPuertosCercanos){
+                     latpuerto=transformacionGradosLatitud(aPuertosCercanos[k].Latitude_degrees,aPuertosCercanos[k].Latitude_minutes,aPuertosCercanos[k].Latitude_hemisphere);
+                    lonpuerto=transformacionGradosLongitud(aPuertosCercanos[k].Longitude_degrees,aPuertosCercanos[k].Longitude_minutes,aPuertosCercanos[k].Longitude_hemisphere);
+                        var LatLon2 = new google.maps.LatLng(latpuerto,lonpuerto);  
+                        var objConfigMarker2 = {
+                            position:LatLon2,
+                            map:map,
+                            title: aPuertosCercanos[k].Main_port_name + ' a ' + aPuertosCercanos[k].Distancia + ' km',
+                            icon:'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                            
+                        }
+                        
+                        var gMarker2 = new google.maps.Marker(objConfigMarker2);
+                        
+
+                    };
+                   
+                }
+            function mostrarContenido(){
+                    var divhar = window.document.getElementById('har');
+                    divhar.style.overflowY="scroll";
+                    var html="";
+                    var html2='<div><h2>Puertos Cercanos</h2></div>';
+                    ordenar(aPuertosParaMostrar,aDistancia);
+                    for(j in aPuertosParaMostrar){
+
+                        for(k in aPuertosCercanos){
+                      if(aPuertosParaMostrar[j]===aPuertosCercanos[k].Main_port_name) {
+                         html+='<div class="divRow" id="'+k+'" onclick=desplegar(this.id)>'+aPuertosCercanos[k].Main_port_name+'<div class="divDistancia" id="'+k+'" onclick=desplegar(this.id)>A '+aPuertosCercanos[k].Distancia+' km</div></div>';
+                      } 
+                       
+                     }
+                    }
+                    
+                    window.document.getElementById('headerPuertos').innerHTML=html2;
+                    divhar.innerHTML=html;
+                }
+            function desplegar(id){
+                var html='<div onclick=mostrarContenido()>';
+                for(i in aPuertosCercanos[id]){
+                     if(i==="Wpi_country_code"){
+                        for(k in aCountryCodes){
+                            if(aPuertosCercanos[id][i]===aCountryCodes[k].Country_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aCountryCodes[k].Country_x0020_Name+'</div>';
+                            }
+                        }
+                        
+                    }else if(i==="Channel_depth" || i==="Anchorage_depth" || i==="Cargo_pier_depth"|| i==="Oil_terminal_depth"){
+                        for(k in aDepthCode){
+                            if(aPuertosCercanos[id][i]===aDepthCode[k].Depth_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aDepthCode[k].Meters+'</div>';
+                            }
+                        }
+                    }
+                    
+                    
+                    else if(i==="Drydock"){
+                        for(k in aDock){
+                            if(aPuertosCercanos[id][i]===aDock[k].Drydock_x002f_Marine_x0020_Railway_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aRepairsCode[k].Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description+'</div>';
+                            }
+                        }
+                    }
+                    
+                    else if(i==="Harbor_size_code"){
+                        for(k in aHarbor){
+                            if(aPuertosCercanos[id][i]===aHarbor[k].Harbor_x0020_Size_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aHarbor[k].Harbor_x0020_Size+'</div>';
+                            }
+                        }
+                    }
+                    
+                    else if(i==="Maxsize_vessel_code"){
+                        for(k in aMax){
+                            if(aPuertosCercanos[id][i]===aMax[k].Maximum_x0020_Size_x0020_Vessel_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aMax[k].Maximum_x0020_Size_x0020_Vessel_x0020_Description+'</div>';
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    else if(i==="Repair_code"){
+                        for(k in aRepairsCode){
+                            if(aPuertosCercanos[id][i]===aRepairsCode[k].Repairs_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aRepairsCode[k].Repairs_x0020_Code_x0020_Description+'</div>';
+                            }
+                        }
+                    }else if(i==="Shelter_afforded_code"){
+                        for(k in aShelter){
+                            if(aPuertosCercanos[id][i]===aShelter[k].Shelter_x0020_Afforded_x0020_Code){
+                                html+='<div class="divRow">'+ i +": "+ aShelter[k].Shelter_x0020_Afforded_x0020_Description+'</div>';
+                            }
+                        }
+                    }
+                    else if(i==="Region_index"){
+                        for(k in aWPIRegion){
+                            if(aPuertosCercanos[id][i]===aWPIRegion[k].World_port_index_number){
+                                html+='<div class="divRow">'+ i +": "+ aWPIRegion[k].Area_name+'</div>';
+                            }
+                        }
+                    }else if(aPuertosCercanos[id][i]!="")
+                        html+='<div class="divRow">'+ i +": "+ aPuertosCercanos[id][i]+'</div>';
+                 
+                }
+                html+='</div>';
+                    window.document.getElementById('har').innerHTML=html;
+                }
+            function transformacionGradosLatitud(latGrados,latMin,letraLat){
+                    latgrado=parseFloat(latGrados);
+                    latminutos=parseFloat(latMin);
+                    latpuerto = transformarLat(latgrado,latminutos);
+                     if(letraLat==='S'){
+                        latpuerto=-latpuerto;      
+                    }
+                    return latpuerto;
+                }
+            function transformacionGradosLongitud(lonGra,lonMin,letraLon){
+
+                    longrado = parseFloat(lonGra);
+                    lonminutos=parseFloat(lonMin);
+                    lonpuerto= transformarLon(longrado,lonminutos);
+                    if(letraLon==='W'){
+                        lonpuerto=-lonpuerto;
+                    }
+                    return lonpuerto;
+                }
+            
+            function cambiarDistancia(){
+                distanciaSeleccionar = window.document.getElementById('disbusqueda').value;
+                window.document.getElementById('disbusqueda').value="";
+             }
+            function validarboton(){
+                
+                if(isNaN(window.document.getElementById('disbusqueda').value)){
+                    window.document.getElementById('botondistancia').disabled = false;
+                }else{
+                    window.document.getElementById('botondistancia').disabled = true;
+                }
+                
+            }
+            function ordenar(aPuertosParaMostrar,aDistancia){
+                        for(var i=1;i<aDistancia.length;i++)
+                        {
+                            for(var j=0;j<(aDistancia.length-i);j++)
+                            {
+                                if(aDistancia[j]>aDistancia[j+1])
+                                {
+                                    k=aPuertosParaMostrar[j+1];
+                                    aPuertosParaMostrar[j+1]=aPuertosParaMostrar[j];
+                                    aPuertosParaMostrar[j]=k;
+                                    h=aDistancia[j+1];
+                                    aDistancia[j+1]=aDistancia[j];
+                                    aDistancia[j]=h;
+
+                                }
+                            }
+                        }
+                    
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTfrjlwEZXvjqyb2KqkUUq32b0bAO_fno&callback=initMap" async defer></script>
+    </body>
+</html>

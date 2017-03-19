@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Import>
+	<Row>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code>L</Drydock_x002f_Marine_x0020_Railway_x0020_Code>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>Large</Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code>M</Drydock_x002f_Marine_x0020_Railway_x0020_Code>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>Medium</Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code>S</Drydock_x002f_Marine_x0020_Railway_x0020_Code>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>Small</Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>
+	</Row>
+	<Row>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code/>
+		<Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>Unknown</Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description>
+	</Row>
+</Import>

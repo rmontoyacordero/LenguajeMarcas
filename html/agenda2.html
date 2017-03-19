@@ -17,7 +17,7 @@
         font-size: 50px;
     }
     
-    #divFormulario {
+    .divForm {
         margin-top: 50px;
         margin-left: 150px;
         font-size: 24px;
@@ -41,34 +41,32 @@
     
     input[type="button"] {
         margin-top: 15px;
+        cursor: pointer;
     }
     
-    #divDatos {
+    #divData {
         border: 1px solid #337ab7;
         margin-top: 50px;
-        margin-right: 100px;
-        float: left;
+        margin-right: 50px;
+        float: right;
         text-align: center;
         width: 60%;
     }
     
-    #divDatos div {
+    #divData div {
         display: flex;
         text-align: center;
         flex-wrap: wrap;
         justify-content: space-around;
     }
-    /*   #divDatos div:nth-child(2n){
-        background: #337ab7;
-    }*/
     
-    #divDatos div div {
+    #divData div div {
         margin: 15px 0px;
         width: 30%;
         text-align: center;
     }
     
-    .divMostrar {
+    .divshowDiary {
         margin-bottom: 5px;
         font-size: 24px;
         color: black;
@@ -88,10 +86,6 @@
         border: 2px solid black;
     }
     
-    .perro {
-        display: none;
-    }
-    
     input[type="radio"] {
         display: none;
     }
@@ -109,194 +103,194 @@
     .divRadio input[type="radio"]:checked+.labInitials {
         background-color: #3485cf;
     }
+    
+    #txtName {
+        text-transform: capitalize;
+    }
 </style>
 <script src="cookies.js"></script>
 
 <body>
     <header>Agenda</header>
-    <div id="divFormulario">
-        <form name="miFormulario">
+    <div class="divForm">
+        <form name="formDiary">
             <fieldset>
                 <legend>Datos de Agenda</legend>
-                <form>
-                    <label for="formulario">ID</label><br>
-                    <input type="text" id="ID" name="ID" readonly="readonly" />
-                </form>
-                <form>
-                    <label for="formulario">Nombre</label><br>
-                    <input type="text" id="Nombre" name="Nombre" />
-                </form>
-                <form>
-                    <label for="formulario">Correo</label><br>
-                    <input type="text" id="Correo" name="Correo" />
-                </form>
-                <form>
-                    <label for="formulario">Tlf</label><br>
-                    <input type="text" id="Tlf" name="Tlf" />
-                </form>
-                <input type="button" id="butEnviar" value="Enviar" />
-                <input type="button" id="butModificar" value="Modificar" />
+                <label for="txtID">ID</label><br>
+                <input type="text" id="txtID" name="txtID" readonly="readonly" />
+                <label for="txtName">Nombre</label><br>
+                <input type="text" id="txtName" oninput="buttonControl()" name="txtName" />
+                <label for="txtMail">Correo</label><br>
+                <input type="email" id="txtMail" name="txtMail" />
+                <label for="txtTlf">Tlf</label><br>
+                <input type="tel" id="txtTlf" name="txtTlf" />
+                <input type="button" id="butAdd" value="Agregar Contacto" />
+                <input type="button" id="butModify" value="Modificar Contacto" />
             </fieldset>
-
-
         </form>
     </div>
     <div id="divInitials"></div>
-    <div id="divDatos">
-
+    <div id="divData">
     </div>
-
 </body>
 <script>
     var ID;
-    var agenda = {};
-    var prueba = [];
-    var aIniciales = {};
-    var ismael = {};
-    window.onload = () => {
+    var aDiary = {};
+    var aAuxNames = [];
+    var aInitials = {};
+    var aAuxDiary = {};
+    window.onload = function () {
+        disableButtonModify();
+        disableButtonAdd();
         if (docCookies.hasItem('agendaID')) {
             ID = JSON.parse(docCookies.getItem('agendaID'));
             ID++;
         }
         if (localStorage.getItem('agenda') != null) {
-            agenda = JSON.parse(localStorage.getItem("agenda", JSON.stringify(agenda), Infinity));
-            ID = Object.keys(agenda).length;
+            aDiary = JSON.parse(localStorage.getItem("agenda", JSON.stringify(aDiary), Infinity));
+            ID = Object.keys(aDiary).length;
             ID++;
-            ordenarNombres();
-            obteneriniciales();
-            show();
+            orderNames();
+            getInitials();
+            checkDiaryLength();
         } else {
             ID = 1;
         }
-
-        window.document.getElementById('ID').value = ID;
+        window.document.getElementById('txtID').value = ID;
     }
-
-    function callObjectAge() {
-        agenda[ID] = Object.create(Object.prototype);
-        agenda[ID].nombre = window.document.getElementById('Nombre').value;
-        agenda[ID].correo = window.document.getElementById('Correo').value;
-        agenda[ID].tlf = window.document.getElementById('Tlf').value;
-        localStorage.setItem("agenda", JSON.stringify(agenda), Infinity);
+    butAdd.addEventListener("click", function () {
+        generateObjectDiary();
+        disableButtonAdd();
+    });
+    butModify.addEventListener("click", function () {
+        ID = window.document.getElementById('txtID').value;
+        generateObjectDiary();
+        disableButtonModify();
+        disableButtonAdd();
+    });
+    function generateObjectDiary() {
+        aDiary[ID] = Object.create(Object.prototype);
+        aDiary[ID].nombre = window.document.getElementById('txtName').value;
+        aDiary[ID].correo = window.document.getElementById('txtMail').value;
+        aDiary[ID].tlf = window.document.getElementById('txtTlf').value;
+        localStorage.setItem("agenda", JSON.stringify(aDiary), Infinity);
         docCookies.setItem('agendaID', JSON.stringify(ID), Infinity);
-        ordenarNombres();
-        obteneriniciales();
-        mostrar();
-        show();
+        orderNames();
+        getInitials();
+        showDiary();
+        checkDiaryLength();
         clear();
-        window.document.getElementById('ID').value = ID;
+        window.document.getElementById('txtID').value = ID;
     }
-    butEnviar.addEventListener("click", function () {
-        callObjectAge();
-
-    });
-    butModificar.addEventListener("click", function () {
-
-        ID = window.document.getElementById('ID').value;
-        callObjectAge();
-
-    });
-
-    function clear() {
-        window.document.getElementById('Correo').value = "";
-        window.document.getElementById('Tlf').value = "";
-        window.document.getElementById('Nombre').value = "";
-
-    }
-
-    function ordenarNombres() {
-        prueba = [];
-        for (k in agenda) {
-            prueba.push(agenda[k].nombre);
+    function orderNames() {
+        aAuxNames = [];
+        for (k in aDiary) {
+            aAuxNames.push(aDiary[k].nombre);
         }
-        prueba.sort();
+        aAuxNames.sort();
     }
-
-    function mostrar() {
+    function getInitials() {
+        aInitials = [];
+        for (k in aAuxNames) {
+            var initial = aAuxNames[k].toUpperCase().charAt();
+            if (!aInitials[initial]) {
+                aInitials[initial] = 1;
+            }
+        }
+    }
+    function showDiary() {
         var html = "<div><div>nombre</div><div>correo</div><div>telefono</div></div>";
-        for (h in prueba) {
-            for (k in ismael) {
-                if (ismael[k].nombre === prueba[h]) {
-
-                    html += '<div><div class="divChecked" onClick="modificarDatos(this.id)" id="' + k + '">' + ismael[k]
+        for (h in aAuxNames) {
+            for (k in aAuxDiary) {
+                if (aAuxDiary[k].nombre === aAuxNames[h]) {
+                    html += '<div><div class="divChecked" onClick="modifyData(this.id)" id="' + k + '">' + aAuxDiary[k]
                         .nombre +
-                        '</div><div>' + ismael[k].correo + '</div><div>' + ismael[k].tlf + '</div></div>';
+                        '</div><div>' + aAuxDiary[k].correo + '</div><div>' + aAuxDiary[k].tlf + '</div></div>';
                 }
             }
         }
-
-        window.document.getElementById('divDatos').innerHTML = html;
+        window.document.getElementById('divData').innerHTML = html;
     }
-
-    function show() {
-        var longitud = Object.keys(agenda).length;
-        /*  (longitud < 10) ? mostrar() : crearTabs();*/
-        if (longitud < 10) {
-            ismael = {};
-            ismael = agenda;
-            mostrar();
+    function modifyData(id) {
+        disableButtonAdd();
+        butModify.disabled = false;
+        butModify.style.opacity = 1;
+        butModify.style.cursor = "pointer";
+        window.document.getElementById("txtID").value = id;
+        window.document.getElementById("txtName").value = aDiary[id].nombre;
+        window.document.getElementById("txtMail").value = aDiary[id].correo;
+        window.document.getElementById("txtTlf").value = aDiary[id].tlf;
+    }
+    function checkDiaryLength() {
+        var length = Object.keys(aDiary).length;
+        if (length < 10) {
+            aAuxDiary = {};
+            aAuxDiary = aDiary;
+            showDiary();
         } else {
-            crearTabs();
-            mostrar();
+            createTabs();
+            showDiary();
         }
-        ID = longitud + 1;
-        window.document.getElementById('ID').value = ID;
+        ID = ++length;
+        window.document.getElementById('txtID').value = ID;
     }
-
-    function obteneriniciales() {
-        aIniciales = [];
-        for (k in prueba) {
-            var inicial = prueba[k].toUpperCase().charAt();
-            if (!aIniciales[inicial]) {
-                aIniciales[inicial] = 1;
-            }
-        }
-
-
+    function clear() {
+        window.document.getElementById('txtMail').value = "";
+        window.document.getElementById('txtTlf').value = "";
+        window.document.getElementById('txtName').value = "";
     }
-
-    function crearTabs() {
+    function createTabs() {
+        let key;
         html = "";
-        let ramses;
         html += '<div class="divRadio">';
         control = false;
-        for (k in aIniciales) {
+        for (k in aInitials) {
             html += '<input onClick="changeInitial(this.value)" type="radio" name="submenu" id=' + k + ' value="' + k +
                 '"><label class="labInitials" for="' + k + '">' + k + '</label>';
             if (!control) {
-                ramses = k;
+                key = k;
                 control = true;
             }
         }
         html += '</div>';
         window.document.getElementById('divInitials').innerHTML = html;
-        window.document.getElementById(ramses).checked = true;
-        random(ramses);
+        window.document.getElementById(key).checked = true;
+        addElementsDiary(key);
     }
-
-    function random(value) {
-        ismael = {};
-        for (k in agenda) {
-            if (agenda[k].nombre.charAt(0).toUpperCase() === value) {
-                ismael[k] = Object.create(Object.prototype);
-                ismael[k].nombre = agenda[k].nombre;
-                ismael[k].correo = agenda[k].correo;
-                ismael[k].tlf = agenda[k].tlf;
+    function changeInitial(value) {
+        window.document.getElementById('divData').innerHTML = "";
+        addElementsDiary(value);
+        showDiary();
+    }
+    function addElementsDiary(key) {
+        aAuxDiary = {};
+        for (k in aDiary) {
+            if (aDiary[k].nombre.charAt(0).toUpperCase() === key) {
+                aAuxDiary[k] = Object.create(Object.prototype);
+                aAuxDiary[k].nombre = aDiary[k].nombre;
+                aAuxDiary[k].correo = aDiary[k].correo;
+                aAuxDiary[k].tlf = aDiary[k].tlf;
             }
         }
     }
-
-    function changeInitial(value) {
-        window.document.getElementById('divDatos').innerHTML = "";
-        random(value);
-        mostrar();
+    function buttonControl() {
+        if (window.document.getElementById('txtName').value == '' || butModify.disabled == false) {
+            disableButtonAdd();
+        } else {
+            butAdd.disabled = false;
+            butAdd.style.opacity = 1;
+            butAdd.style.cursor = "pointer";
+        }
     }
-
-    function modificarDatos(id) {
-        window.document.getElementById("ID").value = id;
-        window.document.getElementById("Nombre").value = agenda[id].nombre;
-        window.document.getElementById("Correo").value = agenda[id].correo;
-        window.document.getElementById("Tlf").value = agenda[id].tlf;
+    function disableButtonModify() {
+        butModify.disabled = true;
+        butModify.style.opacity = 0.5;
+        butModify.style.cursor = "not-allowed";
+    }
+    function disableButtonAdd() {
+        butAdd.disabled = true;
+        butAdd.style.opacity = 0.5;
+        butAdd.style.cursor = "not-allowed";
     }
 </script>
 
