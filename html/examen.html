@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapa</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                width:70%;
+                height: 100%;
+                float: left;
+            }
+            #har {
+                width:30%;
+                height: 100%;
+                background-color: red;
+                float: right;
+            }
+        </style>
+         <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBpVE5tzyYNje-SDptsGd57OZh6-URghV0" ></script>
+  
+    </head>
+    <body>
+        <div id="map"></div>
+        <div id="har"><div id="pos"></div></div>
+        <script>
+            var map, lat, lon, marker, status;
+            
+                var geocoder = new google.maps.Geocoder;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 36.057, lng: -3.559},
+                    zoom: 8
+                });
+                google.maps.event.addListener(map, 'click', function (event) {
+                    lat = event.latLng.lat();
+                    lon = event.latLng.lng();
+                    var myLatlng = new google.maps.LatLng(lat, lon);
+                    document.getElementById("pos").innerHTML = lat + "," + lon;
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+                    marker = new google.maps.Marker({
+                        position: myLatlng,
+                        title: "Posición actual"
+                    });
+                    geocoder.geocode({'location': myLatlng}, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            console.log('tierra');
+                        } else {
+                            marker.setMap(map);
+                            console.log('mar');
+                        }
+                    });
+                });
+            
+        </script>
+         </body>
+</html>

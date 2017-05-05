@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>agenda</title>
+</head>
+<style>
+    body{
+    color: #337ab7;
+    text-align: center;
+     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+       
+    }
+    header{
+        margin-top: 40px;
+        font-size: 50px;
+    }
+    #divFormulario{
+        margin-top:50px;
+        margin-left: 150px;
+        font-size:24px;
+        float: left;
+       
+
+    }
+    fieldset{
+        text-align: left;
+        width: 20%;
+    }
+    label{
+        color:black;
+        text-align: center;
+    }
+    input{
+        text-align: center;
+        color: black;
+    }
+    input[type="button"]{
+        margin-top: 15px;
+
+    }
+    #divDatos{
+        margin-top: 50px;
+        margin-right: 100px;
+        float:right;
+        
+    }
+    .divMostrar{
+        margin-bottom: 5px;
+        font-size: 24px;
+        color:black;
+    }
+    spam{
+        color:#337ab7;
+    }
+    
+</style>
+<body>
+<header>Agenda</header>
+<div id="divFormulario">
+    <form name="miFormulario">
+        <fieldset>
+            <legend>Datos de Agenda</legend>
+        <form>
+        <label for="formulario">ID</label><br>
+        <input type="text" id="ID" name="ID"/>
+        </form>
+        <form>
+        <label for="formulario">Nombre</label><br>
+        <input type="text" id="Nombre" name="Nombre"/>
+        </form>
+        <form>
+        <label for="formulario">Correo</label><br>
+        <input type="text" id="Correo" name="Correo"/>
+        </form>
+        <form>
+        <label for="formulario">Tlf</label><br>
+        <input type="text" id="Tlf" name="Tlf"/>
+        </form>
+        <input type="button" id="butEnviar" value="Enviar"/>
+        </fieldset>
+        
+        
+        </form></div>
+        <div id="divDatos"></div>
+</body>
+<script>
+var agenda={};
+window.onload = function(){
+    if(localStorage.getItem('agenda') != null){
+        agenda=JSON.parse(localStorage.getItem("agenda",JSON.stringify(agenda),Infinity));
+        var html="";
+        html+='<div>';
+        for(k in agenda){
+            html+='<div class="divMostrar"><spam>ID: </spam>'+k +'<spam>  Nombre: </spam>' +agenda[k].nombre+'<spam>  Correo: </spam>'+agenda[k].correo + '<spam>  Tlf: </spam>'+agenda[k].tlf+'</div>';
+            
+        }
+        html+='</div>';
+        window.document.getElementById('divDatos').innerHTML = html;
+        
+    }else{
+        agenda={};
+    }
+
+}
+butEnviar.addEventListener("click", function(){
+               ID = window.document.getElementById('ID').value;
+                agenda[ID] = Object.create(Object.prototype);
+                        agenda[ID].nombre= window.document.getElementById('Nombre').value;
+                        agenda[ID].correo = window.document.getElementById('Correo').value;
+                        agenda[ID].tlf= window.document.getElementById('Tlf').value;
+                        localStorage.setItem("agenda",JSON.stringify(agenda),Infinity);
+});
+</script>
+</html>

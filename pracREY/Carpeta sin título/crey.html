@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CRey</title>
+    <style>
+        header {
+            height: 15%;
+            font-size: 32px;
+            text-align: center;
+            margin-top: 2%;
+            margin-bottom: 5%;
+        }
+        
+        #divReserva {
+            width: 50%;
+            float: left;
+        }
+        
+        #divResultado {
+            width: 50%;
+            float: left;
+        }
+        
+        form {
+            width: 50%;
+            margin: auto;
+        }
+        
+        #divMostrar {
+            text-align: center;
+            font-size: 24px;
+            width: 100%;
+        }
+        
+        #divOpciones {
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            margin-top:15px;
+        }
+        
+        .divCell {
+            display: table-cell;
+            width: 3%;
+            color: black;
+        }
+        
+        .divHead {
+            font-size: 1em;
+            font-weight: bold;
+            color: #387bff;
+            
+        }
+        
+        .divRow {
+            display: table-row;
+        }
+       legend{
+           font-size: 36px;
+       }
+       fieldset{
+           margin: auto;
+       }
+       input[type="button"]{
+           margin-top:4px;
+       }
+       #divCabecera{
+           font-size: 36px;
+           color:#387bff;
+       }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="../js/ajaxCG.js"></script>
+    
+
+</head>
+
+<body>
+    <header>Caminito del Rey</header>
+    <div id="divReserva">
+        <form name="formDiary">
+            <fieldset>
+                <legend>Datos de Reserva</legend>
+                <label for="txtID">Agencia</label><br>
+                <input type="text" id="txtID" list="divDesplegable" />
+                <datalist id="divDesplegable"></datalist>
+                </br>
+                <label for="txtFecha">Fecha</label><br>
+                <input type="text" id="txtFecha" name="txtFecha" onchange="crearHoras()" /></br>
+                <label for="txtHoras">Horas</label><br>
+                <input type="text" id="txtHoras" name="txtHoras" list="divDesplegableHoras" />
+                <datalist id="divDesplegableHoras"></datalist>
+                </br>
+                <label for="txtPlazas">Plazas</label><br>
+                <input type="text" id="txtPlazas" name="txtPlazas" /><br>
+                <input type="button" id="butAdd" value="Reservar" onclick="realizarReserva()" />
+            </fieldset>
+        </form>
+    </div>
+    <div id="divResultado">
+        <div id="divMostrar"></div>
+        <div id="divOpciones"></div>
+    </div>
+</body>
+<script>
+    var idAgendia = ["500","501", "505","520", "565", "757"];
+
+    window.onload = function () {
+        let html = "";
+        for (let i = 0; i < idAgendia.length; i++) {
+            html += '<option value="' + idAgendia[i] + '" text="' + idAgendia[i] + '">';
+        }
+        readXML();
+        window.document.getElementById('divDesplegable').innerHTML = html;
+
+    }
+    function asignacionFechas(fechamax, fechamin) {
+
+        $("#txtFecha").datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: fechamin,
+            maxDate: fechamax,
+            beforeShowDay: function (day) {
+                var day = day.getDay();
+                if (day == 1) {
+                    return [false, "somecssclass"]
+                } else {
+                    return [true, "someothercssclass"]
+                }
+            }
+        });
+
+    }
+
+    function crearHoras() {
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: { informacion: "horas", fecha: txtFecha.value },
+            parse: true
+        }).then((data) => {
+            console.log(data);
+            let html = "";
+            for (let i = 0; i < data.length; i++) {
+                html += '<option value="' + data[i] + '" text="' + data[i] + '">';
+            }
+            window.document.getElementById('divDesplegableHoras').innerHTML = html;
+        }).catch((error) => {
+            console.log("error");
+        });
+
+    }
+    function readXML() {
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: { informacion: "leer" },
+            parse: true
+        }).then((data) => {
+            let fechamax=data.fechamax;
+            let fechamin = data.fechamin;
+            asignacionFechas(fechamax, fechamin);
+        }).catch((error) => {
+            console.log("error");
+        });
+    }
+    function realizarReserva() {
+        let idAgencia=txtID.value;
+        let fecha= txtFecha.value;
+        let vhoras = txtHoras.value;
+        let plazas= txtPlazas.value;
+        if(idAgencia!="" && fecha!="" && vhoras!="" && plazas!=""){
+            window.document.getElementById('divOpciones').innerHTML="";
+       
+        vhoras = vhoras.substring(0, 2) + "" + vhoras.substring(3, 5);
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: {
+                informacion: "reserva",
+                idAgencia: idAgencia,
+                fecha: fecha,
+                hora: vhoras,
+                plazas: plazas
+            },
+            parse: true
+        }).then((data) => {
+            let html = data.mensaje;
+            window.document.getElementById('divMostrar').innerHTML = html;
+            if (data.status == "KO") {
+                let reservaOpciones = data.reservaOpciones;
+                mostrarResultados(reservaOpciones);
+
+            }
+            // mostrarResultados(data);
+
+        }).catch((error) => {
+            console.log("error");
+        });
+        }else{
+            window.document.getElementById('divMostrar').innerHTML="Rellene todos los campos";
+        }
+        
+    }
+    function mostrarResultados(data) {
+         var html = "<div class='divHead'><div class='divCell' id='divCabecera'>Fecha</div><div class='divCell' id='divCabecera'>Hora</div><div class='divCell' id='divCabecera'>Plazas</div>";
+  
+          for (k in data) {
+              let fechaOpcion = k.substring(0, 4) + "-" + k.substring(4, 6) + "-" + k.substring(6, 8);
+  
+              html += '<div class="divRow" id="' + fechaOpcion + '" onclick="rellenar(this.id)">';
+              html += '<div class="divCell">' + fechaOpcion + '</div>';
+              html += '<div class="divCell">' + txtHoras.value + '</div>';
+              html += '<div class="divCell">' + data[k] + '</div>';
+              html += '</div>';
+          }
+          html += '</div>';
+
+
+
+        window.document.getElementById('divOpciones').innerHTML = html;
+    }
+    function rellenar(id) {
+        
+        window.document.getElementById('txtFecha').value = id;
+    }
+
+</script>
+
+</html>

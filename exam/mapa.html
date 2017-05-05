@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mapa</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 1%;
+            padding: 0;
+        }
+        
+        #headerBody {
+            margin: 0%;
+            width: 40%;
+            height: 6%;
+            font-size: 50px;
+            margin: auto;
+            color: #337ab7;
+            text-align: center;
+            margin-bottom: 5%;
+        }
+        
+        #map {
+            width: 68%;
+            height: 80%;
+            float: left;
+            border: 3px double black;
+        }
+        
+        #har {
+            width: 30%;
+            height: 70%;
+            float: right;
+        }
+        
+        #divDesplegado {
+            width: 100%;
+            height: 100%;
+            float: right;
+        }
+        
+        #headerPuertos {
+            text-align: center;
+        }
+        
+        h2 {
+            color: #337ab7;
+            text-align: center;
+            font-size: 36px;
+        }
+        
+        .divDistancia {
+            float: right;
+            width: 35%;
+        }
+        
+        #disbusqueda {
+            text-align: center;
+            float: left;
+            width: 60%;
+            height: 12%;
+            border-radius: 25px;
+            font-size: 25px;
+        }
+        
+        input[type="button"] {
+            background: #3498db;
+            background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+            background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+            background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+            background-image: -o-linear-gradient(top, #3498db, #2980b9);
+            background-image: linear-gradient(to bottom, #3498db, #2980b9);
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            color: #ffffff;
+            font-size: 28px;
+            padding: 11px 11px 11px 11px;
+            border: solid #138ad4 2px;
+            border-radius: 10px;
+            text-decoration: none;
+            float: right;
+            cursor: pointer;
+        }
+        
+        input[type="button"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="headerBody">Puertos Del Mundo</header>
+    <div id="map"></div>
+    <div id="headerPuertos"></div>
+    <div id="har">
+        <h2>Distancia</h2><br><input type="text" id="disbusqueda" oninput="validarboton()"><input type="button" id="botondistancia"
+            onclick="cambiarDistancia()" value="Cambiar" disabled/></div>
+    <script>
+                     var map, lat, lon, marker, status;
+                     var aPuertos = {};
+                     var aPuertosCercano = {};
+                     var aCountryCodes = {};
+                     var aDepthCode = {};
+                     var aRepairsCode = {};
+                     var aWPIRegion = {};
+                     var aDock = {};
+                     var aMax = {};
+                     var aHarbor = {};
+                     var aShelter = {};
+                     var distanciaSeleccionar = 500;
+                     var propiedades = [];
+                     var aPuertosParaMostrar = [];
+                     var aDistancia = [];
+                     var aGmarker2={};
+                     var aArrays = [aPuertos, aCountryCodes, aDepthCode, aWPIRegion, aDock, aRepairsCode, aHarbor, aMax, aShelter];
+                     var aXML = ["WpiData.xml", "CountryCodes.xml", "DepthCode.xml", "WPIRegion.xml", "DryDockMarineRailwayCode.xml", "RepairsCode.xml", "HarborSize.xml", "MaximumSizeVessel.xml", "ShelterAfforded.xml"];
+                     window.onload = function () {
+                         for (let j = 0; j < aXML.length; j++) {
+                             let xmlhttp = new XMLHttpRequest();
+                             xmlhttp.open('GET', aXML[j], false)
+                             xmlhttp.send();
+                             xmlDoc = xmlhttp.responseXML;
+                             let nodos = {};
+                             nodos = xmlDoc.evaluate("//Row", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                             let thisNode = nodos.iterateNext();
+                             while (thisNode) {
+                                 let pos = thisNode.children[0].textContent;
+                                 aArrays[j][pos] = Object.create(Object.prototype);
+                                 for (let i = 0; i < thisNode.children.length; i++) {
+                                     aArrays[j][pos][thisNode.children[i].nodeName] = thisNode.children[
+                                         i].textContent;
+                                 }
+                                 thisNode = nodos.iterateNext();
+                             }
+                         }
+
+                      }
+                     function initMap() {
+                         var geocoder = new google.maps.Geocoder;
+                         map = new google.maps.Map(document.getElementById('map'), {
+                             center: { lat: 36.057, lng: -3.559 },
+                             zoom: 8
+                         });
+                         google.maps.event.addListener(map, 'click', function (event) {
+                             lat = event.latLng.lat();
+                             lon = event.latLng.lng();
+                             var myLatlng = new google.maps.LatLng(lat, lon);
+                             // document.getElementById("pos").innerHTML = lat + "," + lon;
+                             if (marker) {
+                                 marker.setMap(null);
+                             }
+
+                             marker = new google.maps.Marker({
+                                 position: myLatlng,
+                                 title: "Posición actual"
+                             });
+                             geocoder.geocode({ 'location': myLatlng }, function (results, status) {
+                                 if (status === google.maps.GeocoderStatus.OK) {
+
+                                 } else {
+                                     marker.setMap(map);
+                                     puertosCercanos();
+
+
+                                 }
+                             });
+                         });
+                      }
+                     function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+                         var R = 6371; // Radius of the earth in km
+                         var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+                         var dLon = deg2rad(lon2 - lon1);
+                         var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                         var d = R * c; // Distance in km
+                         return d;
+                      }
+                     function puertosCercanos() {
+                         aPuertosCercanos = {};
+                         let tamaño = Object.keys(aPuertos).length;
+
+                         for (k in aPuertos) {
+                             latpuerto = transformacionGradosLatitud(aPuertos[k].Latitude_degrees, aPuertos[k].Latitude_minutes, aPuertos[k].Latitude_hemisphere);
+                             lonpuerto = transformacionGradosLongitud(aPuertos[k].Longitude_degrees, aPuertos[k].Longitude_minutes, aPuertos[k].Longitude_hemisphere);
+                             distancia = getDistanceFromLatLonInKm(lat, lon, parseFloat(latpuerto), parseFloat(lonpuerto));
+                             if (distancia < distanciaSeleccionar) {
+                                 aPuertosCercanos[k] = Object.create(Object.prototype);
+                                 aPuertosCercanos[k] = aPuertos[k];
+                                 aPuertosParaMostrar.push(aPuertos[k].Main_port_name);
+                                 aPuertosCercanos[k].Distancia = parseInt(distancia) + " Km";
+                                 aDistancia.push(distancia);
+
+                             }
+                         }
+
+                         pintarPuertos();
+                         mostrarContenido();
+                      }
+                     function transformarLat(latgrado, latminutos) {
+                         latpunto = parseFloat(latgrado) + (parseFloat(latminutos) / 60);
+                         return latpunto;
+                      }
+                     function transformarLon(longrado, lonminutos) {
+                         lonpunto = parseFloat(longrado) + (parseFloat(lonminutos) / 60);
+                         return lonpunto;
+                      }
+                     function deg2rad(deg) {
+                         return deg * (Math.PI / 180)
+                      }
+                     function pintarPuertos() {
+                         let tamaño = Object.keys(aPuertosCercanos).length;
+                         if (Object.keys(aGmarker2).length>0) {
+                                for(var i=0;i<Object.keys(aGmarker2).length;i++){
+                                    aGmarker2[i].gMarker2.setMap(null);
+                                }
+                             }
+                             aGmarker2={};
+                         for (k in aPuertosCercanos) {
+                             latpuerto = transformacionGradosLatitud(aPuertosCercanos[k].Latitude_degrees, aPuertosCercanos[k].Latitude_minutes, aPuertosCercanos[k].Latitude_hemisphere);
+                             lonpuerto = transformacionGradosLongitud(aPuertosCercanos[k].Longitude_degrees, aPuertosCercanos[k].Longitude_minutes, aPuertosCercanos[k].Longitude_hemisphere);
+                             var LatLon2 = new google.maps.LatLng(latpuerto, lonpuerto);
+                             var objConfigMarker2 = {
+                                 position: LatLon2,
+                                 map: map,
+                                 title: aPuertosCercanos[k].Main_port_name + ' a ' + aPuertosCercanos[k].Distancia + ' km',
+                                 icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+
+                             }
+                        var gMarker2 = new google.maps.Marker(objConfigMarker2);
+                        var lonGmar = Object.keys(aGmarker2).length;
+                         aGmarker2[lonGmar]=Object.create(Object.prototype);
+                         aGmarker2[lonGmar].gMarker2=gMarker2;
+                         aGmarker2[lonGmar].latlon=LatLon2;
+                        
+                        
+                         }
+                         
+
+                      }
+                     function mostrarContenido() {
+                         var divhar = window.document.getElementById('har');
+                         divhar.style.overflowY = "scroll";
+                         var html = "";
+                         var html2 = '<div><h2>Puertos Cercanos</h2></div>';
+                         ordenar(aPuertosParaMostrar, aDistancia);
+                         for (j in aPuertosParaMostrar) {
+
+                             for (k in aPuertosCercanos) {
+                                 if (aPuertosParaMostrar[j] === aPuertosCercanos[k].Main_port_name) {
+                                     html += '<div class="divRow" id="' + k + '" onclick=desplegar(this.id)>' + aPuertosCercanos[k].Main_port_name + '<div class="divDistancia" id="' + k + '" onclick=desplegar(this.id)>A ' + aPuertosCercanos[k].Distancia + '</div></div>';
+                                 }
+
+                             }
+                         }
+
+                         window.document.getElementById('headerPuertos').innerHTML = html2;
+                         divhar.innerHTML = html;
+                      }
+                     function desplegar(id) {
+                         var html = '<div onclick=mostrarContenido()>';
+                         for (i in aPuertosCercanos[id]) {
+                             switch (i) {
+                                 case "Wpi_country_code":  html += '<div class="divRow">' + i + ": " + aCountryCodes[aPuertosCercanos[id][i]].Country_x0020_Name + '</div>';
+                                     break;
+                                 case "Channel_depth": html += '<div class="divRow">' + i + ": " + aDepthCode[aPuertosCercanos[id][i]].Meters + '</div>';
+                                     break;
+                                 case "Anchorage_depth":
+                                             html += '<div class="divRow">' + i + ": " + aDepthCode[aPuertosCercanos[id][i]].Meters + '</div>';
+                                     break;
+                                 case "Cargo_pier_depth":html += '<div class="divRow">' + i + ": " + aDepthCode[aPuertosCercanos[id][i]].Meters + '</div>'; break;
+                                 case "Oil_terminal_depth":html += '<div class="divRow">' + i + ": " + aDepthCode[aPuertosCercanos[id][i]].Meters + '</div>';
+                                break;
+                                 case "Drydock": html += '<div class="divRow">' + i + ": " + aDock[aPuertosCercanos[id][i]].Drydock_x002f_Marine_x0020_Railway_x0020_Code_x0020_Description + '</div>';break;
+                                 case "Harbor_size_code":
+                                         html += '<div class="divRow">' + i + ": " + aHarbor[aPuertosCercanos[id][i]].Harbor_x0020_Size + '</div>';
+                                 break;
+                                 case "Maxsize_vessel_code":html += '<div class="divRow">' + i + ": " + aMax[aPuertosCercanos[id][i]].Maximum_x0020_Size_x0020_Vessel_x0020_Description + '</div>';
+                                  break;
+                                 case "Repair_code":html += '<div class="divRow">' + i + ": " + aRepairsCode[aPuertosCercanos[id][i]].Repairs_x0020_Code_x0020_Description + '</div>';
+                                     break;
+                                 case "Shelter_afforded_code":html += '<div class="divRow">' + i + ": " + aShelter[aPuertosCercanos[id][i]].Shelter_x0020_Afforded_x0020_Description + '</div>';
+                                     break;
+                                 case "Region_index":
+                                 for(k in aWPIRegion){
+                                     if(i == aWPIRegion[k].World_port_index_number)html += '<div class="divRow">' + i + ": " + aWPIRegion[k].Area_name + '</div>';}
+                                     break;
+                                 default: if (aPuertosCercanos[id][i] != "")
+                                     html += '<div class="divRow">' + i + ": " + aPuertosCercanos[id][i] + '</div>';
+                             }
+                         }
+                         html += '</div>';
+                         window.document.getElementById('har').innerHTML = html;
+                      }
+                     function transformacionGradosLatitud(latGrados, latMin, letraLat) {
+                         latgrado = parseFloat(latGrados);
+                         latminutos = parseFloat(latMin);
+                         latpuerto = transformarLat(latgrado, latminutos);
+                         if (letraLat === 'S') {
+                             latpuerto = -latpuerto;
+                         }
+                         return latpuerto;
+                      }
+                     function transformacionGradosLongitud(lonGra, lonMin, letraLon) {
+
+                         longrado = parseFloat(lonGra);
+                         lonminutos = parseFloat(lonMin);
+                         lonpuerto = transformarLon(longrado, lonminutos);
+                         if (letraLon === 'W') {
+                             lonpuerto = -lonpuerto;
+                         }
+                         return lonpuerto;
+                      }
+
+                     function cambiarDistancia() {
+                         distanciaSeleccionar = window.document.getElementById('disbusqueda').value;
+                         window.document.getElementById('disbusqueda').value = "";
+                      }
+                     function validarboton() {
+                         if (!isNaN(window.document.getElementById('disbusqueda').value) && window.document.getElementById('disbusqueda').value != "") {
+
+                             window.document.getElementById('botondistancia').disabled = false;
+
+                         } else {
+                             window.document.getElementById('botondistancia').disabled = true;
+                             
+                         }
+
+                      }
+                     function ordenar(aPuertosParaMostrar, aDistancia) {
+                         for (var i = 1; i < aDistancia.length; i++) {
+                             for (var j = 0; j < (aDistancia.length - i); j++) {
+                                 if (aDistancia[j] > aDistancia[j + 1]) {
+                                     k = aPuertosParaMostrar[j + 1];
+                                     aPuertosParaMostrar[j + 1] = aPuertosParaMostrar[j];
+                                     aPuertosParaMostrar[j] = k;
+                                     h = aDistancia[j + 1];
+                                     aDistancia[j + 1] = aDistancia[j];
+                                     aDistancia[j] = h;
+
+                                 }
+                             }
+                         }
+
+                      }
+                      
+                      
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTfrjlwEZXvjqyb2KqkUUq32b0bAO_fno&callback=initMap" async
+        defer></script>
+</body>
+
+</html>

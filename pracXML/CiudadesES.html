@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CiudadesESP</title>
+    <style>
+    body{
+        background-image: url("http://www.leroymerlin.es/img/r25/26/2601/260109/13117405/13117405_z3.jpg");
+   
+    }
+    #divHeader{
+        margin-left: 40%;
+        width: 20%;
+        height: 10%;
+        text-align: center;
+        background: white;
+        border: 2px solid black;
+        
+    }
+    #divPueblosPatron{
+        margin: 15px;
+        width: 47%;
+        height: 500px;
+        display: inline-block;
+        border: 2px solid black;
+        border-radius: 25px;
+        position: relative;
+        background: white;
+    }
+    .divSelector{
+
+        margin: 15% 15% 0% 15%;
+        width: 70%;
+        height: 35%;
+    }
+    #divPueblosCercanos{
+        margin:15px;
+        width: 47%;
+        height: 500px;
+        display:inline-block;
+        position:absolute;
+        border: 2px solid black;
+        border-radius: 25px;
+        background: white;
+    }
+    #mostrarPatron,#mostrarCercanos{
+        margin:5% 15% 15% 15%;
+        width: 70%;
+        height: 200px;
+        display:inline-block;
+        position:relative;
+       
+       
+    }
+    #mostrarCercanos{
+        margin-top:3.2%;
+    }
+    #butPueblosCercanos,#butBuscador{
+        width: 80px;
+        height: 25px;
+        cursor: pointer;
+       
+    }
+    .divRow:nth-child(odd) {
+        background-color:blue;
+        color: white;
+
+    }
+    .divRow:nth-child(even) {
+        background-color:white;
+        color: black;
+    }
+    .divRow2:nth-child(odd) {
+         background-color:blue;
+        color: white;
+
+    }
+    .divRow2:nth-child(even) {
+       background-color:white;
+        color: black;
+    }
+    #divMapa{
+        width: 500px;
+        height: 500px;
+        margin:auto;
+        border:2px solid black;
+        border-radius:25px;
+        display:none;
+    }
+    input[type=text]{
+        margin:auto;
+    }
+    </style>
+      
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0kddntadxzaHZVCRsP1_B6BfSbu-UT9o"></script>
+   </head>
+<body>
+    <div id="divHeader">Pueblos de España</div>
+    <div id="divPueblosPatron">
+        <form name="Pueblos">
+            <div class="divSelector Pueblos">
+                 <label for="txtPueblos">Introduce Patron
+                    <input type="text" id="idPatron"/>
+                    <input type="button" id="butBuscador" value="Buscar" onclick="buscarPueblos()"/>
+                </label>
+            </div>
+            <div id="mostrarPatron"></div>
+        </form>
+    </div>
+    <div id="divPueblosCercanos">
+        <form name="PueblosSeleccionado">
+            <div class="divSelector Pueblos">
+                <label for="txtPueblosSeleccionado">Pueblo
+                    <input type="text" id="idPuebloSeleccionado"></label>
+                <label for="txtDistancia"><br>Distancia(Km)
+                    <input type="text" id="idDistancia"/>
+                    <input type="button" id="butPueblosCercanos" onclick="pueblosCercanos()" value="Ir"/></label>
+                </label>
+            </div>
+            <div id="mostrarCercanos"></div>
+        </form>
+    </div>
+    <div id="divMapa"></div>
+</body>
+<script>
+    var xmlDoc;
+    var pueblosEspaña=[];
+    var lat;
+    var lon;
+    var pueblosTotal=[];
+    var pueblosDistancia=[];
+    var latitudMayor;
+    var latitudMenor;
+    var longitudMayor;
+    var longitudMenor;
+
+    window.onload = function(){
+        let xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', 'CIUDADESSP.xml', false)
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+    }
+    function buscarPueblos(){
+        let patron = window.document.getElementById('idPatron').value;
+        let nodos = {};
+            nodos = xmlDoc.evaluate("//LUGAR[@CIUDAD[starts-with(.,'"+patron+"')]]", xmlDoc, null, XPathResult.ANY_TYPE, null);
+            let thisNode = nodos.iterateNext();
+            while (thisNode) {
+                pueblosEspaña.push({
+                ciudad:thisNode.getAttribute('CIUDAD'),
+                ciudadct:thisNode.getAttribute('CIUDADCT'),
+                latitud:thisNode.getAttribute('LATITUD'),
+                longitud:thisNode.getAttribute('LONGITUD')
+                });
+                thisNode = nodos.iterateNext();
+            }
+         mostrarPueblos();
+    }
+    function mostrarPueblos(){
+        window.document.getElementById('mostrarPatron').style.overflowY ="scroll";
+        html='<div>';
+        for(k in pueblosEspaña){
+            html+='<div class="divRow">';
+            html+='<div class="divCell" id="'+pueblosEspaña[k].ciudadct+'" onclick="seleccionPueblo(this)">'+pueblosEspaña[k].ciudadct+'</div>';
+            html+='</div>';
+        }
+        html+='</div>';
+        window.document.getElementById('mostrarPatron').innerHTML = html;
+   
+    }
+     function seleccionPueblo(elemento){
+        
+        window.document.getElementById('idPuebloSeleccionado').value=elemento.id;
+         
+    }
+    function pueblosCercanos(){
+        window.document.getElementById('mostrarCercanos').style.overflowY ="scroll";
+        window.document.getElementById('divMapa').style.display="block";
+        latlonSeleccionada();
+        latitudMayor=lat+obtenerGradosLatitudDistancia();
+        latitudMenor=lat-obtenerGradosLatitudDistancia();
+        longitudMenor=lon+obtenerGradosLongitudDistancia(lat);
+        longitudMayor=lon-obtenerGradosLongitudDistancia(lat);
+        totalPueblos(latitudMayor,latitudMenor,longitudMayor,longitudMenor);
+       
+    }
+    function latlonSeleccionada(){
+       
+        for(k in pueblosEspaña){
+            if(pueblosEspaña[k].ciudadct==window.document.getElementById('idPuebloSeleccionado').value){
+              lat=pueblosEspaña[k].latitud;
+              lat=parseFloat(lat.replace(",","."));
+              lon=pueblosEspaña[k].longitud;
+              lon=parseFloat(lon.replace(",","."));
+             }
+        }
+        
+    }
+    function obtenerGradosLatitudDistancia(){
+        let distancia = window.document.getElementById('idDistancia').value;
+        let intervaloLatitud = distancia/112;
+        return intervaloLatitud;
+    }
+    function obtenerGradosLongitudDistancia(lat){
+        var latCal=(Math.PI*6371*Math.sin(90-lat))/180;
+        let distancia = window.document.getElementById('idDistancia').value;
+        let intervaloLongitud = distancia/latCal;
+        return intervaloLongitud;
+    }
+     function totalPueblos(lat1,lat2,lon1,lon2){
+        let anodos={};
+        lat1=parseFloat(lat1)
+        lat2=parseFloat(lat2)
+        lon1=parseFloat(lon1)
+        lon2=parseFloat(lon2)
+        anodos = xmlDoc.evaluate("//LUGAR[number(translate(@LATITUD,',','.'))<'"+lat1+"' and number(translate(@LATITUD,',','.'))>'"+lat2+"' and number(translate(@LONGITUD,',','.'))<'"+lon1+"' and number(translate(@LONGITUD,',','.'))>'"+lon2+"']", xmlDoc, null, XPathResult.ANY_TYPE, null);
+            let thisNode = anodos.iterateNext();
+            while (thisNode) {
+                pueblosTotal.push({
+                ciudad:thisNode.getAttribute('CIUDAD'),
+                ciudadct:thisNode.getAttribute('CIUDADCT'),
+                latitud:thisNode.getAttribute('LATITUD'),
+                longitud:thisNode.getAttribute('LONGITUD')
+                });
+               
+                thisNode = anodos.iterateNext();
+            }
+            
+             seleccionPueblosFinal();
+    }
+    function seleccionPueblosFinal(){
+        
+        let distancia = window.document.getElementById('idDistancia').value;
+        let latitu2;
+        let longi2;
+        for(k in pueblosTotal){
+            latitu2 =pueblosTotal[k].latitud;
+            latitu2=parseFloat(latitu2.replace(",","."));
+            longi2=pueblosTotal[k].longitud;
+            longi2=parseFloat(longi2.replace(",","."));
+             if(getDistanceFromLatLonInKm(lat,lon,latitu2,longi2)<distancia){
+                pueblosDistancia.push({
+                    ciudad:pueblosTotal[k].ciudad,
+                    ciudadct:pueblosTotal[k].ciudadct,
+                    latitud:pueblosTotal[k].latitud,
+                    longitud:pueblosTotal[k].longitud
+                })
+            }
+
+        }
+     let html='<div>';
+        for(k in pueblosDistancia){
+            html+='<div class="divRow2">';
+            html+='<div class="divCell2">'+pueblosDistancia[k].ciudadct+'</div>';
+             html+='</div>';
+        }
+        html+='</div>';
+        window.document.getElementById('mostrarCercanos').innerHTML = html;
+        
+        for(k in pueblosEspaña){
+            if(pueblosEspaña[k].ciudadct==window.document.getElementById('idPuebloSeleccionado').value){
+              var  latitu1=pueblosEspaña[k].latitud;
+              latitu1=parseFloat(latitu1.replace(",","."));
+               var longi1=pueblosEspaña[k].longitud;
+                longi1=parseFloat(longi1.replace(",","."));
+                var nombre = pueblosEspaña[k].ciudadct;
+            }
+        }
+
+       dibujarMapa(latitu1,longi1,nombre);
+    }
+    function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(lat2-lat1);  // deg2rad below
+            var dLon = deg2rad(lon2-lon1); 
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c; // Distance in km
+            return d;
+    }
+
+    function deg2rad(deg) {
+            return deg * (Math.PI/180)
+    }
+    function dibujarMapa(lat1,lon1,nombre){
+    
+       console.log(lat1+ "  " + lon1)
+       var NE = new google.maps.LatLng(latitudMayor,longitudMayor);
+       var SW = new google.maps.LatLng(latitudMenor,longitudMenor);
+        var dMapa = document.getElementById('divMapa');
+        
+        var LatLon = new google.maps.LatLng(lat1,lon1);
+        var objConfig = {
+            zoom:10,
+            center:LatLon
+            
+        };
+        
+        var gMapa = new google.maps.Map(dMapa,objConfig);
+        var objConfigMarker = {
+            position:LatLon,
+            map: gMapa,
+            title:nombre
+            
+        };
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(SW);
+        bounds.extend(NE);
+        gMapa.fitBounds(bounds);
+        var gMarker = new google.maps.Marker (objConfigMarker);
+       for(k in pueblosDistancia){
+            let latitu2 =pueblosDistancia[k].latitud;
+            latitu2=parseFloat(latitu2.replace(",","."));
+            let longi2=pueblosDistancia[k].longitud;
+            longi2=parseFloat(longi2.replace(",","."));
+            var LatLon2 = new google.maps.LatLng(latitu2,longi2);
+            var objConfigMarker2 = {
+                position:LatLon2,
+                map:gMapa,
+                title:pueblosDistancia[k].ciudadct
+            }
+            var gMarker2 = new google.maps.Marker(objConfigMarker2);
+        };
+        var bounds = new google.maps.LatLngBounds();
+        bounds.extend(SW);
+        bounds.extend(NE);
+        gMapa.fitBounds(bounds);
+
+    }
+
+</script>
+</html> 

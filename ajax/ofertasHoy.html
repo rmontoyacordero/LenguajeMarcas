@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OfertasHoy</title>
+    <style>
+    header{
+        margin: 0%;
+        width: 40%;
+        height: 6%;
+        font-size: 50px;
+        margin: auto;
+        color: #337ab7;
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 2%;
+    }
+    #divXML{
+
+        float: left;
+        width: 60%;
+        
+    }
+    #divReserva{
+        float: left;
+        width: 35%;
+        
+    }
+    #divDatos,#divMuestra{
+        width: 100%;
+        height: 50%;
+        float: left;
+    }
+    
+    .divCell{
+        display: table-cell;
+        width:23%;
+
+    }
+    .divHead{
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+    }
+    table {
+	font-size: 1em;
+    }
+
+    .ui-draggable, .ui-droppable {
+        background-position: top;
+    }
+    fieldset{
+        border-color: #337ab7;
+        border-radius: 24px;
+        color:#337ab7;
+    }
+    legend{
+        font-size: 24px;
+         text-align: center;
+    }
+    .divhoteles{
+            margin:auto;
+            text-align: center;
+            color:#337ab7;
+    }
+    .divRow:nth-child(odd) {
+        background-color:#98DBFE;
+        color: black;
+
+    }
+    
+    input[type="button"]{
+        width: 150px;
+        height: 45px;
+        border:3px double white;
+        border-radius: 25px;
+        margin-top:5%;
+        background:#337ab7;
+        color:white;  
+        opacity: 0.6; 
+    }
+    .divMostrado{
+        text-align: -webkit-center;
+    }
+    fieldset{
+        text-align: center;
+        height: 30%;
+    }
+    .divHead{
+        border-radius: 23px 23px 23px 23px;
+        -moz-border-radius: 23px 23px 23px 23px;
+        -webkit-border-radius: 23px 23px 23px 23px;
+        border: solid #337ab7;
+    }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script src="../js/ajaxCG.js"></script>
+</head>
+<body>
+    <header>Reserva Hoteles</header>
+    <div id="divXML"></div><div id="divReserva">
+        <div id="divDatos">
+            <form name="formDiary">
+             <fieldset>
+                <legend>Datos de Reserva</legend>
+                <span for="txtID">Hotel</span>
+                <select id="txtID" name="txtID"></select></br>
+                <span for="txtFecha">Fecha</span>
+                <input type="text" id="txtFecha" name="txtFecha" oninput="controlarbotones()"/></br>
+                <span for="txtPlazas">Plazas</span>
+                <input type="text" id="txtPlazas" name="txtPlazas" oninput="controlbotones()"/><br>
+                <input type="button" id="butAdd" value="Reservar" disabled/>
+            </fieldset>
+        </form>
+            
+            
+            </div><div id="divMuestra"></div>
+    </div>
+</body>
+<script>
+        var hoteles={};
+        var reservas={};
+        var aRepetir={};
+        var diamin;
+        var diamax;
+        var rec=1;
+        window.onload = cargar();
+        function cargar() {
+        ajax({
+            type: 'POST',
+            url: '../dev/ofertasHoyCarga.php',
+            parse: true
+        }).then((data) => {
+            console.log(data);
+            diamin=data.fechamin;
+            diamax=data.fechamax;
+            hoteles = data.hoteles;
+            asignacionFechas();
+            mostrarXML(hoteles);
+            mostrarHotelesSelect();
+        }).catch((error) => {
+            console.log("error");
+        });
+    }
+    function mostrarXML(hoteles){
+        var html="";
+            html+='<fieldset><legend>Hoteles</legend><div class="divMostrado">';
+            for(var i=0;i<hoteles.length;i++){
+               
+                 html += '<div class="divRow" id="' + i + '" onclick=desplegar(this.id)>' + hoteles[i].nombre + '<div class="divDistancia" id="' + hoteles[i].nombre + '" onclick=desplegar(this.id)></div></div>';
+            }
+            html+='</div></fieldset>';
+        
+       window.document.getElementById('divXML').innerHTML=html;
+    }
+    function desplegar(id){
+        var html='<div onclick="mostrarXML(hoteles)">';
+        
+           html+="<fieldset><legend>" + hoteles[id].nombre + "</legend><div class='divMostrado'><div class='divCell'>Fecha</div><div class='divCell'>Plazas</div><div class='divCell'>Cantidad</div>";
+            for(j in hoteles[id]["Ofertas"]){
+                    html += '<div class="divRow">';
+                    html+='<div class="divCell">' + hoteles[id]["Ofertas"][j].fecha + '</div>';
+                    html += '<div class="divCell">' + hoteles[id]["Ofertas"][j].plazas + '</div>';
+                    html += '<div class="divCell">' + hoteles[id]["Ofertas"][j].precio + '€</div>';
+                    html+='</div>';
+                }
+        
+        html+='</fieldset>';
+         window.document.getElementById('divXML').innerHTML=html;
+    }
+    function mostrarHotelesSelect(){
+        var html="";
+            
+              for(var i=0;i<hoteles.length;i++){
+                html +="<option value='"+ hoteles[i].nombre + "'>" + hoteles[i].nombre + "</option>";
+              }   
+    
+        window.document.getElementById('txtID').innerHTML = html;
+    }
+           
+           function asignacionFechas() {
+                
+                $( "#txtFecha" ).datepicker({ dateFormat: 'yy-mm-dd',
+                minDate: diamin,
+                maxDate: diamax});
+                
+            } 
+            butAdd.addEventListener("click", function(){
+               console.log(txtID.value);
+               console.log(txtFecha.value);
+               console.log(txtPlazas.value);
+                  ajax({
+            type: 'POST',
+            url: '../dev/ofertasHoy.php',
+            data: {hotel: txtID.value, fecha: txtFecha.value, plazas:txtPlazas.value,rec:rec},
+            parse: true
+             }).then((data) => {
+              rec++;
+              console.log(rec);
+            guardarReservas(data);
+           
+            
+           
+        }).catch((error) => {
+            console.log("error");
+        });
+        });
+       
+        
+           
+           function controlbotones(){
+
+               let plazasreservadas = parseInt(window.document.getElementById('txtPlazas').value);
+               let hotelreservado = window.document.getElementById('txtID').value;
+               let fechareservada = window.document.getElementById('txtFecha').value;
+               let butAdd = window.document.getElementById('butAdd');
+               if(plazasreservadas>0 && hotelreservado!=null && fechareservada!=null){
+                    butAdd.disabled=false;
+                    butAdd.style.opacity =1;
+               }else{
+                    butAdd.disabled=true;
+                    butAdd.opacity=0.6;
+               }
+               
+           }
+            
+           function guardarReservas(data){
+               if(data.guardar){
+                    if(data.hotel in reservas){
+                    if(reservas[data.hotel][data.fecha]==null){
+                        reservas[data.hotel][data.fecha]=Object.create(Object.prototype);
+                        reservas[data.hotel][data.fecha].plazas=data.reserva;
+                      reservas[data.hotel][data.fecha].precio=data.precio;
+                    }else{
+                        reservas[data.hotel][data.fecha].plazas+=data.reserva;
+                    }
+               }else{
+                   reservas[data.hotel]=Object.create(Object.prototype);
+                   reservas[data.hotel][data.fecha]=Object.create(Object.prototype);
+                   reservas[data.hotel][data.fecha].plazas=data.reserva;
+                  reservas[data.hotel][data.fecha].precio=data.precio;
+               }
+                mostrarReservas();
+                cargar();
+               }
+               
+           }
+           function mostrarReservas(){
+            var html="";
+            let importe=0;
+            html+="<div class='divHead'>Reservas<div class='divCell'>Hotel</div><div class='divCell'>Fecha</div><div class='divCell'>Cantidad</div><div class='divCell'>Precio</div><div class='divCell'>Total</div>";
+            for(k in reservas){
+                for(i in reservas[k]){
+                    html +='<div class="divRow">';
+                    html +='<div class="divCell">' + k + '</div>';
+                    html +='<div class="divCell">' + i + '</div>';
+                    html +='<div class="divCell">' + reservas[k][i].plazas + '</div>';
+                    html +='<div class="divCell">' + reservas[k][i].precio + '€</div>';
+                    html +='<div class="divCell">' + (reservas[k][i].plazas*reservas[k][i].precio) + '€</div>';
+                    html+='</div>';
+                    importe+=(reservas[k][i].plazas*reservas[k][i].precio);
+                }
+                    
+            }
+            html+='<div class="divCell"></div><div class="divCell"></div><div class="divCell">Importe</div><div class="divCell"></div><div class="divCell">'+ importe+' €</div></div>';
+           
+         window.document.getElementById('divMuestra').innerHTML=html;
+           }
+          
+    </script>
+    <script>
+        
+  </script>
+</html>

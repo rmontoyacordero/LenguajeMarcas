@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Import>
+	<Row>
+		<Depth_x0020_Code>A</Depth_x0020_Code>
+		<Feet>76ft - OVER</Feet>
+		<Meters>23.2m - OVER</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>B</Depth_x0020_Code>
+		<Feet>71ft - 75ft</Feet>
+		<Meters>21.6m - 22.9m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>C</Depth_x0020_Code>
+		<Feet>66ft - 75ft</Feet>
+		<Meters>20.1m - 21.3m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>D</Depth_x0020_Code>
+		<Feet>61ft - 65ft</Feet>
+		<Meters>18.6m - 19.8m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>E</Depth_x0020_Code>
+		<Feet>56ft - 60ft</Feet>
+		<Meters>17.1m - 18.2m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>F</Depth_x0020_Code>
+		<Feet>51ft - 55ft</Feet>
+		<Meters>15.5m - 16m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>G</Depth_x0020_Code>
+		<Feet>46ft - 50ft</Feet>
+		<Meters>14m - 15.2m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>H</Depth_x0020_Code>
+		<Feet>41ft - 45ft</Feet>
+		<Meters>12.5m - 13.7m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>J</Depth_x0020_Code>
+		<Feet>36ft - 40ft</Feet>
+		<Meters>11m - 12.2m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>K</Depth_x0020_Code>
+		<Feet>31ft - 35ft</Feet>
+		<Meters>9.4m - 10m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>L</Depth_x0020_Code>
+		<Feet>26ft - 30ft</Feet>
+		<Meters>7.1m - 9.1m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>M</Depth_x0020_Code>
+		<Feet>21ft - 25ft</Feet>
+		<Meters>6.4m - 7.6m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>N</Depth_x0020_Code>
+		<Feet>16ft - 20ft</Feet>
+		<Meters>4.9m - 6.1m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>O</Depth_x0020_Code>
+		<Feet>11ft - 15ft</Feet>
+		<Meters>3.4m - 4.6m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>P</Depth_x0020_Code>
+		<Feet>6ft - 10ft</Feet>
+		<Meters>1.8m - 3m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code>Q</Depth_x0020_Code>
+		<Feet>0ft - 5ft</Feet>
+		<Meters>0m - 1.5m</Meters>
+	</Row>
+	<Row>
+		<Depth_x0020_Code/>
+		<Feet>Unknown</Feet>
+		<Meters>Unknown</Meters>
+	</Row>
+</Import>

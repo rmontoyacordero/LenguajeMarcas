@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>sugeridor</title>
+    <style>
+        * {
+            margin: 0 auto;
+        }
+        
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .divContainer {
+            width: 90%;
+        }
+        
+        .divContainer div {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            width: 40%;
+            height: 6%;
+            font-size: 50px;
+            margin: auto;
+            color: #337ab7;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 2%;
+        }
+        
+        .divSuggestion {
+            width: 100%;
+            text-align: center;
+        }
+        
+        #divSuggestedWords {
+            border: 1px solid #cecece;
+            margin: 10px auto;
+            width: 26.5%;
+            height: 100px;
+            overflow-y: scroll;
+        }
+        
+        #divSuggestedWords div {
+            margin: 10px auto;
+        }
+        
+        input[type="button"] {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="divContainer">
+        <header>Sugeridor de Palabras</header>
+        <div>
+            <div class="divSuggestion">
+                <form name="formSuggestion">
+                    <label for="txtWord">Palabra</label>
+                    <input type="text" id="txtWord" oninput="delayFortxtWord(this,butSearch,divSuggestedWords)" />
+                    <input type="button" id="butSearch" value="Sugerir palabra" onclick="getSoundexAndMetaphone(txtWord.value,divSuggestedWords)"
+                    />
+                </form>
+            </div>
+            <div id="divSuggestedWords"></div>
+        </div>
+    </div>
+</body>
+<script>
+    var words = [];
+    var timeout = null;
+    window.onload = function () {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', '../xml/palabrasSM.xml', false)
+        xmlhttp.send();
+        xmlDoc = xmlhttp.responseXML;
+    }
+    function delayFortxtWord(word, button, div) {
+        word.style.color="red";
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(function () {
+            generateWord(word, button, div);
+        }, 300);
+    }
+    function getSoundexAndMetaphone(word, div) {
+        var http = new XMLHttpRequest();
+        http.open('GET', '../ajax/sonido.php?palabra=' + word, true);
+        http.onreadystatechange = function () {
+            if (http.readyState == 4 && http.status == 200) {
+                var request = JSON.parse(http.responseText);
+                var soundex = request.soundex;
+                var metaphone = request.metaphone;
+                suggestWords(soundex, metaphone, div);
+            }
+        }
+        http.send(null);
+    }
+    function generateWord(word, button, div) {
+        nodos = {};
+        words = [];
+        nodos = xmlDoc.evaluate("/palabras/palabra[@p='" + word.value + "']", xmlDoc, null, XPathResult.ANY_TYPE, null);
+        var thisNode = nodos.iterateNext();
+        checkNodeforButton(thisNode, button, word);
+        while (thisNode) {
+            words.push(thisNode.getAttribute('p'));
+            thisNode = nodos.iterateNext();
+        }
+        showWords(div);
+    }
+    function checkNodeforButton(node, butSearch, word) {
+        if (node == null) {
+            butSearch.disabled = false;
+            butSearch.style.opacity = 1;
+            butSearch.style.cursor = "pointer"
+        } else {
+            if(word.value.length>=3)word.style.color = "green";
+            butSearch.disabled = true;
+            butSearch.style.opacity = 0.5;
+            butSearch.style.cursor = "not-allowed";
+        }
+    }
+    function showWords(divSuggested) {
+        var html = "";
+        for (var i = 0; i < words.length; i++) {
+            html += '<div>' + words[i] + '</div>';
+        }
+        divSuggested.innerHTML = html;
+    }
+    function suggestWords(soundex, metaphone, div) {
+        nodos = {};
+        words = [];
+        nodos = xmlDoc.evaluate("/palabras/palabra[@s='" + soundex + "' or @m='" + metaphone + "']", xmlDoc, null,
+            XPathResult.ANY_TYPE, null);
+        var thisNode = nodos.iterateNext();
+        var i = 0;
+        while (thisNode && i < 15) {
+            words.push(thisNode.getAttribute('p'));
+            thisNode = nodos.iterateNext();
+            i++;
+        }
+        showWords(div);
+    }
+</script>
+
+</html>

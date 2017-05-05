@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Import>
+	<Row>
+		<Maximum_x0020_Size_x0020_Vessel_x0020_Code>L</Maximum_x0020_Size_x0020_Vessel_x0020_Code>
+		<Maximum_x0020_Size_x0020_Vessel_x0020_Description>Over 500 feet in length</Maximum_x0020_Size_x0020_Vessel_x0020_Description>
+	</Row>
+	<Row>
+		<Maximum_x0020_Size_x0020_Vessel_x0020_Code>M</Maximum_x0020_Size_x0020_Vessel_x0020_Code>
+		<Maximum_x0020_Size_x0020_Vessel_x0020_Description>Up to 500 feet in length</Maximum_x0020_Size_x0020_Vessel_x0020_Description>
+	</Row>
+	<Row>
+		<Maximum_x0020_Size_x0020_Vessel_x0020_Code/>
+		<Maximum_x0020_Size_x0020_Vessel_x0020_Description>Unknown</Maximum_x0020_Size_x0020_Vessel_x0020_Description>
+	</Row>
+</Import>

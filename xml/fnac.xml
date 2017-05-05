@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="xmlFnacValidador.xsd">
+<producto ean="5060015537675">
+	<titulo>Boli bic</titulo>
+	<precio>3.20</precio>
+	<rebajado>true</rebajado>
+	<moneda>EUR</moneda>
+	<descripcion>Boligrafo para pintar</descripcion>
+	<tags>boli bic papeleria</tags>
+	<stock>8000</stock>
+	<categorias>
+		<categoria>Libros,ebooks y Papelería</categoria>
+	</categorias>
+</producto>
+<producto ean="5070015537675">
+	<titulo>Teclado para niños</titulo>
+	<precio>21.89</precio>
+	<rebajado>false</rebajado>
+	<moneda>USD</moneda>
+	<descripcion>Teclado para niños de enre 3 y 5 años</descripcion>
+	<tags>teclado niños</tags>
+	<stock>23</stock>
+	<categorias>
+		<categoria>Informática</categoria>
+		<categoria>Fnac Kids</categoria>
+	</categorias>
+</producto>
+</productos>

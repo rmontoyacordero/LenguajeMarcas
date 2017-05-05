@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crey-idAgencia</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+<script src="../js/ajaxCG.js"></script>
+<style type="text/css">
+    .bs-example {
+        margin: 20px;
+    }
+</style>
+
+<body>
+    <div class="page-header">
+        <h1>Caminito del rey</h1>
+        <p>En esta página podrás realizar tus reservas para el caminito del rey</p>
+    </div>
+    <div id="divMostrar">
+
+    </div>
+</body>
+<script>
+    var idAgencia = "500";
+    var datos;
+    var horas=[];
+    window.onload = iniciar();
+    function iniciar() {
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: { informacion: "confirmar", idAgencia: idAgencia },
+            parse: true
+        }).then((data) => {
+            console.log(data);
+            datos = data;
+            mostrarReservas(data);
+           
+            
+        }).catch((error) => {
+            console.log("error");
+        });
+    }
+
+
+    function mostrarReservas(data) {
+        var html = "";
+        html += '<table class="table table-hover"><thead><tr><th>Localizador</th><th>Fecha</th><th>Hora</th><th>Entradas</th><th>Contador</th><th>Confirmar</th></tr></thead><tbody>';
+
+        for (k in data.ticketAgencia) {
+            html += '<tr><td>' + k + '</td><td>' + data.ticketAgencia[k].fecha + '</td><td>' + data.ticketAgencia[k].hora + '</td><td>' + data.ticketAgencia[k].entradas + '</td><td id='+ data.ticketAgencia[k].tiempo+'"></td><td><input type="button" id=' + k + ' value="Confirmar" onclick="reservar(this.id)"/></td></tr>';
+            
+        }
+        html += '</tbody></table>';
+        window.document.getElementById('divMostrar').innerHTML = html;
+        mueveReloj(datos);
+    }
+    function reservar(data) {
+        console.log(data);
+        console.info(datos);
+        console.log(datos.ticketAgencia[data].fecha)
+
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: {
+                informacion: "guardarReserva",
+                localizador: data,
+                fecha: datos.ticketAgencia[data].fecha,
+                hora: datos.ticketAgencia[data].hora,
+                idAgencia: idAgencia,
+                plazas: datos.ticketAgencia[data].entradas
+            },
+            parse: true
+        }).then((data) => {
+            iniciar();
+
+            console.log(data);
+
+
+        }).catch((error) => {
+            console.error("error");
+        });
+    }
+
+    function mueveReloj(datos) {
+       
+        for(k in datos.ticketAgencia){
+                var tiempo = new Date();
+                var tiempoFinal = new Date("2017","05","01");
+                tiempo=tiempo.getTime();
+                tiempoFinal=tiempoFinal.getTime();
+                var final = tiempoFinal.tiempo;
+                /*let anio = datos.ticketAgencia[k].tiempo.substring(0,4);
+                let mes = datos.ticketAgencia[k].tiempo.substring(4,6);
+                let dia = datos.ticketAgencia[k].tiempo.substring(6,8);
+                let hora =datos.ticketAgencia[k].tiempo.substring(8,10);
+                let minutos =datos.ticketAgencia[k].tiempo.substring(10,12);
+                let segundos=datos.ticketAgencia[k].tiempo.substring(12,14);
+                momentoActual = new Date();
+                momentoFinal=new Date(anio,mes,dia,hora,minutos,segundos);
+               momentoActual=momentoActual.getTime();
+                momentoFinal=momentoFinal.getTime();
+                let tiempoMostrar=momentoFinal-momentoActual;
+                tiempoMostrarFinal=new Date(tiempoMostrar*1000);
+                horaImprimible = tiempoMostrarFinal.getMinutes() + " : " + tiempoMostrarFinal.getSeconds();
+                console.log(horaImprimble);*/
+               /* window.document.getElementById(horas[i]).form_reloj.reloj.value=horaimprimible;
+                setTimeout("mueveReloj("+datos+")", 1000);*/
+            }
+        
+
+    }
+  
+
+</script>
+
+</html>

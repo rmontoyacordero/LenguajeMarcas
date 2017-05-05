@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>palabrasCode</title>
+    <style>
+    body{
+        font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+        
+    }
+    #headerBody{
+        margin: 0%;
+        width: 40%;
+        height: 6%;
+        font-size: 50px;
+        margin: auto;
+        color: #337ab7;
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 2%;
+    }
+    #sLeft{
+        width: 50%;
+        float:left;
+        text-align: center;
+    }
+    #sRight{
+        width:50%;
+        float: right;
+        text-align: center;
+    }
+    #headerArticle{
+        margin-bottom: 3%;
+        text-align: center;
+        width: 200px;
+        margin: auto;
+        margin-bottom: 5%;
+        color: #337ab7;
+    }
+    input{
+        margin-top: 2%;
+        text-align: center;
+        border-radius: 25px;
+    }
+    #divPalabraResultado{
+        display:none;
+        margin: auto;
+        text-align: center;
+        width: 100px;
+        height: 70px;
+        margin-top:5%;
+        font-size: 20px;
+        text-anchor: middle;
+        color: #337ab7;
+       
+        
+    }
+    #divTextoResultado{
+        display:none;
+        margin: auto;
+        text-align: center;
+        width: 70%;
+        margin-top:3%;
+        text-anchor: middle;
+        font-size: 20px;
+       color: #337ab7;
+       
+    }
+    input[type="button"]{
+        width: 150px;
+        height: 45px;
+        border:3px double white;
+        border-radius: 25px;
+        margin-top:5%;
+        background:#337ab7;
+        color:white;  
+        opacity: 0.6; 
+    }
+    .error{
+        font-size: 24px;
+        color:red;
+    }
+    
+    </style>
+</head>
+<body>
+    <header id="headerBody">Palabras Codificadas</header>
+    <section id="sLeft">
+        <article id="aLeft">
+            <header id="headerArticle">Generador de Palabras</header>
+            <div id="divLeft">
+                <form name="numVocal">
+                    <label for="Vocales">Numero en Vocales</label>
+                    <input type="text" id="textVocales" oninput="controlarBotones()"/>
+                </form>
+                <form name="numeroVocales">
+                    <label for="VocalesDireccion" name="direccionV">Direccion</label>
+                    <input type="radio" name="direccionVocales" value="Izquierda" checked="checked">Izquierda
+                    <input type="radio" name="direccionVocales" value="Derecha">Derecha
+                </form>
+                <form name="numConsonantes">
+                    <label for="Consonantes">Numero en Consonantes</label>
+                    <input type="text" id="textConsonantes" oninput="controlarBotones()"/>
+                </form>
+                <form name="numeroConsonantes">
+                    <label for="VocalesDireccion" name="direccionC">Direccion</label>
+                    <input type="radio" name="direccionConsonante" value="Izquierda" checked="checked">Izquierda
+                    <input type="radio" name="direccionConsonante" value="Derecha">Derecha
+                </form>
+                <input type="button" id="butPalabra" value="Generar Palabra" onclick="crearPalabra(this.id)" disabled="true"><br>
+                <div id="divPalabraResultado" onmouseover="verPalabraReal()" onmouseout="verPalabraCodificada()"></div>
+                
+            </div>
+        </article>
+    </section>
+    <section id="sRight">
+        <article id="aRight">
+            <header id="headerArticle">Generador de Textos</header>
+            <div id="divRight">
+                <form name="texto">
+                    <label for="texto" name="textoRellenar">Numero Palabras</label>
+                    <input type="text" id="textoCodificado" oninput="controlarBotones()"><br>
+                    <input type="button" id="butTexto" value="Generar Texto" onclick="generarTexto(this.id)" disabled="true">
+            </div>
+            <div id="divTextoResultado" onmouseover="verTextoReal()" onmouseout="verTextoCodificado()"></div>
+            
+        </article>
+    </section>
+</body>
+<script>
+var palabras={};
+var cantidadPalabras;
+var posicion;
+var html="";
+var htmlTexto="";
+var htmlTextoOriginal="";
+var patronVocales =/[aeiouAEIOUáéíóú]/;
+    window.onload=function(){
+        let xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', '../xml/PALABRAS.xml', false)
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+            nodos = {};
+            nodos= xmlDoc.evaluate("(//ROW[@PALABRA])", xmlDoc, null, XPathResult.ANY_TYPE, null);
+            let thisNode = nodos.iterateNext();
+            //i=0;
+                        while (thisNode) {
+                                id=thisNode.getAttribute('ID');
+                                palabras[id] = Object.create(Object.prototype);
+                               // palabras[i].id=thisNode.getAttribute('ID');
+                                palabras[id].word = thisNode.getAttribute('PALABRA');
+                                palabras[id].uso=false;
+                               // i++;
+                                thisNode = nodos.iterateNext();
+                        }
+            cantidadPalabras=Object.keys(palabras).length;
+        
+     }
+    function crearPalabra(id){
+        generarPalabra();
+        codificarPalabra(id);
+    }
+    function generarPalabra() {
+           let control=true;
+           while(control){
+                posicion=parseInt(Math.random()*cantidadPalabras);
+                
+                if(!palabras[posicion].uso){
+                    control=false;
+                    palabras[posicion].uso=true;
+              }
+           }
+        
+     }
+    function codificarPalabra(id){
+        html="";
+        palabraUsada=palabras[posicion].word;
+        for(let i=0;i<palabraUsada.length;i++){
+            codificacion(palabraUsada.charAt(i));
+        }
+        if(id=="butPalabra"){
+            divPalabra= window.document.getElementById('divPalabraResultado');
+            divPalabra.style.display="block";
+            divPalabra.innerHTML ="Palabra Codificada: "+ html;
+
+        }else{
+            htmlTexto+=html+" ";
+            htmlTextoOriginal+=palabraUsada+" ";
+            }
+
+     }
+    function codificacion(letra){
+        valor = letra.charCodeAt(0);
+        if(patronVocales.test(letra)){
+            codificacionVocal(valor);
+        }else{
+            codificacionConsonante(valor);
+        }
+     }
+    function codificacionVocal(valor){
+        var opcionVocal = getRadioButtonSelectedValue(document.numeroVocales.direccionVocales);
+        var valorVocal = parseInt(window.document.getElementById('textVocales').value);
+        valorLetra=generarACSII(valor,opcionVocal,valorVocal);
+        if(valorLetra<0 || valorLetra>255){
+            letraOpcion ='<span class="error">?</span>';
+            html+=letraOpcion;
+        }else{
+            html+=String.fromCodePoint(valorLetra);
+        }
+        
+    
+
+     }
+    function codificacionConsonante(valor){
+        var opcionConsonante = getRadioButtonSelectedValue(document.numeroConsonantes.direccionConsonante);
+        var valorConsonante = parseInt(window.document.getElementById('textConsonantes').value);
+        valorLetra=generarACSII(valor,opcionConsonante,valorConsonante);
+        if(valorLetra<0 || valorLetra>255){
+            letraOpcion ='<span class="error">?</span>';
+            html+=letraOpcion;
+        }else{
+            html+=String.fromCodePoint(valorLetra);
+        }
+        
+     }
+    function getRadioButtonSelectedValue(ctrl){
+        for(i=0;i<ctrl.length;i++)
+            if(ctrl[i].checked) return ctrl[i].value;
+     }
+    function generarACSII(valorLetra,control,valorDesplazamiento){
+        if(control=="Izquierda"){
+            valorFinal=valorLetra-valorDesplazamiento;
+        }else{
+            valorFinal=valorLetra+valorDesplazamiento;
+        }
+        return valorFinal;
+     }
+    function generarTexto(id){
+        htmlTexto="";
+        htmlTextoOriginal="";
+        numberTexto=parseInt(window.document.getElementById('textoCodificado').value);
+        for(let j=0;j<numberTexto;j++){
+            crearPalabra(id);
+        }
+        divTexto= window.document.getElementById('divTextoResultado');
+                divTexto.style.display="inline-block";
+                divTexto.innerHTML = "Texto Codificado: "+htmlTexto;
+               
+     }
+    function controlarBotones(){
+        butFrases = window.document.getElementById('butTexto');
+        butPalabras = window.document.getElementById('butPalabra');
+        numberVocales = parseInt(window.document.getElementById('textVocales').value);
+        numberConsonantes = parseInt(window.document.getElementById('textConsonantes').value);
+        numberTexto=parseInt(window.document.getElementById('textoCodificado').value);
+        if(numberConsonantes!="" && numberTexto!="" && numberVocales!="" && !isNaN(numberVocales) && !isNaN(numberConsonantes) && !isNaN(numberTexto)){
+                butFrases.disabled = false;
+                butPalabras.disabled= false;
+                butPalabras.style.opacity=1;
+                butFrases.style.opacity=1;
+        }else if(numberConsonantes!="" && numberVocales!="" && !isNaN(numberVocales) && !isNaN(numberConsonantes)){
+                butPalabras.disabled= false;
+                butFrases.disabled = true;
+                butFrases.style.opacity=0.6;
+                butPalabras.style.opacity=1;
+         }else{
+             butFrases.disabled = true;
+             butPalabras.disabled = true;
+             butFrases.style.opacity=0.6;
+             butPalabras.style.opacity=0.6;
+         }
+        
+     }
+    function verPalabraReal(){
+         window.document.getElementById('divPalabraResultado').innerHTML="Palabra Real: "+palabraUsada;
+         
+     }
+    function verPalabraCodificada(){
+         divPalabra=window.document.getElementById('divPalabraResultado').innerHTML="Palabra Codificada: "+ html;
+         
+         
+     }
+     function verTextoReal(){
+       window.document.getElementById('divTextoResultado').innerHTML="Texto Real: " + htmlTextoOriginal;
+     }
+     function verTextoCodificado(){
+         window.document.getElementById('divTextoResultado').innerHTML="Texto Codificado: "+htmlTexto;
+    }
+</script>
+</html>

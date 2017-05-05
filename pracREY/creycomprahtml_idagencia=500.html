@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crey-idAgencia</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+    crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+<script src="../js/ajaxCG.js"></script>
+<style type="text/css">
+    .bs-example {
+        margin: 20px;
+    }
+</style>
+
+<body>
+    <div class="page-header">
+        <h1>Caminito del rey</h1>
+        <p>En esta página podrás realizar tus reservas para el caminito del rey</p>
+    </div>
+    <div id="divMostrar">
+
+    </div>
+</body>
+<script>
+    var idAgencia = "500";
+    var datos={};
+    
+    window.onload = iniciar();
+    function iniciar() {
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: { check: "reservasAgencia", idAgencia: idAgencia },
+            parse: true
+        }).then((data) => {
+            console.log(data);
+            if(Object.keys(data.ticketAgencia).length>0){
+                mostrarReservas(data);
+                
+        }
+            
+            
+        }).catch((error) => {
+            console.log("error");
+        });
+    }
+
+
+    function mostrarReservas(data) {
+        datos={};
+        datos=data;
+         
+        var html = "";
+        html += '<table class="table table-hover"><thead><tr><th>Localizador</th><th>Fecha</th><th>Hora</th><th>Entradas</th><th>Contador</th><th>Confirmar</th></tr></thead><tbody>';
+
+        for (k in data.ticketAgencia) {
+            
+
+            html += '<tr><td>' + k + '</td><td>' + data.ticketAgencia[k].fecha + '</td><td>' + data.ticketAgencia[k].hora + '</td><td>' + data.ticketAgencia[k].entradas + '</td><td><span  id='+ data.ticketAgencia[k].tiempo+'></span></td><td><input type="button" id=' + k + ' value="Confirmar" onclick="reservar(this.id)"/></td></tr>';
+      
+
+        }
+        html += '</tbody></table>';
+        window.document.getElementById('divMostrar').innerHTML = html;
+        
+        contador();
+       
+    }
+    function reservar(data) {
+       
+
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: {
+                check: "guardarReserva",
+                localizador: data,
+                date: datos.ticketAgencia[data].fecha,
+                hour: datos.ticketAgencia[data].hora,
+                idAgencia: idAgencia,
+                tickets: datos.ticketAgencia[data].entradas
+            },
+            parse: true
+        }).then((data) => {
+            iniciar();
+
+            console.log(data);
+
+
+        }).catch((error) => {
+            console.error("error");
+        });
+    }
+    function contador(){
+       let control = false;
+        for (k in datos.ticketAgencia){
+            var tiempoActual = new Date();
+            var anio = datos.ticketAgencia[k].tiempo.substring(0,4);
+            var mes = parseInt( datos.ticketAgencia[k].tiempo.substring(4,6))-1;
+            var dia = datos.ticketAgencia[k].tiempo.substring(6,8);
+            var hora = datos.ticketAgencia[k].tiempo.substring(8,10);
+            var minutos =datos.ticketAgencia[k].tiempo.substring(10,12);
+            var tiempoLimite =new Date(anio,mes,dia,hora,minutos);
+            var tiempoTotal = (tiempoLimite-tiempoActual)/1000;
+            if(tiempoTotal>0){
+                minutos =Math.floor(tiempoTotal/60);
+            var segundos = Math.floor(tiempoTotal%60);
+            var html = minutos + ":"+segundos;
+            console.log(html);
+            window.document.getElementById(datos.ticketAgencia[k].tiempo).innerHTML=html;
+            }else{
+                control=true;
+                limpiarNodo(k);
+                
+            }
+            
+            
+            //window.document.getElementById(fila).innerHTML=html;
+        }
+        if(!control){
+            setTimeout(contador,1000);
+        }
+        
+    }
+    function limpiarNodo(k){
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: {
+                check: "review",
+                localizador: k,
+                date: datos.ticketAgencia[k].fecha,
+                hour: datos.ticketAgencia[k].hora,
+                idAgencia: idAgencia,
+                tickets: datos.ticketAgencia[k].entradas
+
+            },
+            parse: true
+        }).then(() => {
+            iniciar();
+
+            
+
+
+        }).catch((error) => {
+            console.error("error");
+        });
+    }
+    
+  
+
+</script>
+
+</html>

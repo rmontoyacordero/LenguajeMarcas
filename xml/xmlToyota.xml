@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Toyota xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Modelo>
+		<Nombre>Aygo</Nombre>
+		<TipoModelo>Urbano</TipoModelo>
+		<Carroceria>5 Puertas</Carroceria>
+		<Motor>
+			<Acabados>Hybryd City</Acabados>
+			<Motores>70 Manual</Motores>
+		</Motor>
+		<Exterior>
+			<Colores>Blanco Classic</Colores>
+			<Llantas>Aleacion 15&quot;</Llantas>
+			<ConfortExterior>Deflectores de viento (juego completo - 5 puertas)</ConfortExterior>
+			<EstiloExterior>Spoiler trasero de techo sin pintar (piezas soporte no incluidas)</EstiloExterior>
+		</Exterior>
+		<Interior>
+			<Tapiceria-Inserciones>Tela en negro</Tapiceria-Inserciones>
+			<Multimedia>Adaptador ajustable para tablet (Necesita soporte adaptador tablet)</Multimedia>
+			<ConfortInterior>Cenicero Universal</ConfortInterior>
+			<EstiloInterior>Pasos de puerta de aluminio en color gris (5 puertas)</EstiloInterior>
+		</Interior>
+		<Accesorios>
+			<Transporte>Bolsa barras portaequipajes</Transporte>
+			<Proteccion>Faldillas guardabarros traseras</Proteccion>
+			<Seguridad>Alarma Toyota VSS1</Seguridad>
+		</Accesorios>
+	</Modelo>
+</Toyota>

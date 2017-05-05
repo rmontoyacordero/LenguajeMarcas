@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ofertas>
+	<oferta id="1" nombre="AMARUGUA">
+		<fecha dia="2017-03-20">
+			<plazas>98</plazas>
+			<precio>56</precio>
+		</fecha>
+		<fecha dia="2017-03-21">
+			<plazas>61</plazas>
+			<precio>35</precio>
+		</fecha>
+		<fecha dia="2017-03-22">
+			<plazas>100</plazas>
+			<precio>47</precio>
+		</fecha>
+		<fecha dia="2017-03-23">
+			<plazas>43</plazas>
+			<precio>53</precio>
+		</fecha>
+		<fecha dia="2017-03-24">
+			<plazas>39</plazas>
+			<precio>39</precio>
+		</fecha>
+		<fecha dia="2017-03-25">
+			<plazas>53</plazas>
+			<precio>59</precio>
+		</fecha>
+		<fecha dia="2017-03-26">
+			<plazas>44</plazas>
+			<precio>49</precio>
+		</fecha>
+	</oferta>
+	<oferta id="2" nombre="PEZ ESPADA">
+		<fecha dia="2017-03-20">
+			<plazas>67</plazas>
+			<precio>54</precio>
+		</fecha>
+		<fecha dia="2017-03-21">
+			<plazas>14</plazas>
+			<precio>44</precio>
+		</fecha>
+		<fecha dia="2017-03-22">
+			<plazas>12</plazas>
+			<precio>46</precio>
+		</fecha>
+		<fecha dia="2017-03-23">
+			<plazas>34</plazas>
+			<precio>47</precio>
+		</fecha>
+		<fecha dia="2017-03-24">
+			<plazas>63</plazas>
+			<precio>39</precio>
+		</fecha>
+		<fecha dia="2017-03-25">
+			<plazas>45</plazas>
+			<precio>45</precio>
+		</fecha>
+		<fecha dia="2017-03-26">
+			<plazas>35</plazas>
+			<precio>34</precio>
+		</fecha>
+	</oferta>
+	<oferta id="3" nombre="BEST TRITON">
+		<fecha dia="2017-03-20">
+			<plazas>14</plazas>
+			<precio>54</precio>
+		</fecha>
+		<fecha dia="2017-03-21">
+			<plazas>71</plazas>
+			<precio>30</precio>
+		</fecha>
+		<fecha dia="2017-03-22">
+			<plazas>70</plazas>
+			<precio>37</precio>
+		</fecha>
+		<fecha dia="2017-03-23">
+			<plazas>27</plazas>
+			<precio>50</precio>
+		</fecha>
+		<fecha dia="2017-03-24">
+			<plazas>83</plazas>
+			<precio>47</precio>
+		</fecha>
+		<fecha dia="2017-03-25">
+			<plazas>47</plazas>
+			<precio>34</precio>
+		</fecha>
+		<fecha dia="2017-03-26">
+			<plazas>89</plazas>
+			<precio>57</precio>
+		</fecha>
+	</oferta>
+	<oferta id="4" nombre="TROPICANA">
+		<fecha dia="2017-03-20">
+			<plazas>16</plazas>
+			<precio>37</precio>
+		</fecha>
+		<fecha dia="2017-03-21">
+			<plazas>57</plazas>
+			<precio>51</precio>
+		</fecha>
+		<fecha dia="2017-03-22">
+			<plazas>13</plazas>
+			<precio>47</precio>
+		</fecha>
+		<fecha dia="2017-03-23">
+			<plazas>25</plazas>
+			<precio>31</precio>
+		</fecha>
+		<fecha dia="2017-03-24">
+			<plazas>19</plazas>
+			<precio>43</precio>
+		</fecha>
+		<fecha dia="2017-03-25">
+			<plazas>67</plazas>
+			<precio>51</precio>
+		</fecha>
+		<fecha dia="2017-03-26">
+			<plazas>77</plazas>
+			<precio>30</precio>
+		</fecha>
+	</oferta>
+	<oferta id="5" nombre="VINCCI ALEYSA PLAYA">
+		<fecha dia="2017-03-20">
+			<plazas>26</plazas>
+			<precio>30</precio>
+		</fecha>
+		<fecha dia="2017-03-21">
+			<plazas>25</plazas>
+			<precio>37</precio>
+		</fecha>
+		<fecha dia="2017-03-22">
+			<plazas>84</plazas>
+			<precio>56</precio>
+		</fecha>
+		<fecha dia="2017-03-23">
+			<plazas>33</plazas>
+			<precio>45</precio>
+		</fecha>
+		<fecha dia="2017-03-24">
+			<plazas>17</plazas>
+			<precio>43</precio>
+		</fecha>
+		<fecha dia="2017-03-25">
+			<plazas>23</plazas>
+			<precio>57</precio>
+		</fecha>
+		<fecha dia="2017-03-26">
+			<plazas>10</plazas>
+			<precio>47</precio>
+		</fecha>
+	</oferta>
+</ofertas>

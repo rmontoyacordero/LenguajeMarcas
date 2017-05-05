@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>Edad:<input type="text" id="txtEdad">
+            ID:<input type="text" id="txtID">
+            <button type="button" onclick="cambiaEdad()">Cambiar</button>
+        </div>
+        <div id="divAlerta"></div>
+        <div id="divDatos"></div>
+    </body>
+    <script>
+        var aAlumnos = {};
+        //LLenar 50 valores con k aleatorios
+        crear50Alumnos();
+        //Mostrar los valores generados en el div
+        llenarDiv();
+
+        function cambiaEdad() {
+            var edad = document.getElementById('txtEdad').value;
+            var id = document.getElementById('txtID').value;
+            if (id in aAlumnos) {
+                aAlumnos[id].edad = edad;
+            } else {
+                 document.getElementById('divAlerta').innerHTML='<img src="warning.png" width=16px> Atención no existe';
+                 //setTimeout(document.getElementById('divAlerta').innerHTML='',2000);
+            }
+            llenarDiv();
+        }
+        function llenarDiv() {
+            document.getElementById('divDatos').innerHTML = mostrarAlumnos();
+        }
+        function crear50Alumnos() {
+            for (var i = 0; i < 50; i++) {
+                var id = makeid();
+                aAlumnos[id] = Object.create(Object.prototype);
+                aAlumnos[id].edad = makeEdad();
+                aAlumnos[id].acepto = 'n';
+                aAlumnos[id].hobby = 'n';
+            }
+        }
+        function mostrarAlumnos() {
+            var html = ''
+            for (var k in aAlumnos) {
+                html += '<div>el id es ' + k + ' los valores son ' + aAlumnos[k].edad + " " + aAlumnos[k].acepto + " " + aAlumnos[k].hobby + "</div>";
+            }
+            return html;
+        }
+        function makeid() {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < 3; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            return text;
+        }
+        function makeEdad() {
+            var text = "";
+            var possible = "0123456789";
+            for (var i = 0; i < 2; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            return text;
+        }
+    </script>
+</html>

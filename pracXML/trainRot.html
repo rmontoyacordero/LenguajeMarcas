@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>trainRot</title>
+</head>
+<style>
+    body{
+       font-family: Verdana, Geneva, Tahoma, sans-serif; 
+     }
+     header{
+        margin: 0%;
+        width: 100%;
+        height: 6%;
+        background: blue;
+        color: white;
+        text-align: center;
+        font-size: 2.3em;
+        font-weight: bold;
+        padding: 20px;
+        background-color: rgba(70, 169, 42, 0.6);
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+        margin-bottom: 2%;
+    }
+    #divInicio{
+        width: 70%;
+        height: 10%;
+        margin: auto;
+        text-align: center;
+        margin-bottom: 5%;
+    }
+    input{
+        margin-left: 15px;
+        text-align: center;
+    }
+    #divJuego{
+        
+        min-height: 200px;
+        text-align: center;
+        
+    }
+    #divDesplegable{
+            cursor: auto;
+            display: none;
+            background-color: white;
+            color:black;
+            text-align: center;
+            padding:10px;
+            position: absolute;
+            z-index: 1;
+            margin-top: 3%;
+            left: 52%;
+            margin-left: -100px;
+            width: 200px;
+            max-height: 200px;
+            border:2px solid rgba(70, 169, 42, 0.6);;
+            border-radius: 5px;
+    }
+    #divResultado{
+        width: 100%;
+        height: 10%;
+        margin: auto;
+        text-align: center;
+        display: none;
+    }
+    svg{
+        
+        height: 150px;
+        display: inline-block;
+        
+    }  
+</style>
+<body>
+     <header>Prueba tu Memoria</header>
+            <div id="divInicio">
+            <form name="Memoria">
+                <label for="patron">Introduce Patron</label>
+                    <input type="text" id="txtPatron" disabled="true" list="divDesplegable" oninput="seleccionarPalabra()"/>
+                    <datalist id="divDesplegable"></datalist>
+                    <input type="button" id="butJugar" value="Jugar" onclick="generar()" disabled="true" />
+                <label for="numPalabras">Num Palabras</label>
+                    <input type="text" id="txtIntervalo" oninput="sugerencias()"/>
+            </form>
+            </div>
+    <div id="divJuego"></div>
+    <div id="divResultado">
+        <form id="divFinal">
+            <form name="Resultados">
+                <label for="fin">Introduce la palabra</label>
+                <input type="text" id="textResultado"/>
+                <input type="button" id="butResolver" value="Resolver" onclick="solucionar()"/>
+                <input type="button" id="butReiniciar" value="Reiniciar" onclick="reiniciar()"/>
+    </div>
+</body>
+<script>
+let palabraTotales=[];
+let palabrasMostradas =[];
+var resulPalabra;
+let total;
+var control=0;
+var valor=0;
+let interval;
+
+
+    window.onload=function(){
+        let xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', '../xml/PALABRAS.xml', false)
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+     }
+    function sugerencias(){
+        if(isNaN){
+             let txtPatron = window.document.getElementById('txtPatron');
+             let numPalabra=parseInt(window.document.getElementById('txtIntervalo').value);
+             if(!isNaN(numPalabra)){
+                txtPatron.disabled=false;
+                }else{
+                    txtPatron.value="";
+                    txtPatron.disabled=true;
+                }
+        }
+
+    }
+    function seleccionarPalabra(){
+            let txtPatron = window.document.getElementById('txtPatron');
+            let botonJugar= window.document.getElementById('butJugar');
+            let patron = txtPatron.value;
+            let numPalabra=parseInt(window.document.getElementById('txtIntervalo').value);
+                    if(patron!=""){
+                        let nodos = {};
+                        palabraTotales=[];
+                        nodos = xmlDoc.evaluate("//ROW[@PALABRA[starts-with(.,'"+patron+"')]]", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                        let thisNode = nodos.iterateNext();
+                        while (thisNode) {
+                            palabraTotales.push(thisNode.getAttribute('PALABRA'));
+                            thisNode = nodos.iterateNext();
+                        }
+                        botonJugar.disabled=false;
+                        crearPalabras(numPalabra);
+                        mostrar();
+                    }else{
+                        botonJugar.disabled=true;
+                    }
+                }
+    
+    function crearPalabras(numPalabra){
+        let tamaño =palabraTotales.length;
+        if(tamaño>numPalabra){
+            let control = parseInt(tamaño/numPalabra);
+            let controltamaño =tamaño-(control*numPalabra);
+            for(let i=0;i<numPalabra;i++){
+                if(i<(numPalabra-1)){
+                    palabrasMostradas[i]=palabraTotales[parseInt(Math.random()*(control-1)+(control*i))];
+                }else{
+                    palabrasMostradas[i]=palabraTotales[parseInt(Math.random()*(control-1+controltamaño)+(control*i))]
+                }
+                   }
+        
+        }else{
+             palabrasMostradas=palabraTotales;
+        }
+        
+    }
+    function mostrar(){
+        let html="";
+         for(k in palabrasMostradas){
+            html+='<option value="'+palabrasMostradas[k]+'" text="'+palabrasMostradas[k]+'">';
+        }
+        window.document.getElementById('divDesplegable').innerHTML=html;
+        
+    }
+ /*   function mostrarPalabra(id){
+        resulPalabra = id;
+        window.document.getElementById('divDesplegable').style.display="none";
+        window.document.getElementById('txtPatron').value=id; 
+       
+    }*/
+    function generar(){
+        
+        let txtPatron = window.document.getElementById('txtPatron');
+        resulPalabra=txtPatron.value;
+        let html="";
+        window.document.getElementById('butJugar').disabled=true;
+        txtPatron.disabled = true;
+        window.document.getElementById('txtIntervalo').value="";
+        total =parseInt(resulPalabra.length);
+        total=(innerWidth-30)/total;
+        for(let i =0;i<resulPalabra.length;i++){
+            html+='<svg width="'+total+'" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">';
+            html+='<g><title>Layer 1</title>';
+            html+='<text " text-anchor="middle" font-family="serif" font-size="45" id="'+i+'" y="75" x="'+(total/2)+'" stroke-width="0" stroke="#000000" fill="'+getRandomColor()+'">'+resulPalabra.charAt(i).toUpperCase()+'</text></g></svg>';
+            window.document.getElementById('divJuego').innerHTML=html;
+        }
+         txtPatron.value="";
+       interval = setInterval(function() {
+        girar(total,resulPalabra)
+       },150);
+   }
+    function girar(total,resulPalabra){
+        
+       for(let i=0;i<resulPalabra.length;i++){
+            let letras=window.document.getElementById(i);
+            letras.setAttribute('transform','rotate('+valor+','+(total/2)+',75)');
+        }
+        this.valor+=10;
+        this.control++;
+        if(this.control==60){
+            clearInterval(interval);
+            limpiarLetras();
+        }
+    }
+    function limpiarLetras(){
+       window.document.getElementById('divJuego').style.display="none";
+       window.document.getElementById('divResultado').style.display="inline-block";
+    }
+    function solucionar(){
+        let resultado =window.document.getElementById('textResultado').value;
+        let html="";
+        let Juego =window.document.getElementById('divJuego');
+        Juego.style.display="block";
+        if(resulPalabra.toUpperCase()==resultado.toUpperCase()){
+            html='<div><h1>HAS GANADO, ENHORABUENA</h1></div>';
+            Juego.innerHTML=html;
+        }else{
+             html='<div><h1>LO SIENTO, HAS PERDIDO</h1></div>';
+             Juego.innerHTML=html;
+        }
+     }
+     function reiniciar(){
+        let html="";
+        window.document.getElementById('textResultado').value=html;
+        window.document.getElementById('divJuego').innerHTML=html;
+        window.document.getElementById('divResultado').innerHTML=html;
+        palabra=[];
+        palabrasMostradas=[];
+    }
+    function getRandomColor() {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+     
+</script>
+</html>

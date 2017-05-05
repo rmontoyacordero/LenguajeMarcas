@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fechas>
+	<fecha id="0" value="16/03/2017" foo="" bar="" humedad="89">
+		<temp>27</temp>
+	<humedad>72</humedad></fecha>
+	<fecha id="1" value="17/03/2017" foo="" bar="" humedad="98">
+		<temp>9</temp>
+	<humedad>62</humedad></fecha>
+	<fecha id="2" value="18/03/2017" foo="" bar="" humedad="100">
+		<temp>-3</temp>
+	<humedad>96</humedad></fecha>
+	<fecha id="3" value="19/03/2017" foo="" bar="" humedad="68">
+		<temp>6</temp>
+	<humedad>85</humedad></fecha>
+	<fecha id="4" value="20/03/2017" foo="" bar="" humedad="89">
+		<temp>-2</temp>
+	<humedad>98</humedad></fecha>
+	<fecha id="5" value="21/03/2017" foo="" bar="" humedad="76">
+		<temp>35</temp>
+	<humedad>62</humedad></fecha>
+	<fecha id="6" value="22/03/2017" foo="" bar="" humedad="99">
+		<temp>9</temp>
+	<humedad>78</humedad></fecha>
+	<fecha id="7" value="23/03/2017" foo="" bar="" humedad="73">
+		<temp>-1</temp>
+	<humedad>92</humedad></fecha>
+	<fecha id="8" value="24/03/2017" foo="" bar="" humedad="82">
+		<temp>23</temp>
+	<humedad>61</humedad></fecha>
+	<fecha id="9" value="25/03/2017" foo="" bar="" humedad="62">
+		<temp>18</temp>
+	<humedad>70</humedad></fecha>
+</fechas>

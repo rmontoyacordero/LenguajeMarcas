@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Caminito del rey</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script src="../js/ajaxCG.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.js"></script>
+    <style>
+        .alert {
+            display: none;
+            margin: 8px;
+        }
+
+        .modCursor {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Caminito del rey</h1>
+            <p>En esta página podrás realizar tus reservas para el caminito del rey</p>
+        </div>
+        <div class="contenform pull-left">
+            <h2>Reserva aquí tu entrada</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idAgency">ID Agencia:</label>
+                    <input type="number" class="form-control" id="idAgency" placeholder="Introduzca id de agencia">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Fecha:</label>
+                    <input type="text" class="form-control" id="datepicker">
+                </div>
+                <div class="form-group">
+                    <label for="time">Hora:</label>
+                    <input type="text" class="form-control" id="time">
+                </div>
+                <div class="form-group">
+                    <label for="tickets">Entradas:</label>
+                    <input type="number" class="form-control" id="tickets" placeholder="Introduzca entradas">
+                </div>
+                <button type="button" class="btn-info btn pull-right" id="butReserve">Reservar </button>
+            </form>
+        </div>
+        <div class="alert alert-success col-xs-8" id="divRespuestaOk">
+            <a href="#" class="close" onclick="hiddenAlert('divRespuestaOk')">&times;</a>
+            <span id="spRespuestaOk"></span>
+        </div>
+        <div class="alert alert-danger col-xs-8" id="divRespuestaKo">
+            <a href="#" class="close" onclick="hiddenAlert('divRespuestaKo')">&times;</a>
+            <span id="spRespuestako"></span>
+
+        </div>
+        <div id="divRespuesta" class="col-xs-8"></div>
+    </div>
+</body>
+<script>
+    window.onload = () => {
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: {
+                check: "inicio"
+            },
+            parse: true
+        }).then((data) => {
+            setDate(data.fechaMin, data.fechaMax);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    setDate = (fechaMenor, fechaMayor) => {
+        $('#datepicker').keydown(function () {
+            return false;
+        });
+        $('#datepicker').datepicker({
+            dateFormat: "yy-mm-dd",
+            beforeShowDay: function (date) {
+                return [(date.getDay() != 1)];
+            },
+            onSelect: function () {
+                getDayWeek(this.value);
+            },
+            minDate: formatDate(fechaMenor.toString()),
+            maxDate: formatDate(fechaMayor.toString()),
+            firstDay: 1
+        });
+    }
+
+    formatDate = (date) => {
+        return [date.substring(0, 4), date.substring(4, 6), date.substring(6, 8)].join('-');
+    }
+
+    formatHour = (hour) => {
+        return [hour.substring(0, 2), hour.substring(2, 4)].join(':');
+    }
+
+    getDayWeek = (date) => {
+        let d = new Date(date);
+        if (d.getDay() == "0" || d.getDay() == "6") {
+            setHour('10:00', '17:00');
+        } else {
+            setHour('11:00', '16:00');
+        }
+    }
+    setHour = (hourMin, hourMax) => {
+        $('#time').keydown(function () {
+            return false;
+        });
+        $('#time').timepicker({
+            timeFormat: 'H:i',
+            step: '60'
+        });
+        $('#time').timepicker('option', 'minTime', hourMin);
+        $('#time').timepicker('option', 'maxTime', hourMax);
+    }
+    butReserve.onclick = () => {
+        /* Control de valores llenos*/
+        ajax({
+            type: 'POST',
+            url: 'crey.php',
+            data: {
+                idAgencia: idAgency.value,
+                date: datepicker.value,
+                hour: time.value,
+                tickets: tickets.value,
+                check: "reserve"
+            },
+            parse: true
+        }).then((data) => {
+            if (data.status == "ok") {
+                showDataOk(data);
+            } else {
+                showDataKo(data);
+            }
+
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+    showDataOk = (data) => {
+        divRespuestaKo.style.display = "none";
+        divRespuestaOk.style.display = "block";
+        spRespuestaOk.innerHTML = data.mensaje;
+        divRespuesta.innerHTML = "";
+    }
+    showDataKo = (data) => {
+        let html = "";
+        divRespuestaOk.style.display = "none";
+        divRespuestaKo.style.display = "block";
+        if (data.mensaje) {
+            spRespuestako.innerHTML = data.mensaje;
+            divRespuesta.innerHTML = "";
+        } else {
+            divRespuestaKo.style.display = "block";
+            spRespuestako.innerHTML =
+                "<strong>Imposible reservar!</strong>, los días disponibles son los siguientes.";
+            divRespuestaKo.innerHTML;
+            html += "<div class='table-responsive'>";
+            html += "<table class='table'>";
+            html += "<thead><tr><th>Fecha</th><th>Hora</th><th>Entradas</th></tr></thead>";
+            for (let i = 0; i < data.DiasDisponibles.length; i++) {
+                html += "<tbody>";
+                html += "<tr><td class='modCursor' id='" + formatDate(data.DiasDisponibles[i].fecha) +
+                    "' onclick='changeElement(this.id)'><strong>" + formatDate(data.DiasDisponibles[i].fecha) +
+                    "</strong></td>";
+                html += "<td>" + formatHour(data.DiasDisponibles[i].hora) + "</td>";
+                html += "<td>" + data.DiasDisponibles[i].entradas + "</td></tr>";
+            }
+            html += "</tbody>";
+            html += "</table>"
+            html += "</div>";
+            divRespuesta.innerHTML = html;
+        }
+    }
+
+    changeElement = (element) => {
+        $(".info").removeClass("info");
+        $("#" + element).addClass("info");
+        datepicker.value = element;
+    }
+
+    hiddenAlert = (id) => {
+        window.document.getElementById(id).style.display = "none";
+    }
+</script>
+
+</html>

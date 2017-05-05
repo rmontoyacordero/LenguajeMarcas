@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        color: #337ab7;
+        text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    
+    header {
+        margin-top: 40px;
+        font-size: 50px;
+    }
+    
+    .divForm {
+        margin-top: 50px;
+        margin-left: 150px;
+        font-size: 24px;
+        float: left;
+    }
+    
+    fieldset {
+        text-align: left;
+        width: 20%;
+    }
+    
+    label {
+        color: black;
+        text-align: center;
+    }
+    
+    input {
+        text-align: center;
+        color: black;
+    }
+    
+    input[type="button"] {
+        margin-top: 15px;
+        cursor: pointer;
+    }
+    
+    #divData {
+        border: 1px solid #337ab7;
+        margin-top: 50px;
+        margin-right: 50px;
+        float: right;
+        text-align: center;
+        width: 60%;
+    }
+    
+    #divData div {
+        display: flex;
+        text-align: center;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    
+    #divData div div {
+        margin: 15px 0px;
+        width: 30%;
+        text-align: center;
+    }
+    
+    .divshowDiary {
+        margin-bottom: 5px;
+        font-size: 24px;
+        color: black;
+        float: left;
+    }
+    
+    span {
+        color: #337ab7;
+    }
+    
+    li {
+        display: inline-block;
+        border: 2px solid black;
+    }
+    
+    ul+div {
+        border: 2px solid black;
+    }
+    
+    input[type="radio"] {
+        display: none;
+    }
+    
+    .divRadio .labInitials {
+        text-align: center;
+        width: 2%;
+        float: left;
+        border: solid 1px #cecece;
+        padding: 4px 11px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    .divRadio input[type="radio"]:checked+.labInitials {
+        background-color: #3485cf;
+    }
+    
+    #txtName {
+        text-transform: capitalize;
+    }
+</style>
+<script src="cookies.js"></script>
+
+<body>
+    <header>Agenda</header>
+    <div class="divForm">
+        <form name="formDiary">
+            <fieldset>
+                <legend>Datos de Agenda</legend>
+                <label for="txtID">ID</label><br>
+                <input type="text" id="txtID" name="txtID" readonly="readonly" />
+                <label for="txtName">Nombre</label><br>
+                <input type="text" id="txtName" oninput="buttonControl()" name="txtName" />
+                <label for="txtMail">Correo</label><br>
+                <input type="email" id="txtMail" name="txtMail" />
+                <label for="txtTlf">Tlf</label><br>
+                <input type="tel" id="txtTlf" name="txtTlf" />
+                <input type="button" id="butAdd" value="Agregar Contacto" />
+                <input type="button" id="butModify" value="Modificar Contacto" />
+            </fieldset>
+        </form>
+    </div>
+    <div id="divInitials"></div>
+    <div id="divData">
+    </div>
+</body>
+<script>
+    var ID;
+    var aDiary = {};
+    var aAuxNames = [];
+    var aInitials = {};
+    var aAuxDiary = {};
+    window.onload = function () {
+        disableButtonModify();
+        disableButtonAdd();
+        if (docCookies.hasItem('agendaID')) {
+            ID = JSON.parse(docCookies.getItem('agendaID'));
+            ID++;
+        }
+        if (localStorage.getItem('agenda') != null) {
+            aDiary = JSON.parse(localStorage.getItem("agenda", JSON.stringify(aDiary), Infinity));
+            ID = Object.keys(aDiary).length;
+            ID++;
+            orderNames();
+            getInitials();
+            checkDiaryLength();
+        } else {
+            ID = 1;
+        }
+        window.document.getElementById('txtID').value = ID;
+    }
+    butAdd.addEventListener("click", function () {
+        generateObjectDiary();
+        disableButtonAdd();
+    });
+    butModify.addEventListener("click", function () {
+        ID = window.document.getElementById('txtID').value;
+        generateObjectDiary();
+        disableButtonModify();
+        disableButtonAdd();
+    });
+    function generateObjectDiary() {
+        aDiary[ID] = Object.create(Object.prototype);
+        aDiary[ID].nombre = window.document.getElementById('txtName').value;
+        aDiary[ID].correo = window.document.getElementById('txtMail').value;
+        aDiary[ID].tlf = window.document.getElementById('txtTlf').value;
+        localStorage.setItem("agenda", JSON.stringify(aDiary), Infinity);
+        docCookies.setItem('agendaID', JSON.stringify(ID), Infinity);
+        orderNames();
+        getInitials();
+        showDiary();
+        checkDiaryLength();
+        clear();
+        window.document.getElementById('txtID').value = ID;
+    }
+    function orderNames() {
+        aAuxNames = [];
+        for (k in aDiary) {
+            aAuxNames.push(aDiary[k].nombre);
+        }
+        aAuxNames.sort();
+    }
+    function getInitials() {
+        aInitials = [];
+        for (k in aAuxNames) {
+            var initial = aAuxNames[k].toUpperCase().charAt();
+            if (!aInitials[initial]) {
+                aInitials[initial] = 1;
+            }
+        }
+    }
+    function showDiary() {
+        var html = "<div><div>nombre</div><div>correo</div><div>telefono</div></div>";
+        for (h in aAuxNames) {
+            for (k in aAuxDiary) {
+                if (aAuxDiary[k].nombre === aAuxNames[h]) {
+                    html += '<div><div class="divChecked" onClick="modifyData(this.id)" id="' + k + '">' + aAuxDiary[k]
+                        .nombre +
+                        '</div><div>' + aAuxDiary[k].correo + '</div><div>' + aAuxDiary[k].tlf + '</div></div>';
+                }
+            }
+        }
+        window.document.getElementById('divData').innerHTML = html;
+    }
+    function modifyData(id) {
+        disableButtonAdd();
+        butModify.disabled = false;
+        butModify.style.opacity = 1;
+        butModify.style.cursor = "pointer";
+        window.document.getElementById("txtID").value = id;
+        window.document.getElementById("txtName").value = aDiary[id].nombre;
+        window.document.getElementById("txtMail").value = aDiary[id].correo;
+        window.document.getElementById("txtTlf").value = aDiary[id].tlf;
+    }
+    function checkDiaryLength() {
+        var length = Object.keys(aDiary).length;
+        if (length < 10) {
+            aAuxDiary = {};
+            aAuxDiary = aDiary;
+            showDiary();
+        } else {
+            createTabs();
+            showDiary();
+        }
+        ID = ++length;
+        window.document.getElementById('txtID').value = ID;
+    }
+    function clear() {
+        window.document.getElementById('txtMail').value = "";
+        window.document.getElementById('txtTlf').value = "";
+        window.document.getElementById('txtName').value = "";
+    }
+    function createTabs() {
+        let key;
+        html = "";
+        html += '<div class="divRadio">';
+        control = false;
+        for (k in aInitials) {
+            html += '<input onClick="changeInitial(this.value)" type="radio" name="submenu" id=' + k + ' value="' + k +
+                '"><label class="labInitials" for="' + k + '">' + k + '</label>';
+            if (!control) {
+                key = k;
+                control = true;
+            }
+        }
+        html += '</div>';
+        window.document.getElementById('divInitials').innerHTML = html;
+        window.document.getElementById(key).checked = true;
+        addElementsDiary(key);
+    }
+    function changeInitial(value) {
+        window.document.getElementById('divData').innerHTML = "";
+        addElementsDiary(value);
+        showDiary();
+    }
+    function addElementsDiary(key) {
+        aAuxDiary = {};
+        for (k in aDiary) {
+            if (aDiary[k].nombre.charAt(0).toUpperCase() === key) {
+                aAuxDiary[k] = Object.create(Object.prototype);
+                aAuxDiary[k].nombre = aDiary[k].nombre;
+                aAuxDiary[k].correo = aDiary[k].correo;
+                aAuxDiary[k].tlf = aDiary[k].tlf;
+            }
+        }
+    }
+    function buttonControl() {
+        if (window.document.getElementById('txtName').value == '' || butModify.disabled == false) {
+            disableButtonAdd();
+        } else {
+            butAdd.disabled = false;
+            butAdd.style.opacity = 1;
+            butAdd.style.cursor = "pointer";
+        }
+    }
+    function disableButtonModify() {
+        butModify.disabled = true;
+        butModify.style.opacity = 0.5;
+        butModify.style.cursor = "not-allowed";
+    }
+    function disableButtonAdd() {
+        butAdd.disabled = true;
+        butAdd.style.opacity = 0.5;
+        butAdd.style.cursor = "not-allowed";
+    }
+</script>
+
+</html>

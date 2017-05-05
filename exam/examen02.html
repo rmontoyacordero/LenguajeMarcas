@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Mapa</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                width: 70%;
+                height: 100%;
+                float: left;
+            }
+            #har {
+                width: 30%;
+                height: 100%;
+                background-color: #ffffff;
+                float: right;
+                color: black;
+                border: 1px solid #000;
+                overflow: scroll;
+            }
+            #pos {
+                height: 10%;
+                text-align: center;
+                color: #fff;
+                background: #000;
+            }
+            #pos div {
+                padding: 20px;
+            }
+            #country div {
+                padding: 20px;
+                cursor: pointer;
+                border-bottom: 1px solid #cecece;
+            }
+            .divCountry:hover{
+                background: #A2A2FE;  
+            }
+            #country div:nth-child(even) {
+                background: #D8D8FD;
+            }
+            #country div:nth-child(even) div {
+                border: none;
+            }
+            .allInfo {
+                color: #4982EA;
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="map"></div>
+        <div id="har">
+            <div id="pos"></div>
+            <div id="country"></div>
+        </div>
+        <script>
+            const DISTANCIA = 100;
+            var map, lat, lon, marker, markerPorts = {},
+                    status, xmlDoc,
+                    aArrays = [aPorts = {}, aCountryCodes = {}, aDepthCode = {}, aDryDock = {}, aHarborSize = {}, aMaximum = {},
+                        aRepairsCode = {},
+                        aShelter = {},
+                        aWpiRegion = {}
+                    ];
+            aPortsRadio = {};
+            var aPortsOrdenacion=[];
+            var aDistancia=[];
+            window.onload = function () {
+                let xmlArray = [
+                    "WpiData", "CountryCodes", "DepthCode", "DryDockMarineRailwayCode", "HarborSize",
+                    "MaximumSizeVessel", "RepairsCode", "ShelterAfforded", "WPIRegion"
+                ];
+                for (let i = 0; i < xmlArray.length; i++) {
+                    let xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open('GET', xmlArray[i] + '.xml', false);
+                    xmlhttp.send();
+                    xmlDoc = xmlhttp.responseXML;
+                    getNodes(i);
+                }
+            }
+
+            function initMap() {
+                var geocoder = new google.maps.Geocoder;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {
+                        lat: 36.057,
+                        lng: -3.559
+                    },
+                    zoom: 8
+                });
+                google.maps.event.addListener(map, 'click', function (event) {
+                    lat = event.latLng.lat();
+                    lon = event.latLng.lng();
+                    var myLatlng = new google.maps.LatLng(lat, lon);
+                    document.getElementById("pos").innerHTML = "<div>" + lat + "," + lon + "</div>";
+                    if (marker) {
+                        marker.setMap(null);
+                        for (k in markerPorts) {
+                            markerPorts[k].marker.setMap(null);
+                        }
+                    }
+                    marker = new google.maps.Marker({
+                        position: myLatlng,
+                        title: "Posición actual",
+                        icon: "https://35032beae2695ca54eb4-e70e51a7e06dfa1ec801031c9e0043e8.ssl.cf1.rackcdn.com/common/alert_icon.gif"
+                    });
+                    geocoder.geocode({
+                        'location': myLatlng
+                    }, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            alert("tierra");
+                        } else {
+                            marker.setMap(map);
+                            showPorts(lat, lon);
+                        }
+                    });
+
+                });
+            }
+
+            function getNodes(i) {
+                let id;
+                let nodos = {};
+                nodos = xmlDoc.evaluate("//Row", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                let thisNode = nodos.iterateNext();
+                while (thisNode) {
+                    id = thisNode.children[0].textContent;
+                    aArrays[i][id] = Object.create(Object.prototype);
+                    for (let k = 0; k < thisNode.children.length; k++) {
+                        aArrays[i][id][thisNode.children[k].tagName] = thisNode.children[k].textContent;
+                    }
+                    thisNode = nodos.iterateNext();
+                }
+            }
+
+            function showPorts(lat, lon) {
+                let flag = true;
+                let html = "";
+                aPortsRadio = [];
+                aDistancia=[];
+                aPortsOrdenacion=[];
+                for (k in aArrays[0]) {
+                    aArrays[0][k].lat = ConvertDMSToDD(parseInt(aArrays[0][k].Latitude_degrees), parseInt(aArrays[0][k].Latitude_minutes),
+                            aArrays[0][k].Latitude_hemisphere);
+                    aArrays[0][k].lng = ConvertDMSToDD(parseInt(aArrays[0][k].Longitude_degrees), parseInt(aArrays[0][k].Longitude_minutes),
+                            aArrays[0][k].Longitude_hemisphere);
+                    if (getDistanceFromLatLonInKm(lat, lon, aArrays[0][k].lat, aArrays[0][k].lng) <= DISTANCIA) {
+                        flag = false;
+                        aPortsRadio[k] = Object.create(Object.prototype);
+                        aPortsRadio[k].nombre = aArrays[0][k].Main_port_name;
+                        aPortsOrdenacion.push(aArrays[0][k].Main_port_name);
+                        aPortsRadio[k].lat = aArrays[0][k].lat;
+                        aPortsRadio[k].lng = aArrays[0][k].lng;
+                        aPortsRadio[k].distancia = (getDistanceFromLatLonInKm(lat, lon, aArrays[0][k].lat, aArrays[0][k].lng)).toFixed(0);
+                        aDistancia.push(aPortsRadio[k].distancia);
+                       
+
+                    }
+                }
+                if (flag)
+                    alert("No se encuentra puerto");
+                    orderDistancia();
+                    writePort();
+                generateMarkers();
+            }
+            function writePort(){
+                console.log("hola")
+                let html="";
+                for(let i =0;i<aPortsOrdenacion.length;i++){
+                    for(k in aPortsRadio){
+                        if (aPortsOrdenacion[i] === aPortsRadio[k].nombre){
+                            html += '<div class="divCountry" id="' + aPortsRadio[k].nombre + '" onClick="displayInfo(this.id)"><strong>' +
+                                aPortsRadio[k].nombre + " a " + aPortsRadio[k].distancia+" Km</strong></div>";
+                        html += '<div class="allInfo" id="' + aPortsRadio[k].nombre + 'All">' + getAllInformation(k) +
+                                '</div>';
+                        }
+                    }
+                }
+                document.getElementById("country").innerHTML = html;
+            }
+            function orderDistancia(){
+                for (var i = 1; i < aDistancia.length; i++) {
+                             for (var j = 0; j < (aDistancia.length - i); j++) {
+                                 if (aDistancia[j] > aDistancia[j + 1]) {
+                                     k = aPortsOrdenacion[j + 1];
+                                     aPortsOrdenacion[j + 1] = aPortsOrdenacion[j];
+                                     aPortsOrdenacion[j] = k;
+                                     h = aDistancia[j + 1];
+                                     aDistancia[j + 1] = aDistancia[j];
+                                     aDistancia[j] = h;
+
+                                 }
+                             }
+                         }
+            }
+            function getAllInformation(id) {
+                let html = ""
+                for (let i = 0; i < aArrays.length; i++) {
+                    for (z in aArrays[0][id]) {
+                        html += '<div>' + z + " " + aArrays[0][id][z] + '</div>';
+                    }
+                }
+                return html;
+            }
+
+            function generateMarkers() {
+                markerPorts = {};
+                for (k in aPortsRadio) {
+                    let myLatLngPorts = {
+                        lat: parseFloat(aPortsRadio[k].lat),
+                        lng: parseFloat(aPortsRadio[k].lng)
+                    };
+                    markerPorts[k] = Object.create(Object.prototype);
+                    markerPorts[k].marker = new google.maps.Marker({
+                        position: myLatLngPorts,
+                        title: aPortsRadio[k].nombre + ' a '+ aPortsRadio[k].distancia + ' a Km',
+                        map: map
+                    });
+                }
+                showMarkers();
+
+            }
+            function showMarkers() {
+                for (k in markerPorts) {
+                    markerPorts[k].marker.setMap(map);
+                }
+            }
+            function ConvertDMSToDD(degrees, minutes, direction) {
+                var dd = degrees + minutes / 60;
+                if (direction == "S" || direction == "W") {
+                    dd = dd * -1; //Longitud
+                } else if ((direction == "N" || direction == "E")) {
+                    dd = dd * 1; //Latitud
+                }
+                return dd;
+            }
+            function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+                var R = 6371; // Radius of the earth in km
+                var dLat = deg2rad(lat2 - lat1); // deg2rad below
+                var dLon = deg2rad(lon2 - lon1);
+                var a =
+                        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c; // Distance in km
+                return d;
+            }
+
+            function deg2rad(deg) {
+                return deg * (Math.PI / 180);
+            }
+
+            function displayInfo(bloq) {
+                obj = document.getElementById(bloq + "All");
+                obj.style.display = (obj.style.display == 'none') ? 'block' : 'none';
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTfrjlwEZXvjqyb2KqkUUq32b0bAO_fno&callback=initMap" async
+        defer></script>
+    </body>
+
+</html>

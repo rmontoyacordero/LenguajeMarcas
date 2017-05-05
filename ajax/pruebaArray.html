@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    
+</head>
+<body>
+    
+</body>
+<script src="../js/ajaxCG.js"></script>
+<script>
+    var Ciudades={};
+    window.onload=function(){
+        let xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open('GET', "../xml/CIUDADESSPCORTAS.xml", false)
+                    xmlhttp.send();
+                    xmlDoc = xmlhttp.responseXML;
+                    let nodos = {};
+                    nodos = xmlDoc.evaluate("//LUGAR", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                    let thisNode = nodos.iterateNext();
+                    while (thisNode) {
+                        let id = thisNode.getAttribute('ID');
+                        Ciudades[id]=Object.create(Object.prototype);
+                        Ciudades[id].ciudad=thisNode.getAttribute('CIUDAD');
+                        Ciudades[id].ciudadct=thisNode.getAttribute('CIUDADCT');
+                        Ciudades[id].latitud=parseInt(thisNode.getAttribute('LATITUD'));
+                        Ciudades[id].longitud=parseInt(thisNode.getAttribute('LONGITUD'));
+                                 thisNode = nodos.iterateNext();
+                    }
+                   console.log(JSON.stringify(Ciudades));
+                   var aCiudad=JSON.stringify(Ciudades);
+         ajax({
+                type: 'POST',
+                url: '../dev/pruebapeticion.php',
+                data: {aCiudad:aCiudad},
+                parse: true
+            }).then((data) => {
+                console.log(data);
+                
+            }).catch((error) => {
+                console.log(error);
+            });
+    
+    }
+</script>
+</html>

@@ -1,0 +1,305 @@
+
+
+<html>
+    <head>
+        <title>Juego Geografia</title>
+        <link href="https://fonts.googleapis.com/css?family=Oswald|Sansita" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+        <style type="text/css">
+            body {
+                background-image: url(http://danygq.esy.es/LM/pracXML/fondoGeografia.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-attachment: fixed;
+                color: #000;
+                font-family: helvetica, arial;
+                font-size: 13px;
+                display: inline;
+            }
+            label {
+                font-size: 1.2em;
+                width: 60px;
+                display: inline-block;
+            }
+            span {
+                display: block;
+                width: 200px;
+                margin: 5px;
+                font-size: 15px;
+                float: left;
+            }
+            span[data-span="left"] {
+                box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+                font-family: 'Oswald', sans-serif;
+                cursor: pointer;
+                background-color: azure;
+                border: 1px solid #00008b;
+                border-radius: 5px;
+                text-align: center;
+            }
+            span[data-span="right"] {
+                box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+                font-family: 'Oswald', sans-serif;
+                cursor: auto;
+                background-color: azure;
+                border: 1px solid #00008b;
+                border-radius: 5px;
+                text-align: center;
+            }
+            #divBuscar {
+                background-color: #efefef;
+                width: 45%;
+                border: 6px solid #000;
+                -webkit-border-radius: 15px/15px;
+                -moz-border-radius: 15px/15px;
+                min-height: 300px;
+                float: left;
+                margin-top: 20px;
+                margin-left: 30px;
+                font-family: helvetica, arial;
+                font-size: 13px;
+            }
+            #divDatos {
+                width: 60%;
+                padding: 15px;
+                margin: 0px auto;
+                margin-top: 7px;
+                font-size: 13px;
+            }
+            #divRadio {
+                background-color: #efefef;
+                width: 45%;
+                border: 6px solid #000;
+                -webkit-border-radius: 15px/15px;
+                -moz-border-radius: 15px/15px;
+                min-height: 300px;
+                float: left;
+                margin-top: 20px;
+                margin-left: 30px;
+                font-family: helvetica, arial;
+                font-size: 13px;
+                visibility: hidden;
+            }
+            #divMap {
+                background-color: #efefef;
+                width: 45%;
+                border: 6px solid #000;
+                -webkit-border-radius: 15px/15px;
+                -moz-border-radius: 15px/15px;
+                min-height: 300px;
+                float: right;
+                margin-top: 20px;
+                margin-right: 50px;
+                font-family: helvetica, arial;
+                font-size: 13px;
+                visibility: hidden;
+            }
+            header {
+                text-shadow: -2px 0 darkblue, 0 2px darkblue, 2px 0 darkblue, 0 -2px darkblue;
+                color:white;
+                font-family: 'Sansita', sans-serif;
+                margin-top: -30px;
+                text-align: center;
+                font-size: 20px;
+            }
+            input[type=text] {
+                padding: 5px;
+                border: 2px solid #ccc;
+                -webkit-border-radius: 5px;
+                border-radius: 5px;
+            }
+            input[type=text]:focus {
+                border-color: #333;
+            }
+            input[type=button] {
+                display: inline-block;
+                color: white;
+                font: 13px Futura, ‘Century Gothic’, AppleGothic, sans-serif;
+                padding: 14px;
+                margin-left: 15px;
+                background-color: rgb(54, 110, 184);
+                border: 1px solid #00008b;
+                -moz-border-radius: 10px;
+                -webkit-border-radius: 30px;
+                border-radius: 10px;
+                border-bottom: 1px solid rgba(54, 110, 184, 0.8);
+                -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+                -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+                box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+                cursor: pointer;
+            }
+            input[type=button]:hover {
+                background-color: rgba(54, 110, 184, 0.8);
+            }
+            input[type=button]:disabled {
+                background-color: gainsboro;
+                border:1px solid gainsboro;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Pueblos de España</h1>
+        </header>
+        <div id="divBuscar">
+            <div id="divDatos">
+                <label for="txtPattern">Patrón: </label>
+                <input type="text" name="txtPattern" id="txtPattern" oninput="getTownInput(21)">
+                <input type="button" id="butBuscar" name="butBuscar" value="Ver mas" onclick="getTownInput(juegoGeografia.length)"/>
+            </div>
+            <div id="divPueblos"></div>
+        </div>
+        <div id="divRadio"></div>
+        <div id="divMap" style="visibility: hidden;"><h1 align="center">Mapa Google</h1>
+            <div id="mapGoogle" style="width: 95%; height: 70%; margin: 20px auto;"></div>
+        </div>
+    </body>
+    <script>
+        let juegoGeografia = {};
+        let arrayTown = {};
+        let contArray;
+        let idTown;
+        window.onload = function () {
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', 'CIUDADESSP.xml', false);
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+            if (window.document.getElementById('txtPattern').value === "") {
+                window.document.getElementById("butBuscar").disabled = true;
+            }
+        };
+
+        function getTownInput(num) {
+            let nodos = {};
+            juegoGeografia = [];
+            let pattern = window.document.getElementById('txtPattern').value;
+            if (pattern === "") {
+                window.document.getElementById('divPueblos').innerHTML = "";
+                window.document.getElementById('butBuscar').disabled = true;
+            } else {
+                window.document.getElementById('butBuscar').disabled = false;
+                nodos = xmlDoc.evaluate("//LUGAR[starts-with(@CIUDAD, '" + pattern + "')][position()<" + num + "]", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                let thisNode = nodos.iterateNext();
+                while (thisNode) {
+                    let id = thisNode.getAttribute('ID');
+                    juegoGeografia[id] = Object.create(Object.prototype);
+                    juegoGeografia[id].ciudad = thisNode.getAttribute('CIUDAD');
+                    juegoGeografia[id].ciudadct = thisNode.getAttribute('CIUDADCT');
+                    juegoGeografia[id].lon = thisNode.getAttribute('LONGITUD');
+                    juegoGeografia[id].lon = juegoGeografia[id].lon.replace(",", ".");
+                    juegoGeografia[id].lat = thisNode.getAttribute('LATITUD');
+                    juegoGeografia[id].lat = juegoGeografia[id].lat.replace(",", ".");
+                    thisNode = nodos.iterateNext();
+                }
+            }
+            showContent();
+        }
+        function showContent() {
+            let html = "";
+            for (k in juegoGeografia) {
+                html += '<span id="' + k + '" class="spanList" data-span="left">' + juegoGeografia[k].ciudad + '</span>';
+            }
+            window.document.getElementById('divPueblos').innerHTML = html;
+            let spans = window.document.getElementsByClassName('spanList');
+            for (let i = 0; i < spans.length; i++) {
+                spans[i].addEventListener("click", passTown, false);
+            }
+        }
+        function passTown(event) {
+            idTown = event.target.id;
+            window.document.getElementById('divRadio').style.visibility = "visible";
+            window.document.getElementById('divMap').style.visibility = "hidden";
+            let html = "";
+            html = '<h1 align="center">Búsqueda de pueblos</h1>';
+            html += '<span data-span="right">' + juegoGeografia[idTown].ciudad + '</span>';
+            html += "<label for='txtRadio'>Radio: </label><input type='text' name='txtRadio' id='txtRadio' oninput='checkInput()'><input type='button' name='butRadio' id='butRadio' onClick='checkTown()' value='Ir' disabled>";
+            html += "<input type='button' name='butMap' id='butMap' onClick='showHideDiv()' value='Mapa' style='visibility: hidden;'>";
+            html += "<div id='divRadTown'></div>";
+            window.document.getElementById('divRadio').innerHTML = html;
+        }
+        function checkInput() {
+            let pattern = window.document.getElementById('txtRadio').value;
+            if (pattern === "") {
+                window.document.getElementById("butRadio").disabled = true;
+            } else {
+                window.document.getElementById("butRadio").disabled = false;
+            }
+        }
+        function checkTown() {
+            let map = new google.maps.Map(document.getElementById('mapGoogle'), {
+                zoom: 11,
+                center: new google.maps.LatLng(juegoGeografia[idTown].lat, juegoGeografia[idTown].lon),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            let infowindow = new google.maps.InfoWindow();
+            let marker;
+            
+            var R = 6371;   //radio de la Tierra en KM
+            var radioValue = window.document.getElementById("txtRadio").value;
+            let html = "";
+            let newNodos = {};
+            
+            window.document.getElementById("butMap").style.visibility = "visible";
+           var prueba =Date.now();
+           console.time(prueba);
+            newNodos = xmlDoc.evaluate("//LUGAR", xmlDoc, null, XPathResult.ANY_TYPE, null);
+            let thisNode = newNodos.iterateNext();
+            while (thisNode) {
+                let id = thisNode.getAttribute('ID');
+                arrayTown[id] = Object.create(Object.prototype);
+                arrayTown[id].ciudad = thisNode.getAttribute('CIUDAD');
+                arrayTown[id].ciudadct = thisNode.getAttribute('CIUDADCT');
+                arrayTown[id].lon = thisNode.getAttribute('LONGITUD');
+                arrayTown[id].lon = arrayTown[id].lon.replace(",", ".");
+                arrayTown[id].lat = thisNode.getAttribute('LATITUD');
+                arrayTown[id].lat = arrayTown[id].lat.replace(",", ".");
+                thisNode = newNodos.iterateNext();
+            }
+            console.timeEnd(prueba)
+            for (k in arrayTown) {
+                let lat2 = juegoGeografia[idTown].lat;
+                let lon2 = juegoGeografia[idTown].lon;
+                let lat1 = arrayTown[k].lat;
+                let lon1 = arrayTown[k].lon;
+                let dLat = deg2rad(lat2 - lat1);
+                let dLon = deg2rad(lon2 - lon1);
+                let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                let d = R * c;
+                if (d <= radioValue) {
+                    let nomPueblo = arrayTown[k].ciudad;
+                    if (k !== idTown) {
+                        html += '<span id="' + k + '" data-span="right">' + nomPueblo + '</span>';
+                    }
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(arrayTown[k].lat, arrayTown[k].lon),
+                        map: map
+                    });
+                    google.maps.event.addListener(marker, 'click', (function (marker) {
+                        return function () {
+                            infowindow.setContent(nomPueblo);
+                            infowindow.open(mapGoogle, marker);
+                        };
+                    })(marker));
+                }
+            }
+            document.getElementById('divRadTown').innerHTML = html;
+        }
+        function showHideDiv() {
+            var map = window.document.getElementById('divMap');
+            if (map.style.visibility === "hidden") {
+                map.style.visibility = "visible";
+                document.getElementById('divMap').scrollIntoView();
+            } else {
+                map.style.visibility = "hidden";
+            }
+        }
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
+    </script>
+</html>

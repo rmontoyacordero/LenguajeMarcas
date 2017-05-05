@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../js/ajaxCG.js"></script>
+    </head>
+    <body>
+        <div>Demo</div>
+        <input type="text" id="txtFoo">
+        <input type="text" id="txtBar">
+        <button type="button" id="butEnviar">Enviar</button>
+        <div id="divResult"></div>
+    </body>
+    <script>
+        butEnviar.addEventListener('click', () => {
+            ajax({
+                type: 'POST',
+                url: 'peticion.php',
+                data: {foo: txtFoo.value, bar: txtBar.value},
+                parse: true
+            }).then((data) => {
+                console.log(data);
+                divResult.innerHTML = data.xml;
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
+    </script>
+</html>

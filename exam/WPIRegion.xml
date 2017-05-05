@@ -1,0 +1,1615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Import>
+	<Row>
+		<World_port_index_number>10</World_port_index_number>
+		<Area_name>GREENLAND   EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>60</World_port_index_number>
+		<Area_name>ICELAND  WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>200</World_port_index_number>
+		<Area_name>ICELAND  NORTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>360</World_port_index_number>
+		<Area_name>ICELAND  EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>490</World_port_index_number>
+		<Area_name>ICELAND  SOUTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>540</World_port_index_number>
+		<Area_name>GREENLAND EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>545</World_port_index_number>
+		<Area_name>GREENLAND  WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1005</World_port_index_number>
+		<Area_name>CANADA EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1010</World_port_index_number>
+		<Area_name>BAFFIN ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1070</World_port_index_number>
+		<Area_name>HUDSON BAY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1160</World_port_index_number>
+		<Area_name>HUDSON STRAIT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1230</World_port_index_number>
+		<Area_name>LABRADOR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1410</World_port_index_number>
+		<Area_name>NEWFOUNDLAND  E COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1680</World_port_index_number>
+		<Area_name>NEWFOUNDLAND S COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1740</World_port_index_number>
+		<Area_name>ILE ST PIERRE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1760</World_port_index_number>
+		<Area_name>ILE MIQUELON</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1780</World_port_index_number>
+		<Area_name>NEWFOUNDLAND CONT.</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1800</World_port_index_number>
+		<Area_name>NEWFOUNDLAND  W COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1870</World_port_index_number>
+		<Area_name>GULF OF ST LAWRENCE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1871</World_port_index_number>
+		<Area_name>NORTH SIDE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1910</World_port_index_number>
+		<Area_name>ANTICOSTI ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>1930</World_port_index_number>
+		<Area_name>CANADA ST LAWRENCE R</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>2270</World_port_index_number>
+		<Area_name>OTTAWA RIVER</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>2545</World_port_index_number>
+		<Area_name>CANADA ST LAWRENCE R</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>2750</World_port_index_number>
+		<Area_name>US ST LAWRENCE R</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>2820</World_port_index_number>
+		<Area_name>CANADA LAKE ONTARIO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>3120</World_port_index_number>
+		<Area_name>US LAKE ONTARIO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>3240</World_port_index_number>
+		<Area_name>CANADA LAKE ERIE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>3400</World_port_index_number>
+		<Area_name>US LAKE ERIE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>3640</World_port_index_number>
+		<Area_name>CANADA LAKE HURON</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>4300</World_port_index_number>
+		<Area_name>US LAKE HURON</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>4570</World_port_index_number>
+		<Area_name>US LAKE MICHIGAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5120</World_port_index_number>
+		<Area_name>CANADA LAKE SUPERIOR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5230</World_port_index_number>
+		<Area_name>US LAKE SUPERIOR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5500</World_port_index_number>
+		<Area_name>GULF OF ST LAWRENCE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5501</World_port_index_number>
+		<Area_name>SOUTH SIDE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5555</World_port_index_number>
+		<Area_name>NEW BRUNSWICK</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5685</World_port_index_number>
+		<Area_name>MAGDALEN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5705</World_port_index_number>
+		<Area_name>PRINCE EDWARD ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5775</World_port_index_number>
+		<Area_name>NOVA SCOTIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>5860</World_port_index_number>
+		<Area_name>CAPE BRETON ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>6070</World_port_index_number>
+		<Area_name>NOVA SCOTIA CONT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>6585</World_port_index_number>
+		<Area_name>UNITED STATES E COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>8650</World_port_index_number>
+		<Area_name>US GULF COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9350</World_port_index_number>
+		<Area_name>MEXICO EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9580</World_port_index_number>
+		<Area_name>BELIZE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9600</World_port_index_number>
+		<Area_name>GUATEMALA EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9630</World_port_index_number>
+		<Area_name>HONDURAS EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9705</World_port_index_number>
+		<Area_name>ISLA DE GUANAJA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9740</World_port_index_number>
+		<Area_name>NICARAGUA EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9800</World_port_index_number>
+		<Area_name>COSTA RICA E COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9820</World_port_index_number>
+		<Area_name>PANAMA EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9930</World_port_index_number>
+		<Area_name>BERMUDA ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9970</World_port_index_number>
+		<Area_name>WEST INDIES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>9980</World_port_index_number>
+		<Area_name>BAHAMA ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10016</World_port_index_number>
+		<Area_name>TURKS AND CAICOS IS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10030</World_port_index_number>
+		<Area_name>CUBA NORTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10310</World_port_index_number>
+		<Area_name>CUBA SOUTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10575</World_port_index_number>
+		<Area_name>CAYMAN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10590</World_port_index_number>
+		<Area_name>JAMAICA NORTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10730</World_port_index_number>
+		<Area_name>JAMAICA SOUTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10810</World_port_index_number>
+		<Area_name>HAITI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>10950</World_port_index_number>
+		<Area_name>DOMINICAN REPUBLIC</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11080</World_port_index_number>
+		<Area_name>PUERTO RICO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11302</World_port_index_number>
+		<Area_name>VIRGIN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11305</World_port_index_number>
+		<Area_name>ST THOMAS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11315</World_port_index_number>
+		<Area_name>ST JOHN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11325</World_port_index_number>
+		<Area_name>ST CROIX</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11345</World_port_index_number>
+		<Area_name>TORTOLA ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11355</World_port_index_number>
+		<Area_name>ST MARTIN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11375</World_port_index_number>
+		<Area_name>ST BARTHELEMY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11382</World_port_index_number>
+		<Area_name>NETHERLANDS ANTILLES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11385</World_port_index_number>
+		<Area_name>SAINT EUSTATIUS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11392</World_port_index_number>
+		<Area_name>SAINT KITTS AND NEVIS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11415</World_port_index_number>
+		<Area_name>MONTSERRAT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11426</World_port_index_number>
+		<Area_name>ANTIGUA AND BARBUDA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11445</World_port_index_number>
+		<Area_name>GUADELOUPE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11486</World_port_index_number>
+		<Area_name>MAIE GALANTE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11505</World_port_index_number>
+		<Area_name>ILES DES SAINTES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11515</World_port_index_number>
+		<Area_name>DOMINICA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11535</World_port_index_number>
+		<Area_name>MARTINIQUE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11615</World_port_index_number>
+		<Area_name>SAINT LUCIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11636</World_port_index_number>
+		<Area_name>ST VINCENT AND GRENADINES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11637</World_port_index_number>
+		<Area_name>SAINT VINCENT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11665</World_port_index_number>
+		<Area_name>GRENADA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11675</World_port_index_number>
+		<Area_name>BARBADOS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11692</World_port_index_number>
+		<Area_name>TRINIDAD AND TOBAGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11695</World_port_index_number>
+		<Area_name>TOBAGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11705</World_port_index_number>
+		<Area_name>TRINIDAD</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11773</World_port_index_number>
+		<Area_name>NETHERLANDS ANTILLES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11775</World_port_index_number>
+		<Area_name>BONAIRE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11785</World_port_index_number>
+		<Area_name>CURACAO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11825</World_port_index_number>
+		<Area_name>ARUBA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11860</World_port_index_number>
+		<Area_name>COLOMBIA NORTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>11950</World_port_index_number>
+		<Area_name>VENEZUELA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12350</World_port_index_number>
+		<Area_name>GUYANA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12395</World_port_index_number>
+		<Area_name>SURINAME</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12440</World_port_index_number>
+		<Area_name>FRENCH GUIANA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12470</World_port_index_number>
+		<Area_name>BRAZIL NE COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12565</World_port_index_number>
+		<Area_name>PERU AMAZON RIVER</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12575</World_port_index_number>
+		<Area_name>BRAZIL NE COAST CONT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>12700</World_port_index_number>
+		<Area_name>BRAZIL SE COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>13090</World_port_index_number>
+		<Area_name>URUGUAY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>13190</World_port_index_number>
+		<Area_name>PARAGUAY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>13310</World_port_index_number>
+		<Area_name>ARGENTINA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>13990</World_port_index_number>
+		<Area_name>FALKLAND ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>14010</World_port_index_number>
+		<Area_name>SOUTH GEORGIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>14070</World_port_index_number>
+		<Area_name>CHILE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>14830</World_port_index_number>
+		<Area_name>PERU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15240</World_port_index_number>
+		<Area_name>ECUADOR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15340</World_port_index_number>
+		<Area_name>GALAPAGOS ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15350</World_port_index_number>
+		<Area_name>COLOMBIA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15380</World_port_index_number>
+		<Area_name>PANAMA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15470</World_port_index_number>
+		<Area_name>COSTA RICA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15520</World_port_index_number>
+		<Area_name>NICARAGUA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15560</World_port_index_number>
+		<Area_name>HONDURAS WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15590</World_port_index_number>
+		<Area_name>EL SALVADOR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15650</World_port_index_number>
+		<Area_name>GUATEMALA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>15700</World_port_index_number>
+		<Area_name>MEXICO WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>16000</World_port_index_number>
+		<Area_name>UNITED STATES W COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>18080</World_port_index_number>
+		<Area_name>CANADA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>19070</World_port_index_number>
+		<Area_name>UNITED STATES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>19080</World_port_index_number>
+		<Area_name>ALASKA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>20095</World_port_index_number>
+		<Area_name>ALEUTIAN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>20185</World_port_index_number>
+		<Area_name>ALASKA CONTINUED</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>20490</World_port_index_number>
+		<Area_name>CANADA NORTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>20540</World_port_index_number>
+		<Area_name>SVALBARD</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>20620</World_port_index_number>
+		<Area_name>NORWAY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>23860</World_port_index_number>
+		<Area_name>SWEDEN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>24735</World_port_index_number>
+		<Area_name>OLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>24806</World_port_index_number>
+		<Area_name>GOTLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>24975</World_port_index_number>
+		<Area_name>SWEDEN CONT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>27380</World_port_index_number>
+		<Area_name>FINLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28250</World_port_index_number>
+		<Area_name>RUSSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28420</World_port_index_number>
+		<Area_name>ESTONIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28600</World_port_index_number>
+		<Area_name>LATVIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28650</World_port_index_number>
+		<Area_name>LITHUANIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28670</World_port_index_number>
+		<Area_name>RUSSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28700</World_port_index_number>
+		<Area_name>POLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>28826</World_port_index_number>
+		<Area_name>GERMANY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29010</World_port_index_number>
+		<Area_name>DENMARK</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29020</World_port_index_number>
+		<Area_name>BORNHOLM</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29150</World_port_index_number>
+		<Area_name>SJAELLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29570</World_port_index_number>
+		<Area_name>FALSTER</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29650</World_port_index_number>
+		<Area_name>LOLLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29730</World_port_index_number>
+		<Area_name>LANGELAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29780</World_port_index_number>
+		<Area_name>AERO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29820</World_port_index_number>
+		<Area_name>FYN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>29970</World_port_index_number>
+		<Area_name>SAMSO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>30020</World_port_index_number>
+		<Area_name>JYLLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>30650</World_port_index_number>
+		<Area_name>GERMANY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>30980</World_port_index_number>
+		<Area_name>NETHERLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>31240</World_port_index_number>
+		<Area_name>BELGIUM</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>31325</World_port_index_number>
+		<Area_name>UNITED KINGDOM</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>31330</World_port_index_number>
+		<Area_name>ENGLAND EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>31870</World_port_index_number>
+		<Area_name>SCOTLAND EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>32390</World_port_index_number>
+		<Area_name>ORKNEY ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>32510</World_port_index_number>
+		<Area_name>SHETLAND ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>32660</World_port_index_number>
+		<Area_name>FAROE ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>32755</World_port_index_number>
+		<Area_name>UNITED KINGDOM CONT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>32760</World_port_index_number>
+		<Area_name>SCOTLAND NORTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>32790</World_port_index_number>
+		<Area_name>SCOTLAND WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>33580</World_port_index_number>
+		<Area_name>ISLE OF MAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>33630</World_port_index_number>
+		<Area_name>NORTHERN IRELAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>33840</World_port_index_number>
+		<Area_name>IRELAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>34580</World_port_index_number>
+		<Area_name>ENGLAND WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>34710</World_port_index_number>
+		<Area_name>WALES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>35030</World_port_index_number>
+		<Area_name>ENGLAND SW COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>35220</World_port_index_number>
+		<Area_name>ENGLAND SOUTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>35720</World_port_index_number>
+		<Area_name>FRANCE NW COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>35970</World_port_index_number>
+		<Area_name>CHANNEL ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>36060</World_port_index_number>
+		<Area_name>FRANCE NW COAST CONT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>36450</World_port_index_number>
+		<Area_name>FRANCE WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>37270</World_port_index_number>
+		<Area_name>SPAIN N COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>37930</World_port_index_number>
+		<Area_name>PORTUGAL</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38060</World_port_index_number>
+		<Area_name>ACORES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38120</World_port_index_number>
+		<Area_name>ARQUIPELAGO DA MADEIRA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38135</World_port_index_number>
+		<Area_name>SPAIN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38140</World_port_index_number>
+		<Area_name>ISLAS CANARIAS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38200</World_port_index_number>
+		<Area_name>SPAIN SW COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38320</World_port_index_number>
+		<Area_name>GIBRALTAR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38340</World_port_index_number>
+		<Area_name>SPAIN SE COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38600</World_port_index_number>
+		<Area_name>ISLAS BALEARES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>38710</World_port_index_number>
+		<Area_name>FRANCE SOUTH COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39020</World_port_index_number>
+		<Area_name>MONACO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39030</World_port_index_number>
+		<Area_name>FRANCE CONTINUED</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39040</World_port_index_number>
+		<Area_name>CORSE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39125</World_port_index_number>
+		<Area_name>ITALY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39130</World_port_index_number>
+		<Area_name>SARDEGNA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39330</World_port_index_number>
+		<Area_name>ITALY WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39620</World_port_index_number>
+		<Area_name>ELBA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>39730</World_port_index_number>
+		<Area_name>ITALY WEST COAST CONT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40090</World_port_index_number>
+		<Area_name>SICILIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40290</World_port_index_number>
+		<Area_name>ISOLE EOLIE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40320</World_port_index_number>
+		<Area_name>MALTA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40345</World_port_index_number>
+		<Area_name>ITALY</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40350</World_port_index_number>
+		<Area_name>ISOLA DI PANTELLERIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40370</World_port_index_number>
+		<Area_name>ISOLA DI LAMPEDUSA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40390</World_port_index_number>
+		<Area_name>ITALY EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40850</World_port_index_number>
+		<Area_name>SLOVENIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>40877</World_port_index_number>
+		<Area_name>CROATIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>41560</World_port_index_number>
+		<Area_name>SERBIA AND MONTENEGRO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>41650</World_port_index_number>
+		<Area_name>ALBANIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>41710</World_port_index_number>
+		<Area_name>GREECE WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>42010</World_port_index_number>
+		<Area_name>GREECE EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>42640</World_port_index_number>
+		<Area_name>AEGEAN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>42870</World_port_index_number>
+		<Area_name>KIKLADHES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>43080</World_port_index_number>
+		<Area_name>KRITI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>43180</World_port_index_number>
+		<Area_name>DHODHEKANISOS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>43325</World_port_index_number>
+		<Area_name>TURKEY EUROPE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>43460</World_port_index_number>
+		<Area_name>BULGARIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>43540</World_port_index_number>
+		<Area_name>ROMANIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>43620</World_port_index_number>
+		<Area_name>UKRAINE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>44030</World_port_index_number>
+		<Area_name>RUSSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>44275</World_port_index_number>
+		<Area_name>GEORGIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>44360</World_port_index_number>
+		<Area_name>TURKEY ASIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>44890</World_port_index_number>
+		<Area_name>CYPRUS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45000</World_port_index_number>
+		<Area_name>SYRIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45020</World_port_index_number>
+		<Area_name>LEBANON</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45060</World_port_index_number>
+		<Area_name>ISRAEL</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45120</World_port_index_number>
+		<Area_name>EGYPT MEDITERRANEAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45200</World_port_index_number>
+		<Area_name>LIBYA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45360</World_port_index_number>
+		<Area_name>TUNISIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45470</World_port_index_number>
+		<Area_name>ALGERIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45750</World_port_index_number>
+		<Area_name>MOROCCO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45805</World_port_index_number>
+		<Area_name>SPANISH SAHARA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45810</World_port_index_number>
+		<Area_name>MAURITANIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45817</World_port_index_number>
+		<Area_name>SENEGAL</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45824</World_port_index_number>
+		<Area_name>GAMBIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45833</World_port_index_number>
+		<Area_name>GUINEA BISSAU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45842</World_port_index_number>
+		<Area_name>GUINEA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45860</World_port_index_number>
+		<Area_name>SIERRA LEONE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45869</World_port_index_number>
+		<Area_name>CAPE VERDE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45920</World_port_index_number>
+		<Area_name>LIBERIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>45960</World_port_index_number>
+		<Area_name>IVORY COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46010</World_port_index_number>
+		<Area_name>GHANA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46080</World_port_index_number>
+		<Area_name>TOGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46100</World_port_index_number>
+		<Area_name>BENIN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46120</World_port_index_number>
+		<Area_name>NIGERIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46250</World_port_index_number>
+		<Area_name>CAMEROON</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46300</World_port_index_number>
+		<Area_name>EQUATORIAL GUINEA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46370</World_port_index_number>
+		<Area_name>SAO TOME AND PRINCIPE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46410</World_port_index_number>
+		<Area_name>GABON</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46455</World_port_index_number>
+		<Area_name>CONGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46478</World_port_index_number>
+		<Area_name>ANGOLA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46500</World_port_index_number>
+		<Area_name>CONGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46540</World_port_index_number>
+		<Area_name>ANGOLA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46635</World_port_index_number>
+		<Area_name>NAMIBIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46655</World_port_index_number>
+		<Area_name>ST HELENA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46660</World_port_index_number>
+		<Area_name>ASCENSION</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46700</World_port_index_number>
+		<Area_name>TRISTAN ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46715</World_port_index_number>
+		<Area_name>SOUTH AFRICA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46725</World_port_index_number>
+		<Area_name>SOUTH AFRICA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46860</World_port_index_number>
+		<Area_name>MOZAMBIQUE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>46965</World_port_index_number>
+		<Area_name>TANZANIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47090</World_port_index_number>
+		<Area_name>KENYA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47120</World_port_index_number>
+		<Area_name>SOMALIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47210</World_port_index_number>
+		<Area_name>SEYCHELLES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47295</World_port_index_number>
+		<Area_name>COMOROS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47350</World_port_index_number>
+		<Area_name>MADAGASCAR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47670</World_port_index_number>
+		<Area_name>REUNION</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47710</World_port_index_number>
+		<Area_name>MAURITIUS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47740</World_port_index_number>
+		<Area_name>RODRIGUES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47755</World_port_index_number>
+		<Area_name>BRITISH IND OCEAN TER</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47760</World_port_index_number>
+		<Area_name>CHAGOS ARCHIPELAGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47810</World_port_index_number>
+		<Area_name>SOMALIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47840</World_port_index_number>
+		<Area_name>DJIBOUTI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47870</World_port_index_number>
+		<Area_name>ERITREA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47910</World_port_index_number>
+		<Area_name>SUDAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>47950</World_port_index_number>
+		<Area_name>EGYPT RED SEA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48075</World_port_index_number>
+		<Area_name>ISRAEL</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48080</World_port_index_number>
+		<Area_name>JORDAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48100</World_port_index_number>
+		<Area_name>SAUDI ARABIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48143</World_port_index_number>
+		<Area_name>YEMEN ADEN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48195</World_port_index_number>
+		<Area_name>YEMEN SANAA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48225</World_port_index_number>
+		<Area_name>OMAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48260</World_port_index_number>
+		<Area_name>UNITED ARAB EMIRATES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48285</World_port_index_number>
+		<Area_name>QATAR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48305</World_port_index_number>
+		<Area_name>BAHRAIN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48330</World_port_index_number>
+		<Area_name>SAUDI ARABIA CONTINUED</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48350</World_port_index_number>
+		<Area_name>KUWAIT</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48375</World_port_index_number>
+		<Area_name>IRAQ</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48410</World_port_index_number>
+		<Area_name>IRAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48580</World_port_index_number>
+		<Area_name>PAKISTAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>48610</World_port_index_number>
+		<Area_name>INDIA WEST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49190</World_port_index_number>
+		<Area_name>MALDIVE ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49210</World_port_index_number>
+		<Area_name>SRI LANKA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49310</World_port_index_number>
+		<Area_name>INDIA EAST COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49570</World_port_index_number>
+		<Area_name>BANGLADESH</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49610</World_port_index_number>
+		<Area_name>BURMA (MYANMAR)</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49705</World_port_index_number>
+		<Area_name>INDIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49710</World_port_index_number>
+		<Area_name>ANDAMAN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49730</World_port_index_number>
+		<Area_name>NICOBAR ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49760</World_port_index_number>
+		<Area_name>THAILAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49820</World_port_index_number>
+		<Area_name>MALAYSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>49990</World_port_index_number>
+		<Area_name>SINGAPORE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50020</World_port_index_number>
+		<Area_name>INDONESIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50515</World_port_index_number>
+		<Area_name>SUMATERA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50840</World_port_index_number>
+		<Area_name>KEPULAUAN BATU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50855</World_port_index_number>
+		<Area_name>PULAU NIAS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50880</World_port_index_number>
+		<Area_name>COCOS ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50900</World_port_index_number>
+		<Area_name>CHRISTMAS ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50915</World_port_index_number>
+		<Area_name>INDONESIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>50920</World_port_index_number>
+		<Area_name>JAWA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51250</World_port_index_number>
+		<Area_name>LESSER SUNDA ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51430</World_port_index_number>
+		<Area_name>EAST TIMOR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51460</World_port_index_number>
+		<Area_name>KEPULAUAN TAMBELAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51480</World_port_index_number>
+		<Area_name>KEPULAUAN ANAMBAS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51510</World_port_index_number>
+		<Area_name>KEPULAUAN NATUNA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51540</World_port_index_number>
+		<Area_name>KEPULAUAN NATUNA BESA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51548</World_port_index_number>
+		<Area_name>MALAYSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51550</World_port_index_number>
+		<Area_name>SARAWAK</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51610</World_port_index_number>
+		<Area_name>BRUNEI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51647</World_port_index_number>
+		<Area_name>MALAYSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51650</World_port_index_number>
+		<Area_name>SABAH</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51760</World_port_index_number>
+		<Area_name>INDONESIA - BORNEO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>51970</World_port_index_number>
+		<Area_name>SULAWESI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52370</World_port_index_number>
+		<Area_name>KEPULAUAN SULA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52400</World_port_index_number>
+		<Area_name>KEPULAUAN SANGIHE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52470</World_port_index_number>
+		<Area_name>KEPULAUAN TALAUD</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52500</World_port_index_number>
+		<Area_name>PULAU TERNATE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52520</World_port_index_number>
+		<Area_name>PULAU BATCAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52530</World_port_index_number>
+		<Area_name>KEPULAUAN OBI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52540</World_port_index_number>
+		<Area_name>HALMAHERA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52620</World_port_index_number>
+		<Area_name>MOROTAI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52650</World_port_index_number>
+		<Area_name>SERAM</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52735</World_port_index_number>
+		<Area_name>BURU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52770</World_port_index_number>
+		<Area_name>KEPULAUAN BANDA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52790</World_port_index_number>
+		<Area_name>KEPULAUAN KAI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52820</World_port_index_number>
+		<Area_name>KEPULAUAN ARU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52850</World_port_index_number>
+		<Area_name>KEPULAUAN TANIMBAR</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>52900</World_port_index_number>
+		<Area_name>NEW GUINEA WEST COAST - IRIAN JAYA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>53135</World_port_index_number>
+		<Area_name>PAPUA NEW GUINEA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>53140</World_port_index_number>
+		<Area_name>NEW GUINEA SE COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>53210</World_port_index_number>
+		<Area_name>NEW GUINEA NE COAST</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>53290</World_port_index_number>
+		<Area_name>AUSTRALIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>54700</World_port_index_number>
+		<Area_name>TASMANIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>54990</World_port_index_number>
+		<Area_name>NEW ZEALAND N ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55260</World_port_index_number>
+		<Area_name>NEW ZEALAND S ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55460</World_port_index_number>
+		<Area_name>CHATHAM ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55490</World_port_index_number>
+		<Area_name>NORFOLK ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55510</World_port_index_number>
+		<Area_name>FIJI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55575</World_port_index_number>
+		<Area_name>TONGA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55615</World_port_index_number>
+		<Area_name>TUVALU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55619</World_port_index_number>
+		<Area_name>WALLIS AND FUTUNA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55620</World_port_index_number>
+		<Area_name>ILES DE HORNE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55640</World_port_index_number>
+		<Area_name>ILES WALLIS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55660</World_port_index_number>
+		<Area_name>SAMOA ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55665</World_port_index_number>
+		<Area_name>SOMOA WESTERN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55675</World_port_index_number>
+		<Area_name>AMERICAN SAMOA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55685</World_port_index_number>
+		<Area_name>NIUE</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55700</World_port_index_number>
+		<Area_name>COOK ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55755</World_port_index_number>
+		<Area_name>FRENCH POLYNESIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55765</World_port_index_number>
+		<Area_name>SOCIETY ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55845</World_port_index_number>
+		<Area_name>ILES AUSTRALES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55855</World_port_index_number>
+		<Area_name>RAPA ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>55860</World_port_index_number>
+		<Area_name>ILES TUAMOTU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56000</World_port_index_number>
+		<Area_name>ILES MARQUISES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56019</World_port_index_number>
+		<Area_name>KIRIBATI (PHOENIX) ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56030</World_port_index_number>
+		<Area_name>CHRISTMAS ATOLL</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56037</World_port_index_number>
+		<Area_name>TABUAERAN ATOLL (FANNING ISLAND)</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56045</World_port_index_number>
+		<Area_name>UNITED STATES</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56050</World_port_index_number>
+		<Area_name>HAWAIIAN ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56324</World_port_index_number>
+		<Area_name>JOHNSTON ATOLL</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56327</World_port_index_number>
+		<Area_name>MIDWAY ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56329</World_port_index_number>
+		<Area_name>WAKE ISLAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56340</World_port_index_number>
+		<Area_name>MARSHALL ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56425</World_port_index_number>
+		<Area_name>KIRIBATI</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56430</World_port_index_number>
+		<Area_name>GILBERT ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56495</World_port_index_number>
+		<Area_name>NAURU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56515</World_port_index_number>
+		<Area_name>NORTHERN MARIANA IS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56545</World_port_index_number>
+		<Area_name>GUAM</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56555</World_port_index_number>
+		<Area_name>FEDERATED STATES OF MICRONESIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56560</World_port_index_number>
+		<Area_name>CAROLINE ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56695</World_port_index_number>
+		<Area_name>PAPUA NEW GUINEA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56700</World_port_index_number>
+		<Area_name>BISMARCK ARCHIPELAGO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>56940</World_port_index_number>
+		<Area_name>SOLOMON ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57140</World_port_index_number>
+		<Area_name>SANTA CRUZ ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57160</World_port_index_number>
+		<Area_name>VANUATU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57260</World_port_index_number>
+		<Area_name>NEW CALEDONIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57400</World_port_index_number>
+		<Area_name>MALAYSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57431</World_port_index_number>
+		<Area_name>THAILAND</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57478</World_port_index_number>
+		<Area_name>CAMBODIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57510</World_port_index_number>
+		<Area_name>VIETNAM</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57740</World_port_index_number>
+		<Area_name>CHINA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57805</World_port_index_number>
+		<Area_name>MACAU</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57815</World_port_index_number>
+		<Area_name>CHINA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57835</World_port_index_number>
+		<Area_name>HONG KONG</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57855</World_port_index_number>
+		<Area_name>CHINA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57880</World_port_index_number>
+		<Area_name>TAIWAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57940</World_port_index_number>
+		<Area_name>PENG HU LIFH TAO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>57960</World_port_index_number>
+		<Area_name>PHILIPPINE ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>59850</World_port_index_number>
+		<Area_name>CHINA CONTINUED</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>60270</World_port_index_number>
+		<Area_name>NORTH KOREA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>60315</World_port_index_number>
+		<Area_name>SOUTH KOREA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>60438</World_port_index_number>
+		<Area_name>NORTH KOREA CONTINUED</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>60530</World_port_index_number>
+		<Area_name>RUSSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>60840</World_port_index_number>
+		<Area_name>SAKHALIN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>61070</World_port_index_number>
+		<Area_name>KURIL ISLANDS</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>61100</World_port_index_number>
+		<Area_name>JAPAN</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>62470</World_port_index_number>
+		<Area_name>NANSEI SHOTO</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>62530</World_port_index_number>
+		<Area_name>RUSSIA</Area_name>
+	</Row>
+	<Row>
+		<World_port_index_number>63060</World_port_index_number>
+		<Area_name>ANTARCTICA</Area_name>
+	</Row>
+</Import>

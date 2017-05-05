@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Generar Ciudades</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTfrjlwEZXvjqyb2KqkUUq32b0bAO_fno"></script>
+    <script src="../js/ajaxCG.js"></script>
+</head>
+<body>
+    <select id="txtID" name="txtID">
+        <option value="Append">Append</option>
+        <option value="CreateA">CreateA</option>
+        <option value="CreateB">CreateB</option>
+    </select>
+    <input type="button" value="Crear" onclick="iniciar()"/>
+</body>
+<script>
+    var cont;
+    var Ciudades={};
+    var prueba={};
+    var aCiudad={};
+    var geocoder = new google.maps.Geocoder();
+    function iniciar(){
+        cont=0;
+        Ciudades={};
+        prueba={};
+        aCiudad={};
+      
+        let xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open('GET', "../xml/CIUDADESSPCORTAS.xml", false)
+                    xmlhttp.send();
+                    xmlDoc = xmlhttp.responseXML;
+                    let nodos = {};
+                    nodos = xmlDoc.evaluate("//LUGAR", xmlDoc, null, XPathResult.ANY_TYPE, null);
+                    let thisNode = nodos.iterateNext();
+                    while (thisNode) {
+                        let id = thisNode.getAttribute('ID');
+                        Ciudades[id] = Object.create(Object.prototype);
+                        var latlng = new google.maps.LatLng(parseInt(thisNode.getAttribute('LATITUD')), parseInt(thisNode.getAttribute(
+                            'LONGITUD')));
+                        Ciudades[id].latlng = latlng;
+                        calculoGeocodo(id);
+                        thisNode = nodos.iterateNext();
+                    }
+
+    }
+    function calculoGeocodo(id) {
+        cont++;
+        geocoder.geocode({
+                'latLng': Ciudades[id].latlng
+            },
+            function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    prueba[id] = Object.create(Object.prototype);
+                    prueba[id].longName = results[4].address_components[1].long_name;
+                    prueba[id].shortName = results[4].address_components[1].short_name;
+                    prueba[id].cp = results[0].address_components[results[0].address_components.length - 1].long_name;
+                    prueba[id].id=id;
+                }
+
+            })
+        if (cont == 4) {
+            
+            setTimeout( ()=>{
+                let opcion = window.document.getElementById('txtID').value;
+                console.log(opcion)
+                switch(opcion){
+                    case "Append": peticion3();
+                    break;
+                    case "CreateA": peticion();
+                    break;
+                    case "CreateB": peticion2();
+                    break;
+                }
+               
+            },1000)
+        }
+    }
+        function peticion(){
+            
+            aCiudad=JSON.stringify(prueba);
+            console.log(aCiudad)
+            ajax({
+            type: 'POST',
+            url: '..generarCiudadesCortas.php',
+            data: {aCiudad:aCiudad},
+            parse: true
+        }).then((data) => {
+          console.log(data);
+        }).catch((error) => {
+            console.log("error");
+        });
+        }
+    
+    function peticion2(){
+        aCiudad=JSON.stringify(prueba);
+            ajax({
+            type: 'POST',
+            url: 'generarCiudadesCortas2.php',
+            data: {aCiudad:aCiudad},
+            parse: true
+        }).then((data) => {
+          console.log(data);
+        }).catch((error) => {
+            console.log("error");
+        });
+    }
+    function peticion3(){
+        aCiudad=JSON.stringify(prueba);
+            ajax({
+            type: 'POST',
+            url: 'generarCiudadesCortas3.php',
+            data: {aCiudad:aCiudad},
+            parse: true
+        }).then((data) => {
+          console.log(data);
+        }).catch((error) => {
+            console.log("error");
+        });
+    }
+</script>
+</html>
