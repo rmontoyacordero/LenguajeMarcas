@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Osticket</title>
+    <style>
+    #divFormulario{
+        float: left;
+        width: 45%;
+        height: 45%;
+    }
+    #divResultado{
+        float: left;
+        width: 45%;
+        height: 45%;
+    }
+    </style>
+</head>
+<body>
+    <div id="divFormulario">
+        <div class="contenform pull-left">
+            <h2>Introduce tus datos</h2>
+            <form>
+                <div class="form-group">
+                    <label for="idUsuario">ID Usuario/Email:</label>
+                    <input type="text" class="form-control" id="idUsuario" placeholder="Introduzce id / email">
+                </div>
+                <div class="form-group">
+                    <label for="idEmail">Pass:</label>
+                    <input type="text" class="form-control" id="idPass" placeholder="Introduzca la contraseña">
+                </div>
+                <div class="form-group">
+                    <label for="date">Fecha:</label>
+                    <input type="text" class="form-control" id="datepicker">
+                </div>
+                <div class="form-group">
+                    <label for="time">Hora:</label>
+                    <input type="text" class="form-control" id="time">
+                </div>
+                <div class="form-group">
+                    <label for="tickets">Entradas:</label>
+                    <input type="number" class="form-control" id="tickets" placeholder="Introduzca entradas">
+                </div>
+                <button type="button" class="btn-info btn pull-right" id="butReserve">Reservar </button>
+            </form>
+        </div>
+    </div>
+    <div id="divResultado">
+
+    </div>
+</body>
+</html>

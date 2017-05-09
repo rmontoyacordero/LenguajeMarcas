@@ -1,31 +1,19 @@
 <?php
 
 ini_set('error_reporting', E_ALL ^ E_NOTICE);
-define(RUTA, __DIR__ . DIRECTORY_SEPARAT);
-define(FICHERO, __DIR__ . DIRECTORY_SEPARATOR . 'LugaresInteres.xml');
+define(RUTA, __DIR__ . DIRECTORY_SEPARATOR);
 
-class LugaresInteres {
-private $dom,$xpath;
+define(FICHERO, __DIR__ . DIRECTORY_SEPARATOR . 'lugaresInt.xml');
 
-function __construct() {
+class lugaresInt {
+
+    private $dom, $xpath;
+
+    function __construct() {
         $this->dom = new DOMDocument('1.0', 'utf-8');
-
-        
-        
     }
-function genXML(){
-    $this->dom = new DOMDocument();
-    $str='<Lugares>';
-    $str.='<informacionGeneral>';
-    $str.='<nombreProducto>Lugares de inters</nombreProducto>';
-    $str.='<version>1.0</version>';
-    $str.='<grupo>S11AW</grupo>';
-    $str.='<fecha>20170427</fecha>';
-    $str.='</informacionGeneral></Lugares>';
-    $this->dom->loadXML($str);
-    $this->dom->save(RUTA . 'LugaresInteres.xml');
-}
-function genNodos($latitud,$longitud,$cpostal,$lugartext,$fototext,$obsertext){
+
+    function genLugar($latitud,$longitud,$cpostal,$lugartext,$fototext,$obsertext){
     $this->dom = new DOMDocument();
     $this->dom->load(FICHERO);
     $this->xpath = new DOMXPath( $this->dom);
@@ -48,14 +36,20 @@ function genNodos($latitud,$longitud,$cpostal,$lugartext,$fototext,$obsertext){
             $geo->appendChild($foto);
             $geo->appendChild($observaciones);
             $this->dom->save(FICHERO);
-            /*$str='<lugar id='uniqid()'><localizacion><geo lat='$latitud' lon='$longitud'><cpostal>'$cpostal'</cpostal><lugar>'$lugartext'</lugar><foto>'$fototext'</foto><observaciones>'$obsertext'</observaciones></geo><localizacion></lugar>';
-            $this->dom->loadXML($str);*/
-
         }
         return json_encode(array("status"=>"ok", "mensaje"=>"Alta realizada"));
-    }    
-    
-                    
+    }   
+
+    public function genCabecera() {
+        $str = '<lugares>';
+        $str .=     '<informacionGeneral>';
+        $str .=         '<nombreProducto>Lugares de interés</nombreProducto>';
+        $str .=          '<grupo>S11AW</grupo>';
+        $str .=          '<fecha>20170427</fecha>';
+        $str .=     '</informacionGeneral>';
+        $str .= '</lugares>';
+        $this->dom->loadXML($str);
+        $this->dom->save(FICHERO);
+    }
 
 }
-
