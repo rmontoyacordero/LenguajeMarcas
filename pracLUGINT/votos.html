@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="divInicio">Hola, </div>
+</body>
+<script>
+    var usuario;
+    window.onload = () => {
+        if (localStorage.getItem('usuario')) {
+            usuario = localStorage.getItem('usuario');
+            divInicio.innerHTML += usuario;
+            localStorage.removeItem('usuario');
+        }
+    
+    }
+    butVotar.onclick=() => {
+        ajax({
+            type: 'POST',
+            url: 'login.php',
+            data: {
+                user: "",
+                votos: "",
+                check: "votacion",
+                navegador:"",
+                iDlugar: "" 
+
+            },
+            parse: true
+        }).then((data) => {
+           console.log(data);
+
+        }).catch((error) => {
+            console.log(error);
+        });
+    
+    }
+</script>
+
+</html>

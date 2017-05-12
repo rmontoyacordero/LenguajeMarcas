@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script src="../js/ajaxCG.js"></script>        
+    </head>
+
+    <body>
+        <div id="divInicio">Hola, </div>
+    </body>
+    <script>
+        var usuario;
+        window.onload = () => {
+            ajax({
+                type: 'POST',
+                url: 'controlSesion.php',
+                parse: true
+            }).then((data) => {
+                if (data.status == "ok") {
+                    divInicio.innerHTML += 'de la sesión ' + data.usuario;
+                } else {
+                    window.location.href = 'login.html';
+                }
+
+            }).catch((error) => {
+                console.log(error);
+            });
+
+            if (localStorage.getItem('usuario')) {
+                usuario = localStorage.getItem('usuario');
+                divInicio.innerHTML += usuario;
+                localStorage.removeItem('usuario');
+            }
+        }
+    </script>
+
+</html>

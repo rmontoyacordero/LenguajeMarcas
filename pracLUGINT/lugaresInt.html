@@ -1,0 +1,367 @@
+<html>
+    <head>
+        <title>Lugares de interes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Sansita" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBC44DVf-uNgDfVK4UdRd97qLojU2AWfj4&libraries=places&callback=initMap"
+        async defer></script>
+        <script src="../js/ajaxCG.js"></script>
+        <style>
+            body {
+                background-color: #e2ffe2;
+                text-align: center;
+            }
+
+            header {
+                margin-top: -20px;
+            }
+
+            h1 {
+                background-color: floralwhite;
+                color: #323133;
+                font-family: 'Sansita', sans-serif;
+                font-size: 48px;
+                letter-spacing: -1px;
+                text-align: center;
+                text-shadow: 1px 1px #fff, 0 0 #0e0e0e, 2px 3px 1px #e3e3e3;
+                text-transform: none;
+                word-spacing: -2px;
+                padding: 15px;
+                border: solid 4px black;
+                border-radius: 12px;
+            }
+
+            h2 {
+                margin: auto;
+            }
+
+
+            label {
+                font-family: 'Libre Baskerville', serif;
+                display: block;
+                margin-bottom: 8px;
+            }
+
+            input {
+                display: block;
+                margin-bottom: 5px;
+                width: 60%;
+            }
+
+            input[type="text"]:focus {
+                background: #d2d9dd;
+                color: black;
+            }
+
+            button {
+                cursor: pointer;
+                position: relative;
+                display: block;
+                padding: 19px 39px 18px 39px;
+                color: #FFF;
+                margin: 0 auto;
+                background: #1abc9c;
+                font-size: 18px;
+                text-align: center;
+                font-style: normal;
+                width: 100%;
+                border: 1px solid #16a085;
+                border-width: 1px 1px 3px;
+                margin-bottom: 10px;
+                min-width: 115px;
+            }
+
+            button:hover {
+                background: #109177;
+            }
+
+            button:disabled {
+                background: gainsboro;
+                border: 1px solid gainsboro;
+                border-width: 1px 1px 3px;
+                cursor: not-allowed;
+            }
+
+            .latLon {
+                width: 75px;
+                display: inline-block;
+            }
+
+            #rateLug {
+                margin-left: 5px;
+                background: none;
+                border: none;
+                display: inline-block;
+            }
+
+            #imagen img {
+                max-height: 250px;
+                max-width: 250px;
+            }
+
+            #divContainer {
+                display: flex;
+            }
+
+            #divMapa,
+            #divFormulario {
+                text-align: left;
+                display: inline-block;
+                width: 46%;
+                min-width: 284px;
+                border-style: solid;
+                border-color: cadetblue;
+                padding: 10px 20px;
+                background: #f4f7f8;
+                margin: 10px auto;
+                padding: 20px;
+                background: #f4f7f8;
+                border-radius: 8px;
+                font-family: Georgia, "Times New Roman", Times, serif;
+            }
+
+            .labelRateLug,
+            #URLfoto,
+            #previewPhoto {
+                display: inline-block;
+            }
+
+            #URLfoto {
+                width: 60%;
+            }
+
+            #previewPhoto {
+                padding: 0px 0px 0px 0px;
+                width: 25%;
+            }
+
+            #map {
+                height: 70%;
+            }
+            /*CSS del Google Map*/
+
+            .controls {
+                margin-top: 10px;
+                border: 1px solid transparent;
+                border-radius: 2px 0 0 2px;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                height: 32px;
+                outline: none;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+
+            #pac-input {
+                background-color: #fff;
+                font-family: Roboto;
+                font-size: 15px;
+                font-weight: 300;
+                margin-left: 15%;
+                padding: 0 11px 0 13px;
+                text-overflow: ellipsis;
+                width: 300px;
+            }
+
+            #pac-input:focus {
+                border-color: #4d90fe;
+            }
+
+            .pac-container {
+                font-family: Roboto;
+            }
+
+            #type-selector {
+                color: #fff;
+                background-color: #4d90fe;
+                padding: 5px 11px 0px 11px;
+            }
+
+            #type-selector label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>Lugares de interes</h1>
+        </header>
+        <div id="divContainer">
+            <div id="divMapa">
+                <label>Geolocalización:</label>
+                <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+                <div id="map"></div>
+                <button type="button" id="butSeleccionar">Seleccionar</button>
+            </div>
+            <div id="divFormulario">
+                <label>Formulario Lugar:</label>
+                <form onsubmit='return onSubmit(this)'>
+                    <input id="idLug" name="id" class="inputForm" style="display: none">
+                    <input id="nomLug" name="lugar" placeholder="Nombre" class="form inputForm" readonly>
+                    <input id="ciudadLug" name="ciudad" placeholder="Ciudad" class="form inputForm" readonly>
+                    <input id="paisLug" name="pais" placeholder="País" class="form inputForm" readonly>
+                    <input id="direccionLug" name="direccion" placeholder="Dirección" class="form inputForm" readonly>
+                    <input id="latLug" name="lat" placeholder="Latitud" class="latLon inputForm" readonly>
+                    <input id="lonLug" name="lon" placeholder="Longitud" class="latLon inputForm" readonly>
+                    <br>
+                    <label class="labelRateLug">Puntuación: </label><input id="rateLug" name="puntuacion" class="inputForm" readonly></label>
+                    <label>Imagen:</label>
+                    <input id="URLfoto" name="URLfoto" class="inputForm" placeholder="URL foto">
+                    <button type="button" id="previewPhoto">Previsualizar</button>
+                    <div id="imagen"></div>
+                    <button type="submit" id="butGuardar">Guardar</button>
+                    <button type="button" id="butLimpiar">Limpiar</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        var place = {};
+        var lat;
+        var lon;
+        window.onload = function () {
+            butGuardar.disabled = true;
+            butSeleccionar.disabled = true;
+            previewPhoto.disabled = true;
+            URLfoto.addEventListener('input', () => {
+                if (URLfoto.value == "") {
+                    previewPhoto.disabled = true;
+                } else {
+                    previewPhoto.disabled = false;
+                }
+            })
+        }
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 40.416775,
+                    lng: -3.70379
+                },
+                zoom: 6
+            });
+            var input = /** @type {!HTMLInputElement} */ (
+                    document.getElementById('pac-input'));
+
+            var types = document.getElementById('type-selector');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker = new google.maps.Marker({
+                map: map,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            autocomplete.addListener('place_changed', function () {
+                infowindow.close();
+                marker.setVisible(false);
+                place = autocomplete.getPlace();
+                butSeleccionar.disabled = false;
+                limpiar();
+                lat = place.geometry.location.lat().toFixed(4);
+                lon = place.geometry.location.lng().toFixed(4);
+                if (!place.geometry) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                }
+                marker.setIcon(/** @type {google.maps.Icon} */ ({
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(35, 35)
+                }));
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''),
+                        (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || '')
+                    ].join(' ');
+                }
+                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                infowindow.open(map, marker);
+            });
+        }
+
+        butSeleccionar.addEventListener('click', () => {
+            var locality;
+            var html = place.adr_address.substring(place.adr_address.indexOf('<'), place.adr_address.lastIndexOf(
+                    '>') + 1);
+            var country = $(html).filter('.country-name')[0].innerHTML;
+            if (html.includes('locality')) {
+                locality = $(html).filter('.locality')[0].innerHTML;
+            } else if (html.includes('region')) {
+                locality = $(html).filter('.region')[0].innerHTML;
+            } else {
+                locality = place.name;
+            }
+            idLug.value = place.place_id;
+            nomLug.value = place.name;
+            ciudadLug.value = locality;
+            paisLug.value = country;
+            direccionLug.value = place.formatted_address;
+            latLug.value = lat;
+            lonLug.value = lon;
+            if (place.rating != null) {
+                rateLug.value = place.rating;
+            } else {
+                rateLug.value = "";
+            }
+            butGuardar.disabled = false;
+        });
+
+        previewPhoto.addEventListener('click', () => {
+            if (document.getElementById('URLfoto').value != "") {
+                var src = document.getElementById('URLfoto').value;
+                var img = "<img src='" + src + "'></img>";
+                document.getElementById('imagen').innerHTML = img;
+            }
+        });
+        butLimpiar.addEventListener('click', () => {
+            limpiar();
+        });
+
+        function limpiar() {
+            let inputs = window.document.getElementsByClassName('inputForm');
+            for (k in inputs) {
+                inputs[k].value = "";
+            }
+            butGuardar.disabled = true;
+            $("#imagen img").remove();
+        }
+
+        function onSubmit(form) {
+            var data = JSON.stringify($(form).serializeArray());
+            ajax({
+                type: 'POST',
+                url: 'lugaresInt.php',
+                data: {
+                    data: data
+                }
+            }).then((data) => {
+                limpiar();
+            }).catch((error) => {
+                console.log(error);
+            });
+            return false;
+        }
+    </script>
+
+</html>

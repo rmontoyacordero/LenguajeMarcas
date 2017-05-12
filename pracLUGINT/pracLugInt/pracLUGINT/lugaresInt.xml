@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lugares>
+	<informacionGeneral>
+		<nombreProducto>Lugares de interés</nombreProducto>
+		<version>1.0</version>
+		<grupo>S11AW</grupo>
+		<fecha>20170427</fecha>
+	</informacionGeneral>
+	<lugar id="ChIJSThaPwklcg0R6ljlfZcK43U" pos="1">
+		<localizacion>
+			<geo lat="36.7501" lon="-3.8670">
+				<lugar>Playa de Burriana</lugar>
+				<ciudad>Playa de Burriana</ciudad>
+				<pais>España</pais>
+				<direccion>Playa de Burriana, España</direccion><![CDATA[http://www.nerja.com/modules/news/imgs/7.jpg]]></geo>
+		</localizacion>
+		<voto user="dani" t="1494498190">
+			<item>4</item>
+			<ip>80.38.250.33</ip>
+			<userAgent><![CDATA[Gecko-Mozilla]]></userAgent>
+		</voto>
+		<voto user="ramses" t="1494498194">
+			<item>5</item>
+			<ip>56.521.34.21</ip>
+			<userAgent><![CDATA[]]></userAgent>
+		</voto>
+	</lugar>
+	<lugar id="ChIJr9bPxM4ncg0RjP--4tPku58">
+		<localizacion>
+			<geo lat="36.7375" lon="-3.7772">
+				<lugar>Playa de Cantarriján</lugar>
+				<ciudad>Granada</ciudad>
+				<pais>España</pais>
+				<direccion>Almuñécar, Granada, España</direccion>
+				<puntuacion>4.5</puntuacion><![CDATA[http://www.ideal.es/noticias/201409/04/media/cortadas/gr-playa--575x323.jpg]]></geo>
+		</localizacion>
+	</lugar>
+	<lugar id="ChIJB-7Pc3T8cg0ReT-dNu6iVrw">
+		<localizacion>
+			<geo lat="36.6076" lon="-4.5046">
+				<lugar>Playa de la Carihuela</lugar>
+				<ciudad>Playa de la Carihuela</ciudad>
+				<pais>España</pais>
+				<direccion>Playa de la Carihuela, España</direccion><![CDATA[http://www.torremolinosbenalmadena.com/fotos/playas/p_playa-la-carihuela--1.jpg]]></geo>
+		</localizacion>
+	</lugar>
+</lugares>
