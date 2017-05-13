@@ -6,21 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+    #divMapa{
+        width: 400px;
+        height: 400px;
+    }</style>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
 </head>
 
 <body>
     <div id="divInicio">Hola, </div>
+    <div id="divMapa"></div>
 </body>
 <script>
     var usuario;
+    var aPlayas=[];
     window.onload = () => {
         if (localStorage.getItem('usuario')) {
             usuario = localStorage.getItem('usuario');
             divInicio.innerHTML += usuario;
             localStorage.removeItem('usuario');
         }
+        xml();
+        mapa();
+        console.log(aPlayas);
+
     
     }
+    /*
     butVotar.onclick=() => {
         ajax({
             type: 'POST',
@@ -41,6 +54,62 @@
             console.log(error);
         });
     
+    }*/
+    function xml(){
+        let xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', 'lugaresInt.xml', false)
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+        let nodos = {};
+            nodos = xmlDoc.evaluate("/lugares/lugar", xmlDoc, null, XPathResult.ANY_TYPE, null);
+            let thisNode = nodos.iterateNext();
+            while (thisNode) {
+                let id = thisNode.getAttribute('id');
+                console.log(id);
+                aPlayas[id] = Object.create(Object.prototype);
+                aPlayas[id].pos = thisNode.getAttribute('pos');
+                aPlayas[id].lat= thisNode.children[0].children[0].getAttribute('lat');
+                aPlayas[id].lon =thisNode.children[0].children[0].getAttribute('lon');
+                console.log(aPlayas[id].lat);
+                console.log(aPlayas[id].lon);
+               /* aPlayas[id].lugar=thisNode.children[0].children[0].children[0].nodeValue;
+                aPlayas[id].ciudad=thisNode.children[0].children[0].children[2].nodeValue;
+                console.log(aPlayas[id].ciudad);
+                console.log(aPlayas[id].lugar);
+                aPlayas[id].pais=thisNode.children[0].children[0].children[4].nodeValue;
+                aPlayas[id].direccion=thisNode.children[0].children[0].children[6].nodeValue;
+                aPlayas[id].foro=thisNode.children[0].children[0].children[8].nodeValue;*/
+                thisNode = nodos.iterateNext();
+             }
+    }
+    function mapa(){
+        var dMapa = document.getElementById('divMapa');
+        var LatLon = new google.maps.LatLng(36.721274,-4.421399);
+        var objConfig = {
+            zoom:100,
+            center:LatLon
+        };
+        var gMapa = new google.maps.Map(dMapa,objConfig);
+        for(k in aPlayas){
+            var LatLon = new google.maps.LatLng(aPlayas[k].lat,aPlayas[k].lon);
+            var objConfigMarker = {
+                    position:LatLon,
+                    map: gMapa
+                    };
+            var contentString = '<div><div>Nombre: '+aPlayas[k].lat+'</div>';
+                contentString +='<div> Ciudad: '+aPlayas[k].lon+'</div></div>';
+               // contentString +='<div> Ciudad: '+aPlayas[k].pais+'</div>';
+               // contentString +='<div> Ciudad: '+aPlayas[k].direccion+'</div>';
+                //contentString +='<img src='+aPlayas[k].foto+'></div>';
+            var gMarker = new google.maps.Marker (objConfigMarker);
+            var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                gMarker.addListener('click', function() {
+                    infowindow.open(dMapa, gMarker);
+                });
+            
+        }
     }
 </script>
 

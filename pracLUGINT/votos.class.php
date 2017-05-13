@@ -52,7 +52,7 @@ class votos{
         }
     }
     function burbuja($ranking,$ranking_variable){
-        
+
         foreach($ranking as $id){
             array_push($result,$id);
         }
