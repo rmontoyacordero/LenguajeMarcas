@@ -13,19 +13,19 @@ class votos{
     function givePoint($user,$votos,$navegador,$idLugar,$tiempo,$ip){
         $this->dom->load(FICHERO);
         $this->xpath = new DOMXPath($this->dom);
-        foreach ($this->xpath->query("//lugar[@id='".$idLugar."']") as $nodo) {
+            foreach ($this->xpath->query("//lugar[@id='$idLugar']") as $nodo) {
             $node_voto = $this->dom->createElement('JAVIER');
-            $nodo->appendChild($node_voto);
             $node_voto->setAttribute("user",$user);
             $node_voto->setAttribute("t",$tiempo);
             $node_item =$this->dom->createElement('item',$votos);
             $node_ip=$this->dom->createElement('item',$ip);
             $node_userAgent=$this->dom->createElement('userAgent',$navegador);
+            $nodo->appendChild($node_voto);
             $node_voto->appendChild($node_item);
             $node_voto->appendChild($node_ip);
             $node_voto->appendChild($node_userAgent);
-            $this->dom->save(FICHERO);
-        }              
+        }   
+    $this->dom->save(FICHERO);           
     }
     function ranking(){
         $this->dom->load(FICHERO);
@@ -52,6 +52,13 @@ class votos{
                 $this->dom->save(FICHERO);
             }
         }
+        foreach($this->xpath->query("//voto[@t = max(/lugares/lugar[@id='$idLugar']/voto/@t)]") as $nodo){
+            $votante = $nodo->getAttribute('user');
+        }
+        $puntuacion=0;
+        foreach($this->xpath->query("/lugares/lugar[@id='$idlugar']/voto/item") as $nodo){
+            $puntuacion+=(int)$nodo->nodeValue;
+        }
     }
     function crearListado(){
         $this->dom->load(FICHERO);
@@ -66,8 +73,7 @@ class votos{
                                 'pais'=>$nodo_geo->childNodes[5]->nodeValue,
                                 'direccion'=>$nodo_geo->childNodes[7]->nodeValue,
                                 'foto'=>$nodo_geo->childNodes[9]->nodeValue
-                                );
-                                
+                                );   
                     if($nodo_geo->parentNode->parentNode->getAttribute("pos")){
                         $aPlayas[$nodo_geo->parentNode->parentNode->getAttribute("id")]+=array(
                             'pos'=>$nodo_geo->parentNode->parentNode->getAttribute("pos")
@@ -75,6 +81,6 @@ class votos{
                         
                     }
           }
-       echo json_encode(array("aPlayas"=>$aPlayas));
+       echo json_encode($aPlayas);
     }
 }

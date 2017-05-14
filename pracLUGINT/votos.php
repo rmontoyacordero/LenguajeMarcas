@@ -20,5 +20,5 @@ if($accion == "votacion"){
     echo $vot->ranking();
     echo $vot->crearListado();
 }
-echo $vot->givePoint("dani","3","Mozilla","ChIJSThaPwklcg0R6ljlfZcK43U","15000","80.125.0.1");
 
+echo $vot->crearListado();

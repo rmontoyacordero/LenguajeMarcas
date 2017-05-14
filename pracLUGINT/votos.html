@@ -6,11 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <style>
-    #divMapa{
-        width: 400px;
-        height: 400px;
-    }</style>
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		.ec-stars-wrapper {
+	/* Espacio entre los inline-block (los hijos, los `a`) 
+	   http://ksesocss.blogspot.com/2012/03/display-inline-block-y-sus-empeno-en.html */
+	font-size: 0;
+	/* Podríamos quitarlo, 
+		pero de esta manera (siempre que no le demos padding), 
+		sólo aplicará la regla .ec-stars-wrapper:hover a cuando
+		también se esté haciendo hover a alguna estrella */
+	display: inline-block;
+}
+.ec-stars-wrapper a {
+	text-decoration: none;
+	display: inline-block;
+	/* Volver a dar tamaño al texto */
+	font-size: 32px;
+	font-size: 2rem;
+	
+	color: #888;
+}
+
+.ec-stars-wrapper:hover a {
+	color: rgb(39, 130, 228);
+}
+/*
+ * El selector de hijo, es necesario para aumentar la especifidad
+ */
+.ec-stars-wrapper > a:hover ~ a {
+	color: #888;
+}
+		#divMapa {
+			width: 400px;
+			height: 400px;
+		}
+		#contador{
+			padding: 15px;
+			display: inline;
+		}
+		#divPuntuacion{
+			padding: 15px;
+			margin: 10px 0;
+		}
+	</style>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
      <script src="../js/ajaxCG.js"></script>
 </head>
@@ -18,6 +59,40 @@
 <body>
     <div id="divInicio">Hola, </div>
     <div id="divMapa"></div>
+    <div class="panel panel-primary pull-right" id="divDatos">
+		<div class="panel-heading" id="namePlaya"></div>
+		<div class="panel-body">
+			<div id="divPuntuacion">
+			<!--<label class="radio-inline">
+      <input type="radio"  value="1" name="optradio"> 1
+    </label>
+			<label class="radio-inline">
+      <input type="radio" value="2"  name="optradio"> 2
+    </label>
+			<label class="radio-inline">
+      <input type="radio" value="3"  name="optradio"> 3
+    </label>
+			<label class="radio-inline">
+      <input type="radio" value="4"  name="optradio"> 4
+    </label>
+			<label class="radio-inline">
+      <input type="radio" value="5"  name="optradio"> 5
+	  </div>
+	  
+	 
+    </label>-->
+	<div class="ec-stars-wrapper">
+	<a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+	<a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
+	<a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
+	<a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
+	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
+</div>
+ <div id="contador">8</div> 
+	  <button class="btn-primary btn-lg">Enviar</button>
+		</div>
+	</div>
+    
 </body>
 <script>
     var usuario;
@@ -30,7 +105,9 @@
         }
         xml();
         mapa();*/
-        mostrarRanking();
+        xml();
+        mapa();
+        
         
 
     
@@ -67,18 +144,16 @@
             let thisNode = nodos.iterateNext();
             while (thisNode) {
                 let id = thisNode.getAttribute('id');
-                console.log(id);
                 aPlayas[id] = Object.create(Object.prototype);
-                aPlayas[id].pos = thisNode.getAttribute('pos');
-                aPlayas[id].lat= thisNode.children[0].children[0].getAttribute('lat');
-                aPlayas[id].lon =thisNode.children[0].children[0].getAttribute('lon');
-               /* aPlayas[id].lugar=thisNode.children[0].children[0].children[0].nodeValue;
-                aPlayas[id].ciudad=thisNode.children[0].children[0].children[2].nodeValue;
-                console.log(aPlayas[id].ciudad);
-                console.log(aPlayas[id].lugar);
-                aPlayas[id].pais=thisNode.children[0].children[0].children[4].nodeValue;
-                aPlayas[id].direccion=thisNode.children[0].children[0].children[6].nodeValue;
-                aPlayas[id].foro=thisNode.children[0].children[0].children[8].nodeValue;*/
+                if(thisNode.getAttribute('pos')){
+                    aPlayas[id].pos = thisNode.getAttribute('pos');
+                }
+                var shortNode=thisNode.children[0].children[0];
+                aPlayas[id].lat= shortNode.getAttribute('lat');
+                aPlayas[id].lon =shortNode.getAttribute('lon');
+                for(var i=0;i<shortNode.children.length;i++){
+                    aPlayas[id][shortNode.children[i].nodeName]=shortNode.children[i].textContent;
+                }   
                 thisNode = nodos.iterateNext();
              }
     }
@@ -86,36 +161,34 @@
         var dMapa = document.getElementById('divMapa');
         var LatLon = new google.maps.LatLng(36.721274,-4.421399);
         var objConfig = {
-            zoom:10,
+            zoom:8,
             center:LatLon
         };
+        var contentString = {};
         var gMapa = new google.maps.Map(dMapa,objConfig);
         for(k in aPlayas){
             var LatLon = new google.maps.LatLng(aPlayas[k].lat,aPlayas[k].lon);
             var objConfigMarker = {
                     position:LatLon,
-                    map: gMapa
-                    };
-            var contentString = '<div><div>Nombre: '+aPlayas[k].lat+'</div>';
-                contentString +='<div> Ciudad: '+aPlayas[k].lon+'</div></div>';
-               // contentString +='<div> Ciudad: '+aPlayas[k].pais+'</div>';
-               // contentString +='<div> Ciudad: '+aPlayas[k].direccion+'</div>';
-                //contentString +='<img src='+aPlayas[k].foto+'></div>';
-            var gMarker = new google.maps.Marker (objConfigMarker);
-            var infowindow = new google.maps.InfoWindow({
-                    content: contentString
-                });
-                gMarker.addListener('click', function(k) {
-                console.log(k);
+                    map: gMapa,
                    
+                    };
+            var gMarker = new google.maps.Marker (objConfigMarker);
+            
+           contentString[gMarker.position] = Object.create(Object.prototype);
+                contentString[gMarker.position] = '<div><div>Nombre: '+aPlayas[k].lugar+'</div>Dirección: '+aPlayas[k].direccion+'</div>Ciudad: '+aPlayas[k].ciudad+'</div>País: '+aPlayas[k].pais+'</div><img><button type=button id="'+k+'" onclick="generateVotation(this.id)">Votar</button></div>';
+                var infowindow = new google.maps.InfoWindow();
+                 gMarker.addListener('click', function() {
+                    infowindow.setContent(contentString[this.position]);
+                    infowindow.open(gMapa,this);
                 });
                 
         }
+       
     }
-    
-    function rellenar(k){
-        var contenido='<div>Nombre: '+aPlayas[k].lat+'</div>';
-        window.document.getElementById('puntuacion').innerHTML=contenido;
+    function generateVotation(k){
+        mostrarRanking();
+       
     }
     function mostrarRanking(){
         ajax({
@@ -126,6 +199,9 @@
             },
             parse: true
         }).then((data) => {
+             window.document.getElementById('namePlaya').innerHTML=aPlaya[k].lugar;
+            window.document.getElementById('divDatos').style.display="block";
+            data=aPlayas;
            console.log(data);
 
         }).catch((error) => {
