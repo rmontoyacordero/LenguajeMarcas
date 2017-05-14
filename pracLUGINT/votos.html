@@ -40,8 +40,13 @@
 	color: #888;
 }
 		#divMapa {
-			width: 400px;
-			height: 400px;
+			
+	width: 60%;
+    height: 500px;
+    margin:20px 20px;
+    float:left;
+    
+
 		}
 		#contador{
 			padding: 15px;
@@ -51,15 +56,34 @@
 			padding: 15px;
 			margin: 10px 0;
 		}
+        #divInicio{
+            width: 100%;
+            height: 50px;
+            margin-top: 3px;
+            font-size: 30px;
+            text-align: center;
+        }
+        .divBeach{
+            width: 35%;
+            box-sizing: border-box;
+            float: left;
+            margin-top:20px;
+            display: none;
+        }
+        .divSiteInformation{
+            padding: 15px;
+        }
+        
 	</style>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
      <script src="../js/ajaxCG.js"></script>
 </head>
 
 <body>
+    <div class="container">
     <div id="divInicio">Hola, </div>
     <div id="divMapa"></div>
-    <div class="panel panel-primary pull-right" id="divDatos">
+    <div class="panel panel-primary pull-right divBeach" id="divBeach1">
 		<div class="panel-heading" id="namePlaya"></div>
 		<div class="panel-body">
 			<div id="divPuntuacion">
@@ -92,12 +116,25 @@
 	  <button id="butVotar" class="btn-primary btn-lg" >Enviar</button>
 		</div>
 	</div>
-    
+    </div>
+    <div class="panel panel-primary pull-right divBeach" id="divBeach2">
+		<div class="panel-heading">Datos del sitio </div>
+		<div class="divSiteInformation">
+		<div>
+			<Strong>Votos totales :</Strong><span id="sTotalVotes"> 180</span></div>
+		<div>
+			<Strong>Fecha último voto :</Strong><span id="sLastVote"> 10/3/2017</span></div>
+		<div>
+			<Strong>Último votante:</Strong><span id="sLastVoter"> Emilio Aragon</span></div>
+	</div>
+	</div>
+    </div>
 </body>
 <script>
-    var usuario;
+    var usuario="dani";
     var aPlayas=[];
     window.onload = () => {
+        window.document.getElementById('divInicio').innerHTML+=usuario;
        let xmlhttp = new XMLHttpRequest();
             xmlhttp.open('GET', 'lugaresInt.xml', false)
             xmlhttp.send();
@@ -125,13 +162,12 @@
     butVotar.onclick=() => {
         ajax({
             type: 'POST',
-            url: 'login.php',
+            url: 'votos.php',
             data: {
                 check: "votacion",
                 user: usuario,
                 votos: "",
-                iDlugar: "" ,
-                tiempo:""
+                iDlugar: "" 
 
             },
             parse: true
@@ -161,8 +197,17 @@
                     };
             var gMarker = new google.maps.Marker (objConfigMarker);
             
-           contentString[gMarker.position] = Object.create(Object.prototype);
-                contentString[gMarker.position] = '<div><div>Nombre: '+aPlayas[k].lugar+'</div>Dirección: '+aPlayas[k].direccion+'</div>Ciudad: '+aPlayas[k].ciudad+'</div>País: '+aPlayas[k].pais+'</div><img><button type=button id="'+k+'" onclick="generateVotation(this.id)">Votar</button></div>';
+          contentString[gMarker.position] = '<div class="row" >';
+            contentString[gMarker.position] += '<h4 class="text-center">' + aPlayas[k].lugar + '</h4>';
+            contentString[gMarker.position] += '<div class="col-sm-3"><img style="width:50px;height:50px" src="' +
+                aPlayas[k].foto + '"></div>';
+            contentString[gMarker.position] += '<div class="col-sm-6"><div>Dirección: ' + aPlayas[k]
+                .direccion + '</div>';
+            contentString[gMarker.position] += '<div>Ciudad: ' + aPlayas[k].ciudad + '</div>';
+            contentString[gMarker.position] += '<div>País: ' + aPlayas[k].pais +
+                '</div></div>';
+            contentString[gMarker.position] += '<div class="col-sm-3"><button class="btn btn-success" type=button id="' + k +
+                '" onclick="generateVotation(this.id)">Votar</button></div></div>';
                 var infowindow = new google.maps.InfoWindow();
                  gMarker.addListener('click', function() {
                     infowindow.setContent(contentString[this.position]);
@@ -173,6 +218,7 @@
        
     }
     function generateVotation(k){
+       
        ajax({
             type: 'POST',
             url: 'votos.php',
@@ -182,11 +228,12 @@
             },
             parse: true
         }).then((data) => {
-            window.document.getElementById('namePlaya').innerHTML=aPlaya[k].lugar;
-            window.document.getElementById('divDatos').style.display="block";
-            var uVotante=data.votante;
-            var uFecha=data.fecha;
-            var uPuntuacion=data.puntuacion;
+            window.document.getElementById('namePlaya').innerHTML=aPlayas[k].lugar;
+            window.document.getElementById('divBeach1').style.display="block";
+            window.document.getElementById('divBeach2').style.display="block";
+            window.document.getElementById('sTotalVotes').innerHTML=data.puntuacion;
+            window.document.getElementById('sLastVote').innerHTML=data.fecha;
+            window.document.getElementById('sLastVoter').innerHTML=data.votante;
            
 
         }).catch((error) => {

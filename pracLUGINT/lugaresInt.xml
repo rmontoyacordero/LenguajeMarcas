@@ -12,17 +12,25 @@
 				<lugar>Playa de Burriana</lugar>
 				<ciudad>Playa de Burriana</ciudad>
 				<pais>España</pais>
-				<direccion>Playa de Burriana, España</direccion><![CDATA[http://www.nerja.com/modules/news/imgs/7.jpg]]></geo>
+				<direccion>Playa de Burriana, España</direccion>
+				<foto>
+					<![CDATA[http://www.nerja.com/modules/news/imgs/7.jpg]]>
+				</foto>
+			</geo>
 		</localizacion>
 		<voto user="dani" t="1494498190">
 			<item>4</item>
 			<ip>80.38.250.33</ip>
-			<userAgent><![CDATA[Gecko-Mozilla]]></userAgent>
+			<userAgent>
+				<![CDATA[Gecko-Mozilla]]>
+			</userAgent>
 		</voto>
 		<voto user="ramses" t="1494498194">
 			<item>5</item>
 			<ip>56.521.34.21</ip>
-			<userAgent><![CDATA[]]></userAgent>
+			<userAgent>
+				<![CDATA[]]>
+			</userAgent>
 		</voto>
 	</lugar>
 	<lugar id="ChIJr9bPxM4ncg0RjP--4tPku58">
@@ -32,7 +40,10 @@
 				<ciudad>Granada</ciudad>
 				<pais>España</pais>
 				<direccion>Almuñécar, Granada, España</direccion>
-				<![CDATA[http://www.ideal.es/noticias/201409/04/media/cortadas/gr-playa--575x323.jpg]]></geo>
+				<foto>
+					<![CDATA[http://www.ideal.es/noticias/201409/04/media/cortadas/gr-playa--575x323.jpg]]>
+				</foto>
+			</geo>
 		</localizacion>
 	</lugar>
 	<lugar id="ChIJB-7Pc3T8cg0ReT-dNu6iVrw">
@@ -41,7 +52,11 @@
 				<lugar>Playa de la Carihuela</lugar>
 				<ciudad>Playa de la Carihuela</ciudad>
 				<pais>España</pais>
-				<direccion>Playa de la Carihuela, España</direccion><![CDATA[http://www.torremolinosbenalmadena.com/fotos/playas/p_playa-la-carihuela--1.jpg]]></geo>
+				<direccion>Playa de la Carihuela, España</direccion>
+				<foto>
+					<![CDATA[http://www.torremolinosbenalmadena.com/fotos/playas/p_playa-la-carihuela--1.jpg]]>
+				</foto>
+			</geo>
 		</localizacion>
 	</lugar>
 </lugares>

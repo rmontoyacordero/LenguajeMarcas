@@ -35,16 +35,20 @@ class votos{
             $id=$nodo->getAttribute('id');
             $puntuacion=0;
             $votos = $this->xpath->query("/lugares/lugar[@id='".$id."']/voto/item");
-            $num_votaciones=$votos->length;
+            $num_votaciones=(int)$votos->length.PHP_EOL;
             foreach($votos as $nodoItem){
-                $puntuacion+=$nodoItem->nodeValue;
+                $puntuacion+=(int)$nodoItem->nodeValue;
             }
-            $ranking[$contador]=$id;
-            $ranking_variable[$contador]=($puntuacion/$num_votaciones);
-            $contador++;      
+            if($puntuacion!=null){
+                $ranking[$contador]=$id;
+                $ranking_variable[$contador]=($puntuacion/$num_votaciones);
+                $contador++; 
+            }    
         }
-        $result=burbuja($ranking,$ranking_variable);
-        foreach($this->xpath->query("/lugares/lugar") as $nodo){
+    
+        $result= $this->burbuja($ranking,$ranking_variable);
+        
+       foreach($this->xpath->query("/lugares/lugar") as $nodo){
             $id=$nodo->getAttribute('id');
             for($i=0;$i<$ranking->length;$i++){
                 if($id==$ranking[i]){
@@ -53,11 +57,17 @@ class votos{
             }
         }
        $this->dom->save(FICHERO);
-
-        foreach($this->xpath->query("//voto[@t = max(/lugares/lugar[@id='$idLugar']/voto/@t)]") as $nodo){
-            $votante = $nodo->getAttribute('user');
-            $fecha=new DateTime($nodo->getAttribute('t'));
-            $fecha=$fecha->format('Y-m-d H:i');
+       $tiempoinicial=0;
+       foreach($this->xpath->query("/lugares/lugar[@id='$idLugar']/voto") as $nodo){
+           $tiempo= $nodo->getAttribute('t');
+           if($tiempo>$tiempoinicial){
+                $votante = $nodo->getAttribute('user');
+                $fecha=new DateTime();
+                $fecha->setTimestamp($nodo->getAttribute('t'));
+                $fecha=$fecha->format('Y-m-d H:i');
+                $tiempoinicial=$tiempo;
+           }
+            
         }
         $puntuacion=0;
         foreach($this->xpath->query("/lugares/lugar[@id='$idLugar']/voto/item") as $nodo){
@@ -105,6 +115,5 @@ class votos{
                         
                     }
           }
-       echo json_encode($aPlayas);
-    }*/
-}
+       echo json_encode($aPlayas);*/
+    }
