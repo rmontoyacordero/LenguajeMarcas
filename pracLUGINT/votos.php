@@ -9,15 +9,15 @@ require_once RUTA . 'votos.class.php';
 $accion = filter_input(INPUT_POST, 'check');
 $user = filter_input(INPUT_POST, 'user');
 $votos = filter_input(INPUT_POST, 'votos');
-$navegador = filter_input(INPUT_POST, 'navegador');
+$navegador =  $_SERVER['HTTP_USER_AGENT'];
 $idLugar = filter_input(INPUT_POST, 'iDlugar');
 $tiempo = filter_input(INPUT_POST, 'tiempo');
-$ip =filter_input(INPUT_POST, 'ip');
+$ip = $_SERVER[‘HTTP_CLIENT_IP’];
 
 $vot = new votos();
 if($accion == "votacion"){
     echo $vot->givePoint($user,$votos,$navegador,$idLugar,$tiempo,$ip);
 }
 if($accion == "ranking"){
-    echo $vot->ranking();
+    echo $vot->ranking($idLugar);
 }

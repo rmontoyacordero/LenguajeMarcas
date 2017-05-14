@@ -89,7 +89,7 @@
 	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
 </div>
  <div id="contador">8</div> 
-	  <button class="btn-primary btn-lg" >Enviar</button>
+	  <button id="butVotar" class="btn-primary btn-lg" >Enviar</button>
 		</div>
 	</div>
     
@@ -98,44 +98,7 @@
     var usuario;
     var aPlayas=[];
     window.onload = () => {
-       /* if (localStorage.getItem('usuario')) {
-            usuario = localStorage.getItem('usuario');
-            divInicio.innerHTML += usuario;
-            localStorage.removeItem('usuario');
-        }
-        xml();
-        mapa();*/
-        xml();
-        mapa();
-        
-        
-
-    
-    }
-    /*
-    butVotar.onclick=() => {
-        ajax({
-            type: 'POST',
-            url: 'login.php',
-            data: {
-                user: "",
-                votos: "",
-                check: "votacion",
-                navegador:"",
-                iDlugar: "" 
-
-            },
-            parse: true
-        }).then((data) => {
-           console.log(data);
-
-        }).catch((error) => {
-            console.log(error);
-        });
-    
-    }*/
-    function xml(){
-        let xmlhttp = new XMLHttpRequest();
+       let xmlhttp = new XMLHttpRequest();
             xmlhttp.open('GET', 'lugaresInt.xml', false)
             xmlhttp.send();
             xmlDoc = xmlhttp.responseXML;
@@ -156,6 +119,29 @@
                 }   
                 thisNode = nodos.iterateNext();
              }
+        mapa();
+
+    }
+    butVotar.onclick=() => {
+        ajax({
+            type: 'POST',
+            url: 'login.php',
+            data: {
+                check: "votacion",
+                user: usuario,
+                votos: "",
+                iDlugar: "" ,
+                tiempo:""
+
+            },
+            parse: true
+        }).then((data) => {
+           console.log(data);
+
+        }).catch((error) => {
+            console.log(error);
+        });
+    
     }
     function mapa(){
         var dMapa = document.getElementById('divMapa');
@@ -191,7 +177,8 @@
             type: 'POST',
             url: 'votos.php',
             data: {
-                check: "ranking" 
+                check: "ranking",
+                iDlugar: k
             },
             parse: true
         }).then((data) => {

@@ -27,7 +27,7 @@ class votos{
         }   
     $this->dom->save(FICHERO);           
     }
-    function ranking(){
+    function ranking($idLugar){
         $this->dom->load(FICHERO);
         $this->xpath = new DOMXPath($this->dom);
         $contador=0;
@@ -60,7 +60,7 @@ class votos{
             $fecha=$fecha->format('Y-m-d H:i');
         }
         $puntuacion=0;
-        foreach($this->xpath->query("/lugares/lugar[@id='$idlugar']/voto/item") as $nodo){
+        foreach($this->xpath->query("/lugares/lugar[@id='$idLugar']/voto/item") as $nodo){
             $puntuacion+=(int)$nodo->nodeValue;
         }
         echo json_encode(array("votante"=>$votante,"puntuacion"=>$puntuacion,"fecha"=>$fecha));
