@@ -12,6 +12,7 @@
         height: 400px;
     }</style>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
+     <script src="../js/ajaxCG.js"></script>
 </head>
 
 <body>
@@ -22,14 +23,15 @@
     var usuario;
     var aPlayas=[];
     window.onload = () => {
-        if (localStorage.getItem('usuario')) {
+       /* if (localStorage.getItem('usuario')) {
             usuario = localStorage.getItem('usuario');
             divInicio.innerHTML += usuario;
             localStorage.removeItem('usuario');
         }
         xml();
-        mapa();
-        console.log(aPlayas);
+        mapa();*/
+        mostrarRanking();
+        
 
     
     }
@@ -70,8 +72,6 @@
                 aPlayas[id].pos = thisNode.getAttribute('pos');
                 aPlayas[id].lat= thisNode.children[0].children[0].getAttribute('lat');
                 aPlayas[id].lon =thisNode.children[0].children[0].getAttribute('lon');
-                console.log(aPlayas[id].lat);
-                console.log(aPlayas[id].lon);
                /* aPlayas[id].lugar=thisNode.children[0].children[0].children[0].nodeValue;
                 aPlayas[id].ciudad=thisNode.children[0].children[0].children[2].nodeValue;
                 console.log(aPlayas[id].ciudad);
@@ -86,7 +86,7 @@
         var dMapa = document.getElementById('divMapa');
         var LatLon = new google.maps.LatLng(36.721274,-4.421399);
         var objConfig = {
-            zoom:100,
+            zoom:10,
             center:LatLon
         };
         var gMapa = new google.maps.Map(dMapa,objConfig);
@@ -105,11 +105,32 @@
             var infowindow = new google.maps.InfoWindow({
                     content: contentString
                 });
-                gMarker.addListener('click', function() {
-                    infowindow.open(dMapa, gMarker);
+                gMarker.addListener('click', function(k) {
+                console.log(k);
+                   
                 });
-            
+                
         }
+    }
+    
+    function rellenar(k){
+        var contenido='<div>Nombre: '+aPlayas[k].lat+'</div>';
+        window.document.getElementById('puntuacion').innerHTML=contenido;
+    }
+    function mostrarRanking(){
+        ajax({
+            type: 'POST',
+            url: 'votos.php',
+            data: {
+                check: "ranking" 
+            },
+            parse: true
+        }).then((data) => {
+           console.log(data);
+
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 </script>
 

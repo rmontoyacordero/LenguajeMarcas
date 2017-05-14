@@ -34,16 +34,18 @@ class votos{
         foreach ($this->xpath->query("//lugar") as $nodo){
             $id=$nodo->getAttribute('id');
             $puntuacion=0;
-            $num_votaciones=0;
-            foreach($this->xpath->query("//lugar[@id='".$id."']/voto/item") as $nodoItem){
+            $votos = $this->xpath->query("//lugar[@id='".$id."']/voto/item");
+            $num_votaciones=$votos->length;
+            foreach($votos as $nodoItem){
                 $puntuacion+=$nodoItem->nodeValue;
-                $num_votaciones=$num_votaciones+1;
             }
             $ranking[$id]=($puntuacion/$num_votaciones);
             $ranking_variable[$contador]=($puntuacion/$num_votaciones);
-            $contador=$contador+1;
+            $contador=$contador+1;      
         }
-        $result=burbuja($ranking,$ranking_variable);
+         sort($ranking);
+         $result = sort($ranking);
+        //$result=burbuja($ranking,$ranking_variable);
         for($i=0;$i<count($result);$i++){
             foreach($this->xpath->query("//lugar[@id='".$result[i]."']/voto/item") as $nodoItem){
                 $nodoItem->setAttribute("pos",($i+1)); 
@@ -51,28 +53,28 @@ class votos{
             }
         }
     }
-    function burbuja($ranking,$ranking_variable){
-
-        foreach($ranking as $id){
-            array_push($result,$id);
-        }
-        for($i=1;$i<count($ranking_variable);$i++)
-    {
-        for($j=0;$j<count($ranking_variable)-$i;$j++)
-        {
-            if($ranking_variable[$j]>$ranking_variable[$j+1])
-            {
-                $k=$ranking_variable[$j+1];
-                $i=$result[$j+1];
-                $ranking_variable[$j+1]=$ranking_variable[$j];
-                $result[$j+1]=$result[$j];
-                $ranking_variable[$j]=$k;
-                $result[$j]=$i;
-            }
-        }
-    }
- 
-    return $result;
-        
+    function crearListado(){
+        $this->dom->load(FICHERO);
+        $this->xpath = new DOMXPath($this->dom);
+        $i=0;
+        foreach ($this->xpath->query("//lugar/localizacion/geo") as $nodo_geo){
+                    $aPlayas[$nodo_geo->parentNode->parentNode->getAttribute("id")]=array(
+                                'lat'=>$nodo_geo->getAttribute('lat'),
+                                'lon'=>$nodo_geo->getAttribute('lon'),
+                                'lugar'=>$nodo_geo->childNodes[1]->nodeValue,
+                                'ciudad'=>$nodo_geo->childNodes[3]->nodeValue,
+                                'pais'=>$nodo_geo->childNodes[5]->nodeValue,
+                                'direccion'=>$nodo_geo->childNodes[7]->nodeValue,
+                                'foto'=>$nodo_geo->childNodes[9]->nodeValue
+                                );
+                                
+                    if($nodo_geo->parentNode->parentNode->getAttribute("pos")){
+                        $aPlayas[$nodo_geo->parentNode->parentNode->getAttribute("id")]+=array(
+                            'pos'=>$nodo_geo->parentNode->parentNode->getAttribute("pos")
+                        );
+                        
+                    }
+          }
+       echo json_encode(array("aPlayas"=>$aPlayas));
     }
 }

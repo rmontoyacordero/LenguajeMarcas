@@ -11,12 +11,14 @@ $user = filter_input(INPUT_POST, 'user');
 $votos = filter_input(INPUT_POST, 'votos');
 $navegador = filter_input(INPUT_POST, 'navegador');
 $idLugar = filter_input(INPUT_POST, 'iDlugar');
+$tiempo = filter_input(INPUT_POST, 'tiempo');
+$ip =filter_input(INPUT_POST, 'ip');
 
 $vot = new votos();
 if($accion == "votacion"){
-    echo $vot->givePoint($user,$votos,$navegador,$idLugar);
+    echo $vot->givePoint($user,$votos,$navegador,$idLugar,$tiempo,$ip);
+    echo $vot->ranking();
+    echo $vot->crearListado();
 }
-echo $vot->givePoint("dani","5","mozilla","ChIJSThaPwklcg0R6ljlfZcK43U","1500000000","192.168.6.35");
-echo "Realizado".PHP_EOL;
-
+echo $vot->givePoint("dani","3","Mozilla","ChIJSThaPwklcg0R6ljlfZcK43U","15000","80.125.0.1");
 
