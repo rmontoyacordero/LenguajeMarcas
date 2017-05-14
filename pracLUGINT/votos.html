@@ -89,7 +89,7 @@
 	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
 </div>
  <div id="contador">8</div> 
-	  <button class="btn-primary btn-lg">Enviar</button>
+	  <button class="btn-primary btn-lg" >Enviar</button>
 		</div>
 	</div>
     
@@ -187,11 +187,7 @@
        
     }
     function generateVotation(k){
-        mostrarRanking();
-       
-    }
-    function mostrarRanking(){
-        ajax({
+       ajax({
             type: 'POST',
             url: 'votos.php',
             data: {
@@ -199,14 +195,17 @@
             },
             parse: true
         }).then((data) => {
-             window.document.getElementById('namePlaya').innerHTML=aPlaya[k].lugar;
+            window.document.getElementById('namePlaya').innerHTML=aPlaya[k].lugar;
             window.document.getElementById('divDatos').style.display="block";
-            data=aPlayas;
-           console.log(data);
+            var uVotante=data.votante;
+            var uFecha=data.fecha;
+            var uPuntuacion=data.puntuacion;
+           
 
         }).catch((error) => {
             console.log(error);
         });
+       
     }
 </script>
 

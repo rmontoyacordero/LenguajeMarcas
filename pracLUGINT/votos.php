@@ -17,8 +17,7 @@ $ip =filter_input(INPUT_POST, 'ip');
 $vot = new votos();
 if($accion == "votacion"){
     echo $vot->givePoint($user,$votos,$navegador,$idLugar,$tiempo,$ip);
-    echo $vot->ranking();
-    echo $vot->crearListado();
 }
-
-echo $vot->crearListado();
+if($accion == "ranking"){
+    echo $vot->ranking();
+}

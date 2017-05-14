@@ -31,36 +31,60 @@ class votos{
         $this->dom->load(FICHERO);
         $this->xpath = new DOMXPath($this->dom);
         $contador=0;
-        foreach ($this->xpath->query("//lugar") as $nodo){
+        foreach ($this->xpath->query("/lugares/lugar") as $nodo){
             $id=$nodo->getAttribute('id');
             $puntuacion=0;
-            $votos = $this->xpath->query("//lugar[@id='".$id."']/voto/item");
+            $votos = $this->xpath->query("/lugares/lugar[@id='".$id."']/voto/item");
             $num_votaciones=$votos->length;
             foreach($votos as $nodoItem){
                 $puntuacion+=$nodoItem->nodeValue;
             }
-            $ranking[$id]=($puntuacion/$num_votaciones);
+            $ranking[$contador]=$id;
             $ranking_variable[$contador]=($puntuacion/$num_votaciones);
-            $contador=$contador+1;      
+            $contador++;      
         }
-         sort($ranking);
-         $result = sort($ranking);
-        //$result=burbuja($ranking,$ranking_variable);
-        for($i=0;$i<count($result);$i++){
-            foreach($this->xpath->query("//lugar[@id='".$result[i]."']/voto/item") as $nodoItem){
-                $nodoItem->setAttribute("pos",($i+1)); 
-                $this->dom->save(FICHERO);
+        $result=burbuja($ranking,$ranking_variable);
+        foreach($this->xpath->query("/lugares/lugar") as $nodo){
+            $id=$nodo->getAttribute('id');
+            for($i=0;$i<$ranking->length;$i++){
+                if($id==$ranking[i]){
+                    $nodo->setAttribute('pos',$i);
+                }
             }
         }
+       $this->dom->save(FICHERO);
+
         foreach($this->xpath->query("//voto[@t = max(/lugares/lugar[@id='$idLugar']/voto/@t)]") as $nodo){
             $votante = $nodo->getAttribute('user');
+            $fecha=new DateTime($nodo->getAttribute('t'));
+            $fecha=$fecha->format('Y-m-d H:i');
         }
         $puntuacion=0;
         foreach($this->xpath->query("/lugares/lugar[@id='$idlugar']/voto/item") as $nodo){
             $puntuacion+=(int)$nodo->nodeValue;
         }
+        echo json_encode(array("votante"=>$votante,"puntuacion"=>$puntuacion,"fecha"=>$fecha));
     }
-    function crearListado(){
+    function burbuja($ranking,$ranking_variable){
+                for($i=1;$i<count($ranking_variable);$i++)
+            {
+                for($j=0;$j<count($ranking_variable)-$i;$j++)
+                {
+                    if($ranking_variable[$j]>$ranking_variable[$j+1])
+                    {
+                        $k=$ranking_variable[$j+1];
+                        $h=$ranking[$j+1];
+                        $ranking_variable[$j+1]=$ranking_variable[$j];
+                        $ranking[$j+1]=$ranking[$j];
+                        $ranking_variable[$j]=$k;
+                        $ranking[$j]=$h;
+                    }
+                }
+            }
+        
+            return $ranking;
+    }
+   /* function crearListado(){
         $this->dom->load(FICHERO);
         $this->xpath = new DOMXPath($this->dom);
         $i=0;
@@ -82,5 +106,5 @@ class votos{
                     }
           }
        echo json_encode($aPlayas);
-    }
+    }*/
 }
