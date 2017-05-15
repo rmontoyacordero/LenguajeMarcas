@@ -80,7 +80,53 @@
             opacity: 1;
             cursor: pointer;
         }
+                .acidjs-rating-stars,
+        .acidjs-rating-stars label::before {
+            display: inline-block;
+        }
         
+        .acidjs-rating-stars label:hover,
+        .acidjs-rating-stars label:hover~label {
+            color: #189800;
+        }
+        
+        .acidjs-rating-stars * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .acidjs-rating-stars input {
+            display: none;
+        }
+        
+        .acidjs-rating-stars {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+        }
+        
+        .acidjs-rating-stars label {
+            color: #ccc;
+        }
+        
+        .acidjs-rating-stars label::before {
+            content: "\2605";
+            width: 18px;
+            line-height: 18px;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .acidjs-rating-stars input:checked~label {
+            color: #f5b301;
+        }
+        
+        .acidjs-rating-disabled {
+            opacity: .50;
+            -webkit-pointer-events: none;
+            -moz-pointer-events: none;
+            pointer-events: none;
+        }
         
 	</style>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
@@ -95,31 +141,19 @@
 		<div class="panel-heading" id="namePlaya" data-id=""></div>
 		<div class="panel-body">
 			<div id="divPuntuacion">
-			<label class="radio-inline">
-      <input type="radio"  value="1" name="optradio" checked="checked"> 1
-    </label>
-			<label class="radio-inline">
-      <input type="radio" value="2"  name="optradio"> 2
-    </label>
-			<label class="radio-inline">
-      <input type="radio" value="3"  name="optradio"> 3
-    </label>
-			<label class="radio-inline">
-      <input type="radio" value="4"  name="optradio"> 4
-    </label>
-			<label class="radio-inline">
-      <input type="radio" value="5"  name="optradio"> 5
-	  </div>
+			<div class="acidjs-rating-stars">
+                        <form>
+                            <input type="radio" name="optradio" id="group-1-0" value="5" / checked="checked"><label for="group-1-0"></label>
+                            <input type="radio" name="optradio" id="group-1-1" value="4" /><label for="group-1-1"></label>
+                            <input type="radio" name="optradio" id="group-1-2" value="3" /><label for="group-1-2"></label>
+                            <input type="radio" name="optradio" id="group-1-3" value="2" /><label for="group-1-3"></label>
+                            <input type="radio" name="optradio" id="group-1-4" value="1" /><label for="group-1-4"></label>
+                        </form>
+                    </div>
+	  		</div>
 	  
 	 
-    </label>
-	<!--<div class="ec-stars-wrapper">
-	<a href="#" data-value="1" title="Votar con 1 estrellas" >&#9733;</a>
-	<a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-	<a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-	<a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
-</div>-->
+	
  <div id="contador">8</div> 
 	  <button id="butVotar" class="btn-primary btn-lg">Enviar</button>
 		</div>
