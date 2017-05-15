@@ -14,7 +14,7 @@ class votos{
         $this->dom->load(FICHERO);
         $this->xpath = new DOMXPath($this->dom);
             foreach ($this->xpath->query("//lugar[@id='$idLugar']") as $nodo) {
-            $node_voto = $this->dom->createElement('JAVIER');
+            $node_voto = $this->dom->createElement('voto');
             $node_voto->setAttribute("user",$user);
             $node_voto->setAttribute("t",$tiempo);
             $node_item =$this->dom->createElement('item',$votos);

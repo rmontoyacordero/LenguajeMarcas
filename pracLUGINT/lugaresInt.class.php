@@ -58,8 +58,10 @@ class lugaresInt {
             }
         }
         if (!empty($URL)) {
+            $observaciones = $this->doc->createElement('observaciones');
+            $this->xpath->query('//geo[@lat="' . $lat . '" and @lon="' . $lon . '"]')->item(0)->appendChild($observaciones);
             $URLLugar = $this->doc->createCDATASection($URL);
-            $this->xpath->query('//geo[@lat="' . $lat . '" and @lon="' . $lon . '"]')->item(0)->appendChild($URLLugar);
+            $observaciones->appendChild($URLLugar);
         }
         $this->doc->save(FICHERO);
     }
