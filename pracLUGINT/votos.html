@@ -74,8 +74,13 @@
             padding: 15px;
         }
         #contador{
-            display:none
+           visibility:hidden
         }
+        #btnVotar{
+            opacity: 1;
+            cursor: pointer;
+        }
+        
         
 	</style>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
@@ -90,8 +95,8 @@
 		<div class="panel-heading" id="namePlaya" data-id=""></div>
 		<div class="panel-body">
 			<div id="divPuntuacion">
-			<!--<label class="radio-inline">
-      <input type="radio"  value="1" name="optradio"> 1
+			<label class="radio-inline">
+      <input type="radio"  value="1" name="optradio" checked="checked"> 1
     </label>
 			<label class="radio-inline">
       <input type="radio" value="2"  name="optradio"> 2
@@ -107,14 +112,14 @@
 	  </div>
 	  
 	 
-    </label>-->
-	<div class="ec-stars-wrapper">
-	<a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+    </label>
+	<!--<div class="ec-stars-wrapper">
+	<a href="#" data-value="1" title="Votar con 1 estrellas" >&#9733;</a>
 	<a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
 	<a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
 	<a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
 	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
-</div>
+</div>-->
  <div id="contador">8</div> 
 	  <button id="butVotar" class="btn-primary btn-lg">Enviar</button>
 		</div>
@@ -164,14 +169,19 @@
 
     }
     butVotar.onclick=() => {
-        
+        var puntuacion = window.document.getElementsByName('optradio');
+        for(var i=0;i<puntuacion.length;i++){
+            if(puntuacion[i].checked){
+                resultado=puntuacion[i].value;
+            }
+        }
         ajax({
             type: 'POST',
             url: 'votos.php',
             data: {
                 check: "votacion",
                 user: usuario,
-                votos: "8",
+                votos: resultado,
                 iDlugar: window.document.getElementById('namePlaya').dataset.id
 
             },
@@ -250,17 +260,22 @@
        
     }
     function cronometro(){
-        //window.document.getElementById('butVotar').disabled=true;
-        window.document.getElementById('contador').style.display="block";
+        window.document.getElementById('butVotar').disabled=true;
+        window.document.getElementById('butVotar').style.cursor="not-allowed";
+        window.document.getElementById('butVotar').style.opacity=0.5;
+        window.document.getElementById('butVotar')
+        window.document.getElementById('contador').style.visibility="visible";
         window.document.getElementById('contador').innerHTML=tiempo;
         tiempo--;
         console.log(tiempo)
         if(tiempo>0){
             setTimeout(cronometro,1000);
         }else{
-            window.document.getElementById('contador').style.display="none";
+            window.document.getElementById('contador').style.visibility="hidden";
+            window.document.getElementById('butVotar').style.cursor="pointer";
+             window.document.getElementById('butVotar').style.opacity=1;
             tiempo=10;
-           // window.document.getElementById('butVotar').disabled=false;
+           window.document.getElementById('butVotar').disabled=false;
         }
     }
 </script>

@@ -104,6 +104,7 @@ class votos{
         
             return $ranking;
     }
+    
    /* function crearListado(){
         $this->dom->load(FICHERO);
         $this->xpath = new DOMXPath($this->dom);
