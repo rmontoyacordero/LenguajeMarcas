@@ -139,10 +139,36 @@
     </div>
 </body>
 <script>
-    var usuario="dani";
+    var usuario;
     var aPlayas=[];
     var tiempo=10;
     window.onload = () => {
+
+        ajax({
+                type: 'POST',
+                url: 'controlSesion.php',
+                parse: true
+            }).then((data) => {
+                if (data.status == "ok") {
+                    if(localStorage.getItem("tiempo")!=10){
+                        usuario=data.usuario;
+                        tiempo=localStorage.getItem("tiempo");
+                        XML();
+                        generateVotation(localStorage.getItem("playa"));
+                        cronometro();
+                    }else{
+                        usuario=data.usuario;
+                        XML();
+                    }
+                } else {
+                    window.location.href = 'login.html';
+                }
+
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+    function XML(){
         window.document.getElementById('divInicio').innerHTML+=usuario;
        let xmlhttp = new XMLHttpRequest();
             xmlhttp.open('GET', 'lugaresInt.xml', false)
@@ -166,7 +192,6 @@
                 thisNode = nodos.iterateNext();
              }
         mapa();
-
     }
     butVotar.onclick=() => {
         var puntuacion = window.document.getElementsByName('optradio');
@@ -247,8 +272,9 @@
             },
             parse: true
         }).then((data) => {
-            window.document.getElementById('namePlaya').dataset.id=k;
-            window.document.getElementById('namePlaya').innerHTML=aPlayas[k].lugar;
+            var divPlaya = window.document.getElementById('namePlaya');
+            divPlaya.dataset.id=k;
+            divPlaya.innerHTML=aPlayas[k].lugar;
             window.document.getElementById('divBeach1').style.display="block";
             window.document.getElementById('divBeach2').style.display="block";
             window.document.getElementById('sTotalVotes').innerHTML=data.puntuacion;
@@ -260,22 +286,27 @@
        
     }
     function cronometro(){
-        window.document.getElementById('butVotar').disabled=true;
-        window.document.getElementById('butVotar').style.cursor="not-allowed";
-        window.document.getElementById('butVotar').style.opacity=0.5;
-        window.document.getElementById('butVotar')
-        window.document.getElementById('contador').style.visibility="visible";
-        window.document.getElementById('contador').innerHTML=tiempo;
+        var botonVotar=  window.document.getElementById('butVotar');
+        var contTempo = window.document.getElementById('contador');
+        botonVotar.disabled=true;
+        botonVotar.style.cursor="not-allowed";
+        botonVotar.style.opacity=0.5;
+        contTempo.style.visibility="visible";
+        contTempo.innerHTML=tiempo;
         tiempo--;
-        console.log(tiempo)
+        localStorage.setItem("tiempo",tiempo);
+        localStorage.setItem("playa",window.document.getElementById('namePlaya').dataset.id);
+        
         if(tiempo>0){
             setTimeout(cronometro,1000);
         }else{
-            window.document.getElementById('contador').style.visibility="hidden";
-            window.document.getElementById('butVotar').style.cursor="pointer";
-             window.document.getElementById('butVotar').style.opacity=1;
+            contTempo.style.visibility="hidden";
+            botonVotar.style.cursor="pointer";
+            botonVotar.style.opacity=1;
             tiempo=10;
-           window.document.getElementById('butVotar').disabled=false;
+            botonVotar.disabled=false;
+            localStorage.removeItem("tiempo");
+            localStorage.removeItem("playa");
         }
     }
 </script>
