@@ -73,6 +73,9 @@
         .divSiteInformation{
             padding: 15px;
         }
+        #contador{
+            display:none
+        }
         
 	</style>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGWIAtZX78ZskQP9brXKIcm6ukkFP5aqU"></script>
@@ -84,7 +87,7 @@
     <div id="divInicio">Hola, </div>
     <div id="divMapa"></div>
     <div class="panel panel-primary pull-right divBeach" id="divBeach1">
-		<div class="panel-heading" id="namePlaya"></div>
+		<div class="panel-heading" id="namePlaya" data-id=""></div>
 		<div class="panel-body">
 			<div id="divPuntuacion">
 			<!--<label class="radio-inline">
@@ -113,7 +116,7 @@
 	<a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
 </div>
  <div id="contador">8</div> 
-	  <button id="butVotar" class="btn-primary btn-lg" >Enviar</button>
+	  <button id="butVotar" class="btn-primary btn-lg">Enviar</button>
 		</div>
 	</div>
     </div>
@@ -133,6 +136,7 @@
 <script>
     var usuario="dani";
     var aPlayas=[];
+    var tiempo=10;
     window.onload = () => {
         window.document.getElementById('divInicio').innerHTML+=usuario;
        let xmlhttp = new XMLHttpRequest();
@@ -160,19 +164,24 @@
 
     }
     butVotar.onclick=() => {
+        
         ajax({
             type: 'POST',
             url: 'votos.php',
             data: {
                 check: "votacion",
                 user: usuario,
-                votos: "",
-                iDlugar: "" 
+                votos: "8",
+                iDlugar: window.document.getElementById('namePlaya').dataset.id
 
             },
             parse: true
         }).then((data) => {
            console.log(data);
+           if(data.status=="ok"){
+                cronometro(tiempo);    
+           }
+          
 
         }).catch((error) => {
             console.log(error);
@@ -228,18 +237,31 @@
             },
             parse: true
         }).then((data) => {
+            window.document.getElementById('namePlaya').dataset.id=k;
             window.document.getElementById('namePlaya').innerHTML=aPlayas[k].lugar;
             window.document.getElementById('divBeach1').style.display="block";
             window.document.getElementById('divBeach2').style.display="block";
             window.document.getElementById('sTotalVotes').innerHTML=data.puntuacion;
             window.document.getElementById('sLastVote').innerHTML=data.fecha;
             window.document.getElementById('sLastVoter').innerHTML=data.votante;
-           
-
         }).catch((error) => {
             console.log(error);
         });
        
+    }
+    function cronometro(){
+        //window.document.getElementById('butVotar').disabled=true;
+        window.document.getElementById('contador').style.display="block";
+        window.document.getElementById('contador').innerHTML=tiempo;
+        tiempo--;
+        console.log(tiempo)
+        if(tiempo>0){
+            setTimeout(cronometro,1000);
+        }else{
+            window.document.getElementById('contador').style.display="none";
+            tiempo=10;
+           // window.document.getElementById('butVotar').disabled=false;
+        }
     }
 </script>
 

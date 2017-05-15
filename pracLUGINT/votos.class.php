@@ -25,7 +25,8 @@ class votos{
             $node_voto->appendChild($node_ip);
             $node_voto->appendChild($node_userAgent);
         }   
-    $this->dom->save(FICHERO);           
+    $this->dom->save(FICHERO);
+    echo json_encode(array("status"=>"ok","mensaje"=>"votacion realizada"));           
     }
     function ranking($idLugar){
         $this->dom->load(FICHERO);
@@ -45,9 +46,7 @@ class votos{
                 $contador++; 
             }    
         }
-    
         $result= $this->burbuja($ranking,$ranking_variable);
-        
        foreach($this->xpath->query("/lugares/lugar") as $nodo){
             $id=$nodo->getAttribute('id');
             for($i=0;$i<$ranking->length;$i++){
@@ -69,11 +68,22 @@ class votos{
            }
             
         }
+        if($votante==null){
+            $votante="Nadie ha votado esta ubicación";
+        }
+        if($fecha==null){
+            $fecha="No existe ninguna puntuacion";
+        }
+        
         $puntuacion=0;
         foreach($this->xpath->query("/lugares/lugar[@id='$idLugar']/voto/item") as $nodo){
             $puntuacion+=(int)$nodo->nodeValue;
         }
-        echo json_encode(array("votante"=>$votante,"puntuacion"=>$puntuacion,"fecha"=>$fecha));
+        if($puntuacion==0){
+            $puntuacion="No tiene puntos";
+        }
+       echo json_encode(array("votante"=>$votante,"puntuacion"=>$puntuacion,"fecha"=>$fecha));
+    
     }
     function burbuja($ranking,$ranking_variable){
                 for($i=1;$i<count($ranking_variable);$i++)
